@@ -13,6 +13,22 @@ function Location() {
       >
         <a href="https://www.maps.ie/population/">Population mapping</a>
       </iframe>
+      <div className={locationModule.contactUs}>
+        <div className={locationModule.left}>
+          <h1 className={locationModule.header}>Location Of Our Company</h1>
+          <p className={locationModule.text}>
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industry's{" "}
+          </p>
+        </div>
+        <div className={locationModule.right}>
+          <input
+            className={locationModule.input}
+            placeholder="Enter your email"
+          />
+          <button className={locationModule.btn}>Contact</button>
+        </div>
+      </div>
     </div>
   );
 }
