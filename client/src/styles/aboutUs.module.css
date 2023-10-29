@@ -1,0 +1,30 @@
+.aboutUs{  
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: rgba(53, 162, 159, 0.04);
+    margin:50px auto
+}
+.aboutUsHeader{
+align-self:flex-start;
+color: #000;
+font-family: Open Sans;
+font-size: 36px;
+font-style: normal;
+font-weight: 600;
+line-height: 22.294px;
+margin:100px 100px 25px 100px;
+}
+.aboutUsText{
+    color: var(--gray1, #555);
+    font-family: Open Sans;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 34px;
+    margin:25px 100px 100px 100px;
+}
