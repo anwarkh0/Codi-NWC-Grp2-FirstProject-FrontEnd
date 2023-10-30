@@ -1,0 +1,58 @@
+.container {
+    width: 60%;
+    height: 10%;
+    display: flex;
+    position: relative;
+    bottom: 600px;
+    margin: auto;
+    background-color: white;
+    border-radius: 50px;
+}
+
+.section {
+    width: 15%;
+    height: 80%;
+    display: flex;
+    align-items: flex-start;
+    margin: auto;
+}
+
+.sectionBorder{
+    border-right: 1px solid rgb(218, 216, 216);
+}
+
+.icons,.text {
+    margin: 15px 8px 5px 0;
+}
+
+.Description {
+    opacity: 50%;
+}
+
+.section:last-child {
+    background-color: var(--main-blue);
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 0;
+}
+
+.Button {
+    color: white;
+    height: 100%;
+}
+.Drop{
+    margin-top: 10px;
+    appearance: none;
+    border: none;
+    background-color: transparent;
+    width: 100%;
+    font-size: 18px;
+    opacity: 50%;
+    
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    display: none;
+  }
+
