@@ -1,4 +1,8 @@
-
+:root{
+  --dark-gray: #222;
+  --main-blue:#088395;
+  --background:rgb(53,162,159,0.1);
+}
 body {
   margin: 0;
   font-family: Open Sans,'Helvetica Neue',
