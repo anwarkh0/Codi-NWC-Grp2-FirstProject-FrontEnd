@@ -1,7 +1,7 @@
 .testimonials{
     background: rgba(53, 162, 159, 0.04);
     display: flex;
-    width: 70%;
+    width: 70vw;
     margin: auto;
     border-radius: 0 16px 16px 0;
 }
@@ -13,6 +13,7 @@
     font-weight: 400;
     line-height: 34px;
     padding: 60px 20px 0 20px;
+    grid-area:txt;
 }
 .name{
     color: var(--dark-gray, #222);
@@ -22,6 +23,7 @@
     font-weight: 600;
     line-height: 10px;
     padding: 20px 20px 0 20px;
+    grid-area:name;
 
 }
 .job{
@@ -31,12 +33,14 @@
     font-style: normal;
     font-weight: 400;
     line-height: 10px;
+    grid-area:job;
     
 }
 .img{
     border-radius: 0px 16px 16px 0px;
-
-
+    grid-area: img;
+    width: 70%;
+    height: auto;
 }
 .info{
     display: flex;
@@ -45,12 +49,42 @@
 .quotations{
     margin: 0 4px;
 }
+.left{
+    grid-area:left
+}
 
 @media ( max-width:1000px){
     .testimonials{
-        flex-direction: column;
+        display: grid;
+        grid-template-areas: 'img' 'left';
+        position: relative;
+    }
+    .text{
+        font-size: 12px;
+        line-height: 20px;
+        padding-top:0
+    }
+    .left{
+        display: grid;
+        grid-template-areas: 'name'
+        'job'
+        'txt';
+    }
+    .info{
+        position: absolute;
+        left: 20rem;
+        top:3px;
+        padding: 0;
+    }
+    .name , .job{
+        line-height:20px
     }
     .img{
-        border-radius: 0px;
+        width: 40%;
+    }
+}
+@media (max-width: 650px){
+    .info{
+        left:10rem
     }
 }

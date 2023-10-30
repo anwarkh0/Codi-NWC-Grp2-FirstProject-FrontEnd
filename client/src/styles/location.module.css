@@ -47,9 +47,12 @@
     font-weight: 400;
     line-height: 28px;
 }
+.input::placeholder{
+    padding: 20px;
+}
 .btn{
-    width: 125px;
-    height: 60px;
+    width: 126px;
+    height: 62px;
     flex-shrink: 0;
     border-radius: 50px;
     background: #071952;
@@ -60,8 +63,8 @@
     font-weight: 600;
     line-height: 24px;
     position:relative;
-    top:-61px;
-    left:316px;
+    top:-62px;
+    left:318px;
 }
 @media (max-width:970px){
     .contactUs{
