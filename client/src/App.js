@@ -6,6 +6,7 @@ import Location from "./components/Location";
 import Footer from "./components/Footer";
 import HomeFooter from "./components/HomeFooter";
 import SignUp from "./components/SignUp";
+import Login from "./components/Login";
 
 function App() {
   return (
@@ -16,7 +17,8 @@ function App() {
       <Location />
       <Footer />
       <HomeFooter /> */}
-      <SignUp />
+      {/* <SignUp /> */}
+      <Login />
     </div>
   );
 }
