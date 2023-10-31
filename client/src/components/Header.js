@@ -7,7 +7,7 @@ function Header() {
     return (
         <div className={HeaderStyle.container}>
             <NavBar />
-            <img className={HeaderStyle.HeroImage} src={HotelXpress} alt="Our Hotel" width={1800} height={750} />
+            <img className={HeaderStyle.HeroImage} src={HotelXpress} alt="Our Hotel" />
             <p className={HeaderStyle.slogan}> Take your travels to the next level with our handpicked selection of exceptional stays
             </p>
             <SearchBar />

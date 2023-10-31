@@ -6,7 +6,8 @@ const AppRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' element={<Header />}></Route>
+                <Route path='/' element={<Header />}>
+                </Route>
                 <Route path='/room' ></Route>
                 <Route path='/hotel'></Route>
                 <Route path='/booking'></Route>

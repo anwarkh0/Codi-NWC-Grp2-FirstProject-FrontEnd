@@ -6,14 +6,17 @@
 
 .HeroImage {
     display: block;
+    width: 95%;
+    max-height: 75vh;
     margin: auto;
     border-radius: 5px;
-    z-index: -1;
+    z-index: -2;
 }
 
 .slogan {
-    width: 70%;
-    height: 50%;
+    width: 70vw;
+    height: 30vh;
+    padding: 5%;
     background-color: rgb(85, 85, 85, 40%);
     color: white;
     margin: auto;
@@ -22,8 +25,19 @@
     align-items: center;
     position: relative;
     bottom: 65%;
-    z-index: 1;
+    z-index: -1;
     font-size: 30px;
     font-weight: 800;
     border-radius: 5px;
+}
+
+
+@media only screen and (width<900px) {
+    .slogan{
+        font-size: 24px;
+        height: 20vh;
+        width: 90%;
+    z-index: -1;
+
+    }
 }
