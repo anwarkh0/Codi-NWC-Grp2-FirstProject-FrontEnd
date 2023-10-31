@@ -12,7 +12,7 @@ const CardHotel = ({ data: { Name, Address, imageSrc, rate } }) => {
         }
 
         for (let i = 0; i < 5 - Math.floor(rate); i++) {
-            string += sym2; 
+            string += sym2;
         }
 
         return string
@@ -21,10 +21,10 @@ const CardHotel = ({ data: { Name, Address, imageSrc, rate } }) => {
     return (
         <div className={cardHotelStyle.hotelCard}>
             <img src={imageSrc} alt={`${Name} hotel`} className={cardHotelStyle.image} />
-            <p className={cardHotelStyle.address}>{Address}</p>
-            <p className={cardHotelStyle.hotelName}>{Name}</p>
-            <div className={cardHotelStyle.Rating}>
-                {Rate}
+            <div className={cardHotelStyle.details}>
+                <p className={cardHotelStyle.address}>{Address}</p>
+                <p className={cardHotelStyle.hotelName}>{Name}</p>
+                <div className={cardHotelStyle.Rating}>{Rate}</div>
             </div>
         </div>
     )

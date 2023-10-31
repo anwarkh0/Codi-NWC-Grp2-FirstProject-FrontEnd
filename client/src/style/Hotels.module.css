@@ -1,8 +1,34 @@
-.Hotels{
-display: flex;
-flex-wrap: nowrap;
-gap: 60px;
-overflow:auto;
+.Hotels {
+    width: 80%;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+
+}
+
+.slogan {
+    color: #555555;
+
+}
+
+.Hotels::-webkit-scrollbar {
+    width: 0;
+}
+
+.container {
+    margin: 10px;
+    font-family: Open Sans;
 }
 
 
+@media only screen and (width<900px) {
+    .Hotels {
+        width: 100%;
+    }
+
+    .container {
+        width: 100%;
+        font-size: smaller;
+
+    }
+}
