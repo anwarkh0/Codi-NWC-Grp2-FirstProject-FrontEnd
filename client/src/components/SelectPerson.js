@@ -16,7 +16,8 @@ function SelectPerson({ counterParent, setCounterParent,setIsDoneParent }) {
 
     const sendDataToParent = () => {
         setCounterParent(counter);
-        setIsDoneParent((done)=>!done);
+        setIsDone(prev => !prev)
+        setIsDoneParent(isDone);
     }
 
     return (
