@@ -70,9 +70,19 @@ letter-spacing: 0.688px;
 }
 .gridView{
     display: grid;
-    grid-template-columns: 0.33fr 0.33fr 0.33fr;
+    grid-template-columns: 0.3fr 0.3fr 0.3fr;
     grid-template-rows: 0.25fr 0.25fr;
     column-gap: 4rem;
     row-gap: 4rem;
-    margin: 6rem ;
+    margin: 6rem 2rem  ;
+}
+@media (max-width:800px){
+    .gridView{
+        grid-template-columns: 1fr;
+        grid-template-rows:auto;
+    }
+    .filter{
+        margin: auto;
+        right: 50%;
+    }
 }

@@ -3,9 +3,9 @@ import roomCardModule from "../styles/roomCard.module.css";
 function RoomCard({ picture, hotel, price, stars }) {
   return (
     <div className={roomCardModule.wrapper}>
-      <img src={picture} />
-      <h3>{hotel}</h3>
-      <p>
+      <img className={roomCardModule.roompic} src={picture} />
+      <h3 className={roomCardModule.hotelName}>{hotel}</h3>
+      <p className={roomCardModule.priceAndRate}>
         {price} $ per night<span>{stars}</span>
       </p>
     </div>
