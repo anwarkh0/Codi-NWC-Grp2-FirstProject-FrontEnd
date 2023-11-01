@@ -40,6 +40,9 @@
     font-weight: 400;
     line-height: 32px; 
 }
+.homelist, .helplist, .applist{
+    list-style: none;
+}
 .helpitems, .homeitems, .appitems{
     color: var(--dark-gray, #222);
     font-family: Open Sans;

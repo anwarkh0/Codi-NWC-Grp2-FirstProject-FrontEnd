@@ -7,7 +7,7 @@ import Footer from "./components/Footer";
 import HomeFooter from "./components/HomeFooter";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-
+import Rooms from "./components/Rooms";
 function App() {
   return (
     <div>
@@ -18,7 +18,8 @@ function App() {
       <Footer />
       <HomeFooter /> */}
       {/* <SignUp /> */}
-      <Login />
+      {/* <Login /> */}
+      <Rooms />
     </div>
   );
 }
