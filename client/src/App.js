@@ -11,15 +11,15 @@ import Rooms from "./pages/rooms/Rooms";
 function App() {
   return (
     <div>
-      {/* <Service />
+      {/* {/* <Service />
       <AboutUs />
       <Testimonials />
       <Location /> */}
       {/* <Footer /> */}
       {/* <HomeFooter /> */}
       {/* <SignUp />
-      <Login />
-      <Rooms /> */}
+      <Login /> */}
+      <Rooms />
     </div>
   );
 }
