@@ -1,47 +1,70 @@
-import React, { useState } from 'react'
+
+import Styles from '../layout/NavBar.module.css'
+import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
-import styleNav from '../style/NavBar.module.css'
-import '../index.css'
 import logo from '../assets/logo.png'
-import burger from '../assets/burgerNav.png'
-function NavBar() {
-  const [isCliked, setIsClicked] = useState(false);
-  const displayMenu = () => {
-    setIsClicked(prv => !prv)
-  }
+
+
+const Navbar = () => {
+  const [collapesed, setCollapsed] = useState(false);
+
+  useEffect(() => {
+    function updateSize() {
+      if (window.innerWidth > 600) {
+        setCollapsed(false)
+      }
+
+    }
+    window.addEventListener('resize', updateSize);
+    updateSize();
+    return () => window.removeEventListener('resize', updateSize);
+  }, []);
+
+  const toggleClasses = [Styles.linksWrapperMobile, collapesed ? Styles.activeNav : ''].join(' ');
+  const bar1 = [Styles.line1, collapesed ? Styles.a : ''].join(' ');
+  const bar2 = [Styles.line2, collapesed ? Styles.a : ''].join(' ');
+  const bar3 = [Styles.line3, collapesed ? Styles.a : ''].join(' ');
+
   return (
-    <div className={styleNav.NavBar}>
-      <img src={logo} alt="HotelXpress" className={styleNav.logo} />
-      <nav className={styleNav.navContainer}>
-        <ul className={`${styleNav.links}`}>
-          <Link to="#nn"> Booking</Link>
-          <Link to="#nn"> About Us</Link>
-          <Link to="#nn"> Location</Link>
-          <Link to="#nn"> Contact</Link>
+    <header className={Styles.header}>
+      <nav className={Styles.navBar}>
+        <a
+          className={Styles.logoContainer}
+          href="/"
+          aria-label="Go to homepage">
+
+          <img src={logo} width={200} height={60} alt="Codi Chronicles Logo" />
+
+        </a>
+        <ul className={Styles.linksWrapper}>
+          <li><Link to='/'>Home</Link></li>
+          <li><Link to='room'>Rooms</Link></li>
+          <li><Link to='hotel'>Hotels</Link></li>
+          <li><Link to='info'>About Us</Link></li>
+          {/* <button className={Styles.logSignButton}><Link to='signUp'>Sign Up</Link></button> */}
+          <button className={Styles.logSignButton}><Link to="logIn">Log In</Link></button>
+
         </ul>
+        <ul className={toggleClasses}>
+          <li><Link to='/'>Home</Link></li>
+          <li><Link to='room'>Rooms</Link></li>
+          <li><Link to='hotel'>Hotels</Link></li>
+          <li><Link to='info'>About Us</Link></li>
+          <li><Link to='signUp'>Sign Up</Link></li>
+          <li><Link to='logIn'>Log In</Link></li>
+        </ul>
+
+        <div className={Styles.burgerButton} onClick={() => setCollapsed(!collapesed)}>
+          <div className={bar1}></div>
+          <div className={bar2}></div>
+          <div className={bar3}></div>
+        </div>
+
       </nav>
-      <button className={styleNav.logSignButton}>Sign Up</button>
-      <button className={styleNav.logSignButton}>Log In </button>
-      <img className={styleNav.burger} alt="buger navigation" src={burger} onClick={displayMenu} />
-      <div>
-        {
-          (isCliked)
-            ? <nav className={styleNav.navMenu}>
-              <ul className={`${styleNav.linksMenu}`}>
-                <Link to="#nn"> Booking</Link>
-                <Link to="#nn"> About Us</Link>
-                <Link to="#nn"> Location</Link>
-                <Link to="#nn"> Contact</Link>
-                <Link to="#nn"> Log in</Link>
-                <Link to="#nn"> Sign up</Link>
-              </ul>
-            </nav>
-            : ''}
-      </div>
-    </div>
+    </header>
   )
 }
 
-export default NavBar;
 
+export default Navbar
 

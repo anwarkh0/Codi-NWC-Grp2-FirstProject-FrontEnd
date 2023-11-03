@@ -1,7 +1,7 @@
 import React from 'react'
-import CardHotel from '../components/CardHotel.js'
-import hotel1 from '../assets/hotel2.png'
-import hotelsStyle from '../style/Hotels.module.css'
+import CardHotel from './CardHotel.js'
+import hotel1 from '../../assets/hotel2.png'
+import hotelsStyle from '../Hotels/Hotels.module.css'
 const Hotels = () => {
     const hotelData={
         Name:'Movempick',

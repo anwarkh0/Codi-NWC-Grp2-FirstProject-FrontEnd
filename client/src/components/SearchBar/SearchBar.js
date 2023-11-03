@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'
-import SearchBarStyle from '../style/SearchBar.module.css'
-import person from '../assets/person.png'
-import calendar from '../assets/calendar.png'
-import position from '../assets/position.png'
-import search from '../assets/search.png'
+import { Link } from 'react-router-dom'
+import SearchBarStyle from '../SearchBar/SearchBar.module.css'
+import calendar from '../../assets/calendar.png'
+import person from '../../assets/person.png'
+import position from '../../assets/position.png'
+import search from '../../assets/search.png'
 import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.min.css'
-import SelectPerson from './SelectPerson'
+import SelectPerson from '../Guests/SelectPerson'
 
 
 
@@ -15,8 +16,9 @@ function SearchBar() {
   const [isClicked, setIsClicked] = useState(false);
   const [counterParent, setCounterParent] = useState(0);
   const [isDoneParent, setISDoneParent] = useState(false)
-  console.log(isDoneParent);
-  const selectPeople = () => { setIsClicked(prvValue => !prvValue); setISDoneParent(true) }
+
+
+  const selectPeople = () => { setIsClicked(!isClicked); setISDoneParent(true) }
 
   let date1 = useRef(null);
   let date2 = useRef(null);
@@ -28,7 +30,7 @@ function SearchBar() {
         altFormat: 'F j, Y',
         dateFormat: 'd M Y',
         defaultDate: new Date(),
-        clickOpens: true
+        clickOpens: true,
       })
     }, []);
 
@@ -70,16 +72,16 @@ function SearchBar() {
         <img src={person} className={SearchBarStyle.icons} alt='person' onClick={selectPeople} />
         <p className={SearchBarStyle.text}>Rooms for</p>
         <p className={SearchBarStyle.Description} onClick={selectPeople}>1 room, {counterParent}guests </p>
-          {(isClicked && isDoneParent)
-            ? <SelectPerson counterValue={counterParent} setCounterParent={setCounterParent} setIsDoneParent={setISDoneParent} />
-            : ''}
+        {(isClicked && isDoneParent)
+          ? <SelectPerson counterValue={counterParent} setCounterParent={setCounterParent} setIsDoneParent={setISDoneParent} />
+          : ''}
       </section>
 
 
-      <section className={`${SearchBarStyle.section}`}>
+      <button className={`${SearchBarStyle.section}`}>
         <img src={search} className={SearchBarStyle.icon} alt='search' />
-        <p>Search</p>
-      </section>
+        <Link to='room' className={SearchBarStyle.text}>Search</Link>
+      </button>
 
 
     </section>

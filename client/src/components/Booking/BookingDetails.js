@@ -1,8 +1,8 @@
 import React from 'react'
-import styleBooking from '../style/BookingDetails.module.css'
+import styleBooking from '../Booking/BookingDetails.module.css'
 const BookingDetails = () => {
   return (
-    <div className={styleBooking.container}>
+    <section className={styleBooking.container}>
       <h1>RoomX</h1>
       <h3>Your details</h3>
       <form action='#' method='get'>
@@ -31,7 +31,7 @@ const BookingDetails = () => {
       </section>
       <button type='submit' className={styleBooking.submitButton}>Submit</button>
 </form>
-    </div>
+    </section>
   )
 }
 

@@ -1,0 +1,163 @@
+.header {
+    background-color: rgba(255, 255, 255);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 5;
+    width: 100%;
+
+}
+
+.navBar {
+    width: 95%;
+    margin: 0 auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+}
+
+.logoContainer {
+    transition: 0.3s opacity ease-in-out;
+
+}
+
+.logoContainer:hover {
+    opacity: 0.7;
+}
+
+
+.linksWrapper {
+
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 600px;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+}
+
+
+.linksWrapper>li>a,
+.linksWrapperMobile>li>a {
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.3s opacity ease-in-out;
+}
+
+.linksWrapperMobile>li {
+    padding-left: 10px;
+}
+
+.navBar ul>li>a:hover {
+    opacity: 0.7;
+}
+
+
+.logSignButton {
+    width: 90px;
+    height: 40px;
+    font-size: 18px;
+    background-color: var(--main-blue);
+    border-radius: 35px;
+    border: none;
+    font-weight: 900;
+    font-family: Open Sans;
+}
+
+
+.logSignButton>a {
+    text-decoration: none;
+    color: white;
+}
+
+.burgerButton {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    display: none;
+    cursor: pointer;
+}
+
+.line1,
+.line2,
+.line3 {
+    position: absolute;
+    height: 4px;
+    left: 4px;
+    top: 50%;
+    width: 32px;
+    background: #000000;
+    transition: all 400ms cubic-bezier(.84, .06, .52, 1.8);
+}
+
+.line1 {
+    transform: translateY(-12px);
+    animation-delay: 100ms;
+}
+
+.line3 {
+    transform: translateY(12px);
+    animation-delay: 250ms;
+}
+
+.line1.a {
+    transform: rotate(40deg);
+}
+
+.line3.a {
+    transform: rotate(-40deg);
+}
+
+.line2.a {
+    opacity: 0;
+}
+
+
+
+.linksWrapperMobile {
+    position: absolute;
+    /* width: 90%; */
+    width: 100%;
+    height: 0;
+    top: 85px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+    list-style: none;
+    transition: 0.2s height ease-in-out;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+
+}
+
+.linksWrapperMobile.activeNav {
+    height: 180px;
+}
+
+
+
+
+@media screen and (max-width: 750px) {
+
+    .navBar {
+        width: 100%;
+
+    }
+
+    .linksWrapper {
+        display: none;
+    }
+
+    .burgerButton {
+        display: block;
+    }
+}

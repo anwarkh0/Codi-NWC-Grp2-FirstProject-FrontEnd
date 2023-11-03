@@ -5,8 +5,8 @@ height: 200px;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
     position: absolute;
-    left:10%;
-    bottom:5vh;
+    left:72%;
+    top:60%;
     border-radius: 5px;
     justify-content: space-between;
     align-items: center;
@@ -57,3 +57,13 @@ height: 200px;
   right: 0;
 }
 
+@media only Screen and (width<700px) {
+
+    .card {
+        width: 200px;
+        position: absolute;
+    left:10%;
+    top:75%;
+    }
+
+}
