@@ -1,8 +1,8 @@
 import React from "react";
-import testimonialsModule from "../styles/testimonials.module.css";
-import alex from "../assets/alex.png";
-import quotation from "../assets/quotation.png";
-import quotation1 from "../assets/quotation-1.png";
+import testimonialsModule from "./testimonials.module.css";
+import alex from "../../assets/alex.png";
+import quotation from "../../assets/quotation.png";
+import quotation1 from "../../assets/quotation-1.png";
 
 function Testimonials() {
   return (

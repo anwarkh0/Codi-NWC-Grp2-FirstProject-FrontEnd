@@ -1,5 +1,5 @@
 import React from "react";
-import locationModule from "../styles/location.module.css";
+import locationModule from "./location.module.css";
 function Location() {
   return (
     <div className={locationModule.location}>

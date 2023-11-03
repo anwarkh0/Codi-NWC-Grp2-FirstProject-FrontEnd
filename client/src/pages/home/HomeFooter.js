@@ -1,8 +1,8 @@
 import React from "react";
-import fb from "../assets/bwFb.png";
-import twitter from "../assets/bwTwitter.png";
-import insta from "../assets/bwInsta.png";
-import homeFooterModule from "../styles/homeFooter.module.css";
+import fb from "../../assets/bwFb.png";
+import twitter from "../../assets/bwTwitter.png";
+import insta from "../../assets/bwInsta.png";
+import homeFooterModule from "./homeFooter.module.css";
 
 function HomeFooter() {
   return (

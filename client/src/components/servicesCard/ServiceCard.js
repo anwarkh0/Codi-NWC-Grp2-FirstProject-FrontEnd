@@ -1,5 +1,5 @@
 import React from "react";
-import serviceCardModule from "../styles/serviceCard.module.css";
+import serviceCardModule from "./serviceCard.module.css";
 
 function ServiceCard(props) {
   const { icon, text } = props;

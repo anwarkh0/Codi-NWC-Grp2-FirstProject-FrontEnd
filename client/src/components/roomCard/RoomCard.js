@@ -1,5 +1,5 @@
 import React from "react";
-import roomCardModule from "../styles/roomCard.module.css";
+import roomCardModule from "./roomCard.module.css";
 function RoomCard({ picture, hotel, price, stars }) {
   return (
     <div className={roomCardModule.wrapper}>

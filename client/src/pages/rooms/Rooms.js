@@ -1,13 +1,13 @@
 import React from "react";
-import roomsModule from "../styles/rooms.module.css";
-import down from "../assets/down.png";
-import up from "../assets/up.png";
+import roomsModule from "./rooms.module.css";
+import down from "../../assets/down.png";
+import up from "../../assets/up.png";
 import { useState } from "react";
-import room1 from "../rooms/room1.png";
-import room2 from "../rooms/room2.png";
-import room3 from "../rooms/rom3.png";
-import RoomCard from "./RoomCard.js";
-import Footer from "./Footer.js";
+import room1 from "../../assets/rooms/room1.png";
+import room2 from "../../assets/rooms/room2.png";
+import room3 from "../../assets/rooms/rom3.png";
+import RoomCard from "../../components/roomCard/RoomCard.js";
+import Footer from "../../layouts/footer/Footer.js";
 function Rooms() {
   //////////////////////
   let roomsArr = [

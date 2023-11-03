@@ -1,8 +1,8 @@
 import React from "react";
-import fb from "../assets/fb.png";
-import insta from "../assets/insta.png";
-import google from "../assets/google.png";
-import footerModule from "../styles/footer.module.css";
+import fb from "../../assets/fb.png";
+import insta from "../../assets/insta.png";
+import google from "../../assets/google.png";
+import footerModule from "./footer.module.css";
 
 function Footer() {
   return (

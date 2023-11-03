@@ -1,7 +1,7 @@
 import React from "react";
-import googleG from "../assets/G.png";
-import hidden from "../assets/hidden.png";
-import signupModule from "../styles/signup.module.css";
+import googleG from "../../assets/G.png";
+import hidden from "../../assets/hidden.png";
+import signupModule from "./signup.module.css";
 function SignUp() {
   return (
     <div className={signupModule.wrapper}>

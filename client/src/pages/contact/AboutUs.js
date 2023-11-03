@@ -1,5 +1,5 @@
 import React from "react";
-import aboutUsModule from "../styles/aboutUs.module.css";
+import aboutUsModule from "./aboutUs.module.css";
 function AboutUs() {
   return (
     <div className={aboutUsModule.aboutUs}>

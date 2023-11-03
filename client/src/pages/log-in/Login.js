@@ -1,7 +1,7 @@
 import React from "react";
-import loginModule from "../styles/login.module.css";
-import hidden from "../assets/hidden.png";
-import googleG from "../assets/G.png";
+import loginModule from "./login.module.css";
+import hidden from "../../assets/hidden.png";
+import googleG from "../../assets/G.png";
 function Login() {
   return (
     <div className={loginModule.wrapper}>
