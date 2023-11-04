@@ -1,11 +1,11 @@
 import React from "react";
 import ServiceCard from "../../components/servicesCard/ServiceCard";
-import book from "../../assets/book.png";
-import call from "../../assets/call.png";
-import contact from "../../assets/contact.png";
-import map from "../../assets/map.png";
-import personDollar from "../../assets/persondollar.png";
-import vip from "../../assets/vip.png";
+import book from "../../assets/images/book.png";
+import call from "../../assets/images/call.png";
+import contact from "../../assets/images/contact.png";
+import map from "../../assets/images/map.png";
+import personDollar from "../../assets/images/persondollar.png";
+import vip from "../../assets/images/vip.png";
 import serviceModule from "./services.module.css";
 function Service() {
   let serviceArr = [

@@ -1,21 +1,23 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Header from '../components/HeroSection/HeroSection'
-import Hotels from '../components/Hotels/Hotels'
+import Home from '../pages/home/Home'
+import Hotels from '../pages/Hotels/hotels'
 import Booking from '../components/Booking/BookingDetails'
-// import Reserve from '../components/Reserve.js'
-// import SelectPerson from '../components/SelectPerson' 
+import RoomsPage from '../pages/roomss/RoomsPage'
+ import Info from '../pages/Info/Info'
+ import Login from '../pages/log-in/Login.js'
+ import SignUp from '../pages/sign-up/SignUp.js'
 const AppRouter = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path='/' exact element={<Header />}></Route>
-                <Route path='/room' ></Route>
+                <Route path='/' exact element={<Home />}></Route>
+                <Route path='/room' element={<RoomsPage/>} ></Route>
                 <Route path='/hotel' element={<Hotels />}></Route>
                 <Route path='/booking' element={<Booking/>} ></Route> 
-                <Route path='/signUp'></Route>  {/* element={<SignUp />} */}
-                <Route path='/logIn'></Route>  {/* element={<LogIn />} */}
-                <Route path='info' ></Route>   {/* element={<AboutUs/>} */}
+                <Route path='/signUp'  element={<SignUp />}></Route> 
+                <Route path='/logIn' element={<Login />}></Route> 
+                <Route path='info' element={<Info/>}></Route>  
 
             </Routes>
         </BrowserRouter>

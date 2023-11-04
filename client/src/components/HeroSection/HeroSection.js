@@ -1,9 +1,9 @@
 import React from 'react'
-import NavBar from '../../layout/NavBar'
-import HotelXpress from '../../assets/Home.jpg'
-import style from '../HeroSection/HeroSection.module.css'
+import NavBar from '../../layouts/NavBar/NavBar'
+import HotelXpress from '../../assets/images/Home.jpg'
+import style from '../../components/HeroSection/HeroSection.module.css'
 import SearchBar from '../SearchBar/SearchBar'
-function Header() {
+function HeroSection() {
     return (
         <div className={style.heroSection}>
             <NavBar />
@@ -15,4 +15,4 @@ function Header() {
     )
 }
 
-export default Header
+export default HeroSection;

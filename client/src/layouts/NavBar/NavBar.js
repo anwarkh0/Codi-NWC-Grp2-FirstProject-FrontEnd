@@ -1,8 +1,8 @@
 
-import Styles from '../layout/NavBar.module.css'
+import Styles from '../NavBar/NavBar.module.css'
 import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
-import logo from '../assets/logo.png'
+import logo from '../../assets/images/logo.png'
 
 
 const Navbar = () => {
@@ -41,7 +41,7 @@ const Navbar = () => {
           <li><Link to='room'>Rooms</Link></li>
           <li><Link to='hotel'>Hotels</Link></li>
           <li><Link to='info'>About Us</Link></li>
-          {/* <button className={Styles.logSignButton}><Link to='signUp'>Sign Up</Link></button> */}
+          <button className={Styles.logSignButton}><Link to='signUp'>Sign Up</Link></button>
           <button className={Styles.logSignButton}><Link to="logIn">Log In</Link></button>
 
         </ul>

@@ -1,7 +1,7 @@
 import React from "react";
-import fb from "../../assets/bwFb.png";
-import twitter from "../../assets/bwTwitter.png";
-import insta from "../../assets/bwInsta.png";
+import fb from "../../assets/images/bwFb.png";
+import twitter from "../../assets/images/bwTwitter.png";
+import insta from "../../assets/images/bwInsta.png";
 import homeFooterModule from "./homeFooter.module.css";
 
 function HomeFooter() {
@@ -51,17 +51,17 @@ function HomeFooter() {
           <ul className={homeFooterModule.companyLinks}>
             <li className={homeFooterModule.links}>
               <a href="https://www.facebook.com">
-                <img src={fb} className={homeFooterModule.logo} />
+                <img src={fb} className={homeFooterModule.logo} alt='Facebook' />
               </a>
             </li>
             <li className={homeFooterModule.links}>
               <a href="httsp://www.twitter.com">
-                <img src={twitter} className={homeFooterModule.logo} />
+                <img src={twitter} className={homeFooterModule.logo}  alt='twitter'/>
               </a>
             </li>
             <li className={homeFooterModule.links}>
               <a href="https://www.insta.com">
-                <img src={insta} className={homeFooterModule.logo} />
+                <img src={insta} className={homeFooterModule.logo} alt='insta'/>
               </a>
             </li>
           </ul>

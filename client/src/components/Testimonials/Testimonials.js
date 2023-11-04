@@ -1,8 +1,8 @@
 import React from "react";
 import testimonialsModule from "./testimonials.module.css";
-import alex from "../../assets/alex.png";
-import quotation from "../../assets/quotation.png";
-import quotation1 from "../../assets/quotation-1.png";
+import alex from "../../assets/images/alex.png";
+import quotation from "../../assets/images/quotation.png";
+import quotation1 from "../../assets/images/quotation-1.png";
 
 function Testimonials() {
   return (
@@ -10,7 +10,7 @@ function Testimonials() {
       <div className={testimonialsModule.left}>
         <p className={testimonialsModule.text}>
           <span className={testimonialsModule.quotations}>
-            <img src={quotation1} />
+            <img src={quotation1} alt='quotation mark'/>
           </span>
           Lorem Ipsum is simply dummy text of the printing and typesetting
           industry. Lorem Ipsum has been the industry's standard dummy Lorem
@@ -19,7 +19,7 @@ function Testimonials() {
           industry. Lorem Ipsum has been the industry's standard dummy Lorem
           Ipsum is simply dummy text of the printing and typesetting industry.
           <span className={testimonialsModule.quotations}>
-            <img src={quotation} />
+            <img src={quotation} alt='quotation mark'/>
           </span>
         </p>
         <div className={testimonialsModule.info}>
@@ -29,7 +29,7 @@ function Testimonials() {
           </p>
         </div>
       </div>
-      <img src={alex} alt="review picture" className={testimonialsModule.img} />
+      <img src={alex} alt="review" className={testimonialsModule.img} />
     </div>
   );
 }

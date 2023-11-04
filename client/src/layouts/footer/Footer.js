@@ -1,7 +1,7 @@
 import React from "react";
-import fb from "../../assets/fb.png";
-import insta from "../../assets/insta.png";
-import google from "../../assets/google.png";
+import fb from "../../assets/images/fb.png";
+import insta from "../../assets/images/insta.png";
+import google from "../../assets/images/google.png";
 import footerModule from "./footer.module.css";
 
 function Footer() {
