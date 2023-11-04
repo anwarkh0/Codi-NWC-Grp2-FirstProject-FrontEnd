@@ -1,0 +1,26 @@
+[
+    {
+      "icon": "./book.png",
+      "text": "Fast booking"
+    },
+    {
+      "icon": "./call.png",
+      "text": "24/7 Service"
+    },
+    {
+      "icon": "./contact.png",
+      "text": "Personal recommendations"
+    },
+    {
+      "icon": "./map.png",
+      "text": "Traveler's Guide"
+    },
+    {
+      "icon": "./persondollar.png",
+      "text": "Points system"
+    },
+    {
+      "icon": "./vip.png",
+      "text": "VIP treatment"
+    }
+  ]

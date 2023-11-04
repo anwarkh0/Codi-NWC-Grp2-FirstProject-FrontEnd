@@ -1,0 +1,126 @@
+.wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 30em;
+    align-items: center;
+    margin: auto;
+}
+.signup{
+    display: block;
+    width: 30em;
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 51.9px;
+    letter-spacing: -1.2px;
+    border-bottom:1px solid #000;
+}
+.welcome{
+    color: #1E1E1E;
+    font-family: Inter;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 51.9px; 
+    letter-spacing: -1.8px;
+}
+.inpLabel{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding:10px 0px;
+    color: #000;
+    gap: 6px;
+    text-align: center;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 19px;
+    height: 70px;
+}
+.inp{
+    display: flex;
+    width: 340px;
+    padding: 14px 20px;
+    align-items: flex-start;
+    gap: 10px;
+    border-radius: 8px;
+    border: 1px solid var(--gray1, #555);
+    position: relative;
+}
+.inp::placeholder{
+    padding: 10px 10px 10px 0;
+}
+.hidden{
+    position: relative;
+    left:22em;
+    bottom:2.5em
+}
+.signupBtn{
+width: 100%;
+display: flex;
+padding: 14px 20px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 8px;
+border: 1px solid rgba(91, 91, 91, 0.50);
+background: #088395;
+color: #FCFCFC;
+text-align: center;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 19px;
+}
+.query{
+    color: var(--gray1, #555);
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 19px;
+}
+.login{
+    color: #35A29F;
+text-align: center;
+font-family: Inter;
+font-size: 12px;
+font-style: normal;
+font-weight: 600;
+line-height: 19px;
+}
+.or{
+    color: #000;
+    text-align: center;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 19px;
+}
+.gSign{
+    display: flex;
+width: 340px;
+height: 47px;
+padding: 14px 20px;
+justify-content: center;
+align-items: center;
+gap: 20px;
+flex-shrink: 0;
+border-radius: 8px;
+border: 1px solid #5B5B5B;
+position: relative;
+width: 100%;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
