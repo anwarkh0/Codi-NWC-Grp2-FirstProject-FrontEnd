@@ -13,36 +13,42 @@ function Rooms() {
     {
       picture: room1,
       hotel: "kingsHotel",
+      address: "lebanon",
       price: 200,
       stars: 5,
     },
     {
       picture: room2,
       hotel: "NightWatch",
+      address: "lebanon",
       price: 100,
       stars: 3,
     },
     {
       picture: room3,
       hotel: "noManLand",
+      address: "lebanon",
       price: 999,
       stars: 4,
     },
     {
       picture: room1,
       hotel: "kingsHotel",
+      address: "lebanon",
       price: 200,
       stars: 5,
     },
     {
       picture: room2,
       hotel: "NightWatch",
+      address: "lebanon",
       price: 100,
       stars: 3,
     },
     {
       picture: room3,
       hotel: "noManLand",
+      address: "lebanon",
       price: 999,
       stars: 4,
     },
@@ -63,7 +69,6 @@ function Rooms() {
   }
   return (
     <>
-
       <div className={roomsModule.wrapper}>
         <div className={roomsModule.filter} onClick={clickHandler}>
           <div className={roomsModule.upper}>
@@ -93,6 +98,7 @@ function Rooms() {
               <RoomCard
                 key={index}
                 picture={room.picture}
+                address={room.address}
                 hotel={room.hotel}
                 price={room.price}
                 stars={room.stars}

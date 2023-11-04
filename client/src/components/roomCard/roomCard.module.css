@@ -9,6 +9,21 @@ cursor: pointer;
 transform: scale(1.1);
 box-shadow: 5px 10px 2px #888888;
 }
+.rate{
+    color: #FFD700;
+    font-size: larger;
+    font-weight: 800;
+}
+.priceAndRate{
+    display: flex;
+    justify-content: space-between;
+}
+.address{
+    color: var(--main-blue)
+}
+.hotelName, .priceAndRate, .address{
+    padding:0 1rem;
+}
 @media (max-width:800px){
     .wrapper, .roompic, .hotelName, .priceAndRate{
         width: 70vw;
