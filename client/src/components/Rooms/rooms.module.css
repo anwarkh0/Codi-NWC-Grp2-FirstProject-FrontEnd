@@ -42,7 +42,7 @@ background: var(--White, #FFF);
 padding: 10px;
 position: fixed;
 right: 2rem;
-top:1rem;
+top:6rem;
 }
 .menuItem{
     text-decoration: none;
@@ -75,7 +75,7 @@ letter-spacing: 0.688px;
     column-gap: 4rem;
     row-gap: 4rem;
     width: 70vw;
-    margin: auto  ;
+    margin: 8rem auto  ;
 }
 @media (max-width:800px){
     .gridView{

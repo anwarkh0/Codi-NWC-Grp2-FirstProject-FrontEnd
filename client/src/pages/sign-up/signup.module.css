@@ -3,7 +3,7 @@
     flex-direction: column;
     width: 30em;
     align-items: center;
-    margin: auto;
+    margin: 8rem auto;
 }
 .signup{
     display: block;
