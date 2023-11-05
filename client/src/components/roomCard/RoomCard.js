@@ -18,8 +18,14 @@ function RoomCard({ picture, address, hotel, price, stars }) {
   const rate = rating(stars);
   return (
     <div className={roomCardModule.wrapper}>
-      <img className={roomCardModule.roompic} src={picture} />
-      <p className={roomCardModule.address}>{address}</p>
+      <img alt="room" className={roomCardModule.roompic} src={picture} />
+
+      <p className={roomCardModule.address}>
+        {address}
+        <span className={roomCardModule.reservebtn}>
+          <button className={roomCardModule.reserve}>Reserve</button>
+        </span>
+      </p>
       <h3 className={roomCardModule.hotelName}>{hotel}</h3>
       <p className={roomCardModule.priceAndRate}>
         {price} $ per night<span className={roomCardModule.rate}>{rate}</span>

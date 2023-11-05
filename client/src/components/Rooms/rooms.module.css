@@ -30,7 +30,7 @@ text-align: center;
 .filter{
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     border: 1px solid black;
     background-color: whitesmoke;
     width: 6.2rem;
