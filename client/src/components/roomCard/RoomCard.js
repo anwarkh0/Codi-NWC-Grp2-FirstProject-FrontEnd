@@ -1,5 +1,7 @@
-import React from "react";
+import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
+import Booking from "../Booking/BookingDetails.js";
+
 function RoomCard({ picture, address, hotel, price, stars }) {
   const rating = (stars) => {
     let string = "";
@@ -16,20 +18,40 @@ function RoomCard({ picture, address, hotel, price, stars }) {
     return string;
   };
   const rate = rating(stars);
-  return (
-    <div className={roomCardModule.wrapper}>
-      <img alt="room" className={roomCardModule.roompic} src={picture} />
 
-      <p className={roomCardModule.address}>
-        {address}
-        <span className={roomCardModule.reservebtn}>
-          <button className={roomCardModule.reserve}>Reserve</button>
-        </span>
-      </p>
-      <h3 className={roomCardModule.hotelName}>{hotel}</h3>
-      <p className={roomCardModule.priceAndRate}>
-        {price} $ per night<span className={roomCardModule.rate}>{rate}</span>
-      </p>
+  const [open, setOpen] = useState(false);
+  const toggleOpen = () => {
+    setOpen(!open);
+  };
+  if (open) {
+    document.body.classList.add("visible");
+  } else {
+    document.body.classList.remove("visible");
+  }
+
+  return (
+    <div className={roomCardModule.alignModal}>
+      <div className={roomCardModule.wrapper}>
+        <img alt="room" className={roomCardModule.roompic} src={picture} />
+
+        <p className={roomCardModule.address}>
+          {address}
+          <span className={roomCardModule.reservebtn}>
+            <button onClick={toggleOpen} className={roomCardModule.reserve}>
+              Reserve
+            </button>
+          </span>
+        </p>
+        <h3 className={roomCardModule.hotelName}>{hotel}</h3>
+        <p className={roomCardModule.priceAndRate}>
+          {price} $ per night<span className={roomCardModule.rate}>{rate}</span>
+        </p>
+      </div>
+      {open && (
+        <div className={roomCardModule.modal}>
+          <Booking close={toggleOpen} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,3 +1,6 @@
+body.visible{
+    overflow: hidden;
+}
 .closed{
     display: none;
     transition:all 0.3s ease-in-out;
@@ -41,7 +44,7 @@ border: 2.485px solid var(--blues-gray-2, #B8BBC2);
 background: var(--White, #FFF);
 padding: 10px;
 position: fixed;
-right: 2rem;
+right: 5%;
 top:6rem;
 }
 .menuItem{
@@ -70,12 +73,16 @@ letter-spacing: 0.688px;
 }
 .gridView{
     display: grid;
-    grid-template-columns: 0.3fr 0.3fr 0.3fr;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-template-rows: 0.25fr 0.25fr;
     column-gap: 4rem;
     row-gap: 4rem;
     width: 70vw;
-    margin: 8rem auto  ;
+    margin: 10rem auto;
+    }
+.wrapper{
+    width: 100%;
+    height: auto;
 }
 @media (max-width:800px){
     .gridView{
@@ -84,6 +91,7 @@ letter-spacing: 0.688px;
     }
     .filter{
         margin: auto;
+        top:6rem;
         right: 50%;
     }
 }

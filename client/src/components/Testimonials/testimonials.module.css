@@ -87,10 +87,14 @@
     .info{
         left:10rem
     }
+    .text{
+        height: 20vh;
+        overflow-y: scroll;
+    }
 }
 @media (max-width: 400px){
     .info{
-        left:4rem;
+        left:6rem;
         top: -1.4rem;
     }
     .name{
