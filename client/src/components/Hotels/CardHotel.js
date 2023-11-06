@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import cardHotelStyle from "../../components/Hotels/CardHotel.module.css";
 
-const CardHotel = ({ data: { Name, Address, imageSrc, rate } }) => {
+const CardHotel = ({ data: { name, address, images, rate } }) => {
   const rating = (rate) => {
     let string = "";
     const sym1 = "★";
@@ -22,13 +22,13 @@ const CardHotel = ({ data: { Name, Address, imageSrc, rate } }) => {
     //fetching Data for rooms onClick
     <Link to="/room" className={cardHotelStyle.hotelCard}>
       <img
-        src={imageSrc}
-        alt={`${Name} hotel`}
+        src={images[0]}
+        alt={`${name} hotel`}
         className={cardHotelStyle.image}
       />
       <div className={cardHotelStyle.details}>
-        <p className={cardHotelStyle.address}>{Address}</p>
-        <p className={cardHotelStyle.hotelName}>{Name}</p>
+        <p className={cardHotelStyle.address}>{address}</p>
+        <p className={cardHotelStyle.hotelName}>{name}</p>
         <div className={cardHotelStyle.Rating}>{Rate}</div>
       </div>
     </Link>

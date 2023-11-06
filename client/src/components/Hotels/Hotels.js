@@ -1,42 +1,78 @@
-import React from "react";
+import React,{useEffect,useState} from "react";
 import CardHotel from "./CardHotel";
-import hotel1 from "../../assets/images/hotel2.png";
+import axios from 'axios'
+// import hotel1 from "../../assets/images/hotel2.png";
 import hotelsStyle from "./Hotels.module.css";
 const Hotels = () => {
-  const hotelData = [
-    {
-      Name: "Movempick",
-      imageSrc: hotel1,
-      Address: "Beirut Raoucheh",
-      rate: 3.8,
-    },
-    {
-      Name: "Movempick",
-      imageSrc: hotel1,
-      Address: "Beirut Raoucheh",
-      rate: 5,
-    },
-    {
-      Name: "Movempick",
-      imageSrc: hotel1,
-      Address: "Beirut Raoucheh",
-      rate: 4,
-    },
-    {
-      Name: "Movempick",
-      imageSrc: hotel1,
-      Address: "Beirut Raoucheh",
-      rate: 3,
-    },
-    {
-      Name: "Movempick",
-      imageSrc: hotel1,
-      Address: "Beirut Raoucheh",
-      rate: 4,
-    },
-  ];
+const [hotelData,setHotelData]=useState([ {
+  "name":"Lancaster",
+  "city":"Beirut",
+  "address":"raoucheh",
+  "rate":4,
+  "images":["imaag1","imag2"],
+  "rules":{"Icons":["ima1","im2"],"Desc":["desc1","desc2"]},
+  "roomNumber":2
+}]);
 
-  const hotels = hotelData.map((hotel) => <CardHotel data={hotel} />);
+  // const hotelData = [
+  //   {
+  //     name: "Movempick",
+  //     imageSrc: hotel1,
+  //     Address: "Beirut Raoucheh",
+  //     rate: 3.8,
+  //   },
+  //   {
+  //     name: "Movempick",
+  //     imageSrc: hotel1,
+  //     Address: "Beirut Raoucheh",
+  //     rate: 5,
+  //   },
+  //   {
+  //     name: "Movempick",
+  //     imageSrc: hotel1,
+  //     Address: "Beirut Raoucheh",
+  //     rate: 4,
+  //   },
+  //   {
+  //     name: "Movempick",
+  //     imageSrc: hotel1,
+  //     Address: "Beirut Raoucheh",
+  //     rate: 3,
+  //   },
+  //   {
+  //     name: "Movempick",
+  //     imageSrc: hotel1,
+  //     Address: "Beirut Raoucheh",
+  //     rate: 4,
+  //   },
+  // ];
+
+//   {
+//   "name":"Lancaster",
+//   "city":"Beirut",
+//   "address":"raoucheh",
+//   "rate":4,
+//   "images":["imaag1","imag2"],
+//   "rules":{"Icons":["ima1","im2"],"Desc":["desc1","desc2"]},
+//   "roomNumber":2
+// }
+
+useEffect(() => {
+  async function fetchData() {
+    try {
+      const response = await axios.get("http://localhost:8000/hotel");
+      setHotelData(response.data);
+      console.log(response.data)
+    } catch (error) {
+      console.error(error);
+    }
+  }
+  fetchData();
+}, []); 
+
+
+
+ let hotels = hotelData.map((hotel) => <CardHotel data={hotel} />);
   return (
     <div className={hotelsStyle.container}>
       <h1>Popular Hotels</h1>
