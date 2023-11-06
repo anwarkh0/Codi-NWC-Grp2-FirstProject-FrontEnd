@@ -1,34 +1,23 @@
+.container {
+    width: 95%;
+    margin: 8rem auto 10px auto;
+    font-family: Open Sans;
+}
+
+.container>h1 {
+    margin-bottom: 0;
+}
+
 .Hotels {
-    width: 80%;
+    width: 100%;
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* overflow-x: auto; */
 
 }
 
 .slogan {
     color: #555555;
-
-}
-
-.Hotels::-webkit-scrollbar {
-    width: 0;
-}
-
-.container {
-    margin: 10px;
-    font-family: Open Sans;
-}
-
-
-@media only screen and (width<900px) {
-    .Hotels {
-        width: 100%;
-    }
-
-    .container {
-        width: 100%;
-        font-size: smaller;
-
-    }
+    margin-bottom: 50px;
 }

@@ -3,19 +3,19 @@
  .heroSection {
     font-family: Open Sans;
     position: relative;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
 
 }
 
-.heroSection h1 {
+.slogan {
     position: absolute;
     color: white;
     font-size: 3vw;
     z-index: 3;
     left: 17%;
     top: 22%;
-    width: 80%;
+    width: 60vw;
     margin: 0;
 
 }
@@ -46,11 +46,7 @@
 @media screen and (max-width: 600px) {
 
     .heroSection h1 {
-
         font-size: 5vw;
-        width: 100%;
         left:5%;
-
-
     }
 }

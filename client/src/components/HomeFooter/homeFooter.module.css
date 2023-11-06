@@ -1,7 +1,6 @@
 .homeFooter{
     display: flex;
-    width: 70%;
-    padding: 64px 160px 24px 160px;
+    width: 70vw;
     flex-direction: column;
     align-items: center;
     justify-content: center;

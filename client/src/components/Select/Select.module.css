@@ -1,0 +1,45 @@
+.selection {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.container {
+    width: 40%;
+    display: flex;
+    align-items: center;
+}
+
+.blur{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(220, 215, 215);
+    opacity: 30%;
+    margin: auto;
+    text-align: center;
+    font-weight: 800;
+    font-size: 24px;
+}
+
+
+.counterButton {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: rgba(220, 215, 215);
+    margin: auto;
+    text-align: center;
+    font-weight: 800;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+.counterValue {
+    font-size: 24px;
+    color: rgb(0, 0, 0);
+}

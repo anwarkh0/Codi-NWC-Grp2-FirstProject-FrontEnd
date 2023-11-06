@@ -88,3 +88,15 @@
         left:10rem
     }
 }
+@media (max-width: 400px){
+    .info{
+        left:4rem;
+        top: -1.4rem;
+    }
+    .name{
+        font-size: 16px;
+    }
+    .job{
+        font-size: 10px;
+    }
+}
