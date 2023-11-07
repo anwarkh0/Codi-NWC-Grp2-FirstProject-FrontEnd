@@ -26,7 +26,15 @@ function Location() {
             className={locationModule.input}
             placeholder="Enter your email"
           />
-          <button className={locationModule.btn}>Contact</button>
+          <button className={locationModule.btn}>
+            <a
+              className={locationModule.wp}
+              href="https://api.whatsapp.com/send?phone=0096176153425"
+              target="_blank"
+            >
+              Contact
+            </a>
+          </button>
         </div>
       </div>
     </div>
