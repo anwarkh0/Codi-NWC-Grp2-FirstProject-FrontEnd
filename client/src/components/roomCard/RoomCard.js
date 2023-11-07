@@ -35,7 +35,7 @@ function RoomCard({ image, address, hotel, price, stars }) {
         <img
           alt="room"
           className={roomCardModule.roompic}
-          src={`http://localhost:8000/${picture}`}
+          src={`http://localhost:8000/${image}`}
         />
 
         <p className={roomCardModule.address}>
