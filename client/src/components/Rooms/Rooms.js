@@ -68,7 +68,7 @@ function Rooms() {
             return (
               <RoomCard
                 key={index}
-                picture={room.images}
+                image={room.image}
                 address={room.address}
                 hotel={room.hotel}
                 price={room.price}

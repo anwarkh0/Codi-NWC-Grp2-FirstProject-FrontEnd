@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
 import Booking from "../Booking/BookingDetails.js";
 
-function RoomCard({ picture, address, hotel, price, stars }) {
+function RoomCard({ image, address, hotel, price, stars }) {
   const rating = (stars) => {
     let string = "";
     const sym1 = "★";

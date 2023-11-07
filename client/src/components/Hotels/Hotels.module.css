@@ -21,3 +21,18 @@
     color: #555555;
     margin-bottom: 50px;
 }
+
+@media only screen and (width<850px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .Hotels {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
