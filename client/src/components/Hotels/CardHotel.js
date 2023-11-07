@@ -22,7 +22,7 @@ const CardHotel = ({ data: { name, city, image, rate } }) => {
     //fetching Data for rooms onClick
     <Link to="/room" className={cardHotelStyle.hotelCard}>
       <img
-        src={image}
+        src={`http://localhost:8000/${image}`}
         alt={`${name} hotel`}
         className={cardHotelStyle.image}
       />
