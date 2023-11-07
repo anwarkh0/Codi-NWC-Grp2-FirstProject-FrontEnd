@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
 import Booking from "../Booking/BookingDetails.js";
 
-function RoomCard({ picture, address, hotel, price, stars }) {
+function RoomCard({ image, address, hotel, price, stars }) {
   const rating = (stars) => {
     let string = "";
     const sym1 = "★";
@@ -32,7 +32,7 @@ function RoomCard({ picture, address, hotel, price, stars }) {
   return (
     <div className={roomCardModule.alignModal}>
       <div className={roomCardModule.wrapper}>
-        <img alt="room" className={roomCardModule.roompic} src={picture} />
+        <img alt="room" className={roomCardModule.roompic} src={`http://localhost:8000/${image}`} />
 
         <p className={roomCardModule.address}>
           {address}
