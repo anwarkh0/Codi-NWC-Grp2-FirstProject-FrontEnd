@@ -32,7 +32,11 @@ function RoomCard({ picture, address, hotel, price, stars }) {
   return (
     <div className={roomCardModule.alignModal}>
       <div className={roomCardModule.wrapper}>
-        <img alt="room" className={roomCardModule.roompic} src={picture} />
+        <img
+          alt="room"
+          className={roomCardModule.roompic}
+          src={`http://localhost:8000/${picture}`}
+        />
 
         <p className={roomCardModule.address}>
           {address}
