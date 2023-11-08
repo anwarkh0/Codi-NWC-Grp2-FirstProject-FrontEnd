@@ -48,9 +48,10 @@ body.visible {
     border: 2.485px solid var(--blues-gray-2, #B8BBC2);
     background: var(--White, #FFF);
     padding: 10px;
-    position: relative;
-    left: 5%;
+    position: absolute;
+    right: 45px;
     top: 6rem;
+
 }
 
 .menuItem {
