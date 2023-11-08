@@ -21,9 +21,9 @@
     display: flex;
     list-style: none;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     text-align: center;
-    width: 15vw;
+    width: 20vw;
     
 }
 .logoContainer {
@@ -68,10 +68,10 @@
 
 .logSignButton {
     width: 90px;
-    padding: 6px;
+    padding:10px;
     font-size: 18px;
     background-color: var(--main-blue);
-    border-radius: 20px;
+    border-radius: 23px;
     border: none;
     font-weight: 900;
     font-family: Open Sans;

@@ -2,8 +2,8 @@ import React from "react";
 import aboutUsModule from "./aboutUs.module.css";
 function AboutUs() {
   return (
-    <div className={aboutUsModule.aboutUs}>
-      <h1 className={aboutUsModule.aboutUsHeader}>About us</h1>
+    <section className={aboutUsModule.aboutUs}>
+      <p className={aboutUsModule.aboutUsHeader}>About us</p>
       <p className={aboutUsModule.aboutUsText}>
         At HotelXpress, we're on a mission to redefine your travel experience.
         Our carefully curated accommodations, user-friendly platform, and
@@ -13,7 +13,7 @@ function AboutUs() {
         travelers who trust us to enhance their travels, and let HotelXpress be
         your ultimate travel companion. Your journey, your way.
       </p>
-    </div>
+    </section>
   );
 }
 

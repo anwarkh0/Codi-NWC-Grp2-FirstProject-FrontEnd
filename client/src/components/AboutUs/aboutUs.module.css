@@ -1,7 +1,8 @@
 .aboutUs{  
     display: flex;
     flex-direction: column;
-    width: 70%;
+    width: 70vw;
+    height: 50vh;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
@@ -13,13 +14,13 @@
 align-self:flex-start;
 color: #000;
 font-family: Open Sans;
-font-size: 36px;
+font-size: 2em;
 font-style: normal;
 font-weight: 600;
-line-height: 22.294px;
 margin:100px 100px 25px 100px;
 }
 .aboutUsText{
+    overflow: scroll;
     color: var(--gray1, #555);
     font-family: Open Sans;
     font-size: 24px;
