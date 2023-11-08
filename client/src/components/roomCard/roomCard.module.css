@@ -69,11 +69,8 @@ body>.visible {
 
 .reserve:hover {
     font-weight: bold;
-    border-radius: 50%;
-    padding: 16px;
-    box-shadow: 5px 10px grey;
     color: var(--main-blue);
-    background-color: white;
+    background-color: whitesmoke;
 }
 
 @media (max-width:800px) {
