@@ -119,7 +119,7 @@ function Rooms({ idHotel }) {
                 address={room.address}
                 hotel={room.hotel}
                 price={room.price}
-                stars={room.stars}
+                stars={room.Hotel.rate}
               />
             );
             
