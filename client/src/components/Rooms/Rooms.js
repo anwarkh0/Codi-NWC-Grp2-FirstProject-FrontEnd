@@ -33,6 +33,13 @@ function Rooms({ idHotel }) {
   const clickHandler = () => {
     setActive(!active);
   };
+
+  const sorting=()=>{
+    
+    setData(data=>data.sort((a,b)=>a.price-b.price));
+
+  }
+
   let ink = roomsModule.open;
   let arr = down;
   if (active) {
@@ -54,13 +61,18 @@ function Rooms({ idHotel }) {
           </div>
           <div className={ink}>
             <ul className={roomsModule.list}>
+            <li className={roomsModule.listItem}>
+                <a href="#" className={roomsModule.menuItem} onClick={sorting}>
+                  Default
+                </a>
+              </li>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem}>
+                <a href="#" className={roomsModule.menuItem} onClick={sorting}>
                   Price
                 </a>
               </li>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem}>
+                <a href="#" className={roomsModule.menuItem} onClick={sorting}>
                   Rate
                 </a>
               </li>

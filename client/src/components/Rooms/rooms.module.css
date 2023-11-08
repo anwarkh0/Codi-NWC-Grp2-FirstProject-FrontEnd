@@ -9,7 +9,7 @@ body.visible {
 
 .open {
     width: 6rem;
-    height: 6rem;
+    height: 7rem;
     display: flex;
     flex-direction: column;
 
@@ -56,6 +56,7 @@ body.visible {
 
 .menuItem {
     text-decoration: none;
+
 }
 
 .list {
@@ -75,12 +76,14 @@ body.visible {
     font-weight: 500;
     line-height: 34.408px;
     letter-spacing: 0.688px;
+    border-top: 1px solid #313144;
+
 }
 
-.listItem:first-child {
+/* .listItem:first-child {
     border-bottom: 1px solid #313144;
     border-top: 1px solid #313144;
-}
+} */
 
 .gridView {
     display: grid;
