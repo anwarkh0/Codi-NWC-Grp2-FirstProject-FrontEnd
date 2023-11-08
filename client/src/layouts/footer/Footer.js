@@ -14,13 +14,13 @@ function Footer() {
         </p>
         <span className={footerModule.logos}>
           <a href="https://www.facebook.com">
-            <img src={fb} className={footerModule.logo} />
+            <img alt="fb" src={fb} className={footerModule.logo} />
           </a>
           <a href="httsp://www.instagram.com">
-            <img src={insta} className={footerModule.logo} />
+            <img alt="insta" src={insta} className={footerModule.logo} />
           </a>
           <a href="https://www.google.com">
-            <img src={google} className={footerModule.logo} />
+            <img alt="google" src={google} className={footerModule.logo} />
           </a>
         </span>
       </section>
