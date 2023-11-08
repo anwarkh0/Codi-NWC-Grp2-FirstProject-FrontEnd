@@ -65,6 +65,11 @@
     position:relative;
     top:-62px;
     left:318px;
+    text-align: center;
+}
+.wp{
+    text-decoration: none;
+    color: white;
 }
 @media (max-width:970px){
     .contactUs{
@@ -75,9 +80,6 @@
         align-items: center;
         width: 100%;
     }
-    .btn{
-        position:initial
-    }
     .right{
         display: flex;
         flex-direction: column;
@@ -85,5 +87,8 @@
     }
     .text, .header{
         width: 100%;
+    }
+    .btn{
+        position: initial;
     }
 }
