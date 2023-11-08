@@ -1,13 +1,13 @@
 .wrapper{
     display: flex;
     flex-direction: column;
-    width: 30em;
+    width: 70vw;
     align-items: center;
     margin: 8rem auto;
 }
 .login{
     display: block;
-    width: 30em;
+    width: 70vw;
     color: #000;
     text-align: center;
     font-family: Inter;
@@ -160,4 +160,12 @@ font-style: normal;
 font-weight: 500;
 line-height: 20px; 
 letter-spacing: -0.12px;
+}
+@media(max-width:400px){
+    .signupBtn, .gSign, .inp{
+        width: 300px;
+    }
+    .hidden{
+        left:19em;
+    }
 }

@@ -25,7 +25,7 @@ function SignUp() {
             type="password"
           />
           <span className={signupModule.hidden}>
-            <img src={hidden} />
+            <img alt="hidden eye" src={hidden} />
           </span>
         </label>
         <label className={signupModule.inpLabel}>
@@ -36,7 +36,7 @@ function SignUp() {
             type="password"
           />
           <span className={signupModule.hidden}>
-            <img src={hidden} />
+            <img alt="hidden eye" src={hidden} />
           </span>
         </label>
         <Link to="/" className={signupModule.signupBtn}>
@@ -49,7 +49,7 @@ function SignUp() {
         <p className={signupModule.or}>Or</p>
         <Link to="/" className={signupModule.gSign}>
           <span className={signupModule.glogo}>
-            <img src={googleG} />
+            <img alt="gsign" src={googleG} />
           </span>
           Sign up with Google
         </Link>
