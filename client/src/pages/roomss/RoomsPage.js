@@ -1,11 +1,13 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import Rooms from "../../components/Rooms/Rooms";
 import Footer from "../../layouts/footer/Footer";
-import NavBar from "../../layouts/NavBar/NavBar";
+
 const RoomsPage = () => {
+const {id}=useParams();
   return (
     <>
-      <Rooms />
+      <Rooms idHotel={id}/>
       <Footer />
     </>
   );

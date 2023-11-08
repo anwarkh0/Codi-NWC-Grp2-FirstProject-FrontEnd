@@ -12,6 +12,8 @@
     text-decoration: none;
     color: black;
     margin-bottom: 30px;
+    box-shadow: -10px 10px 5px 0 rgba(207, 207, 203, 0.8);
+
 }
 
 .details {
@@ -35,11 +37,12 @@
 }
 
 .address {
-    color: var(--main-blue)
+    color: var(--main-blue);
+    margin: 0;
 }
 
 .hotelName {
-    font-weight: 800;
+margin: 5px auto;
 }
 
 .Rating {
@@ -47,4 +50,3 @@
     font-size: larger;
     font-weight: 800;
 }
-
