@@ -1,5 +1,6 @@
 import React from "react";
 import locationModule from "./location.module.css";
+import Whatsapp from "../../assets/images/Whatsapp.svg";
 function Location() {
   return (
     <div className={locationModule.location}>
@@ -21,21 +22,20 @@ function Location() {
             industry. Lorem Ipsum has been the industry's{" "}
           </p>
         </div>
-        <div className={locationModule.right}>
-          <input
-            className={locationModule.input}
-            placeholder="Enter your email"
-          />
-          <button className={locationModule.btn}>
-            <a
-              className={locationModule.wp}
-              href="https://api.whatsapp.com/send?phone=0096176153425"
-              target="_blank"
-            >
-              Contact
-            </a>
-          </button>
-        </div>
+        <label className={locationModule.right}>
+          <a
+            className={locationModule.wp}
+            href="https://api.whatsapp.com/send?phone=0096176153425"
+            target="_blank"
+          >
+            Contact
+            <img
+              className={locationModule.whatsapp}
+              src={Whatsapp}
+              alt="whatsapp"
+            />
+          </a>
+        </label>
       </div>
     </div>
   );
