@@ -8,12 +8,13 @@ import RoomCard from "../roomCard/RoomCard.js";
 
 function Rooms({ idHotel }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [DefaultData, setDefaultData] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
+        setIsLoading(true);
         if (!idHotel) {
           console.log(idHotel);
           const response = await axios.get("http://localhost:8000/room");
@@ -26,6 +27,8 @@ function Rooms({ idHotel }) {
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoading(false);
       }
     }
     fetchData();
@@ -107,7 +110,8 @@ function Rooms({ idHotel }) {
           </div>
         </div>
         <div className={roomsModule.gridView}>
-          {data.map((room, index) => {
+          {/* {data.map((room, index) => {
+
             return (
               <RoomCard
                 key={index}
@@ -118,7 +122,24 @@ function Rooms({ idHotel }) {
                 stars={room.stars}
               />
             );
-          })}
+            
+          })} */}
+          {!isLoading && data ? (
+            data.map((room, index) => {
+              return (
+                <RoomCard
+                  image={room.image}
+                  address={room.address}
+                  hotel={room.hotel}
+                  price={room.price}
+                  stars={room.stars}
+                  key={index}
+                />
+              );
+            })
+          ) : (
+            <span className={roomsModule.loading}>loading....</span>
+          )}
         </div>
       </div>
     </>

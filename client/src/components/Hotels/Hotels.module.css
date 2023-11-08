@@ -21,6 +21,15 @@
     color: #555555;
     margin-bottom: 50px;
 }
+.loading{
+    width: 150vh;
+    height: 100vh;
+    margin: auto;
+    color: var(--blues-gray-2);
+    font-size: 64px;
+    font-weight: bold;
+    text-align: center;
+}
 
 @media only screen and (width<850px) {
     .container {

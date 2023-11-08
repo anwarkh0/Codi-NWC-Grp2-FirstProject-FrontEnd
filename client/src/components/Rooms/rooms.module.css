@@ -94,7 +94,7 @@ body.visible {
 
 .gridView {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 0.3fr));
     grid-template-rows: 0.25fr 0.25fr;
     column-gap: 4rem;
     row-gap: 4rem;
@@ -103,10 +103,20 @@ body.visible {
 }
 
 .wrapper {
-    width: 100%;
+    width: 100vw;
     height: auto;
 }
+.loading{
+    width: 150vh;
+    height: 100vh;
+    margin: auto;
+    color: var(--blues-gray-2);
+    font-size: 64px;
+    font-weight: bold;
+    text-align: center;
+    font-family: Open Sans;
 
+}
 @media (max-width:800px) {
     .gridView {
         grid-template-columns: 1fr;
