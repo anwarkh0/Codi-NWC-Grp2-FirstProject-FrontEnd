@@ -53,7 +53,7 @@
     grid-area:left
 }
 
-@media ( max-width:1000px){
+@media ( max-width:1024px){
     .testimonials{
         display: grid;
         grid-template-areas: 'img' 'left';

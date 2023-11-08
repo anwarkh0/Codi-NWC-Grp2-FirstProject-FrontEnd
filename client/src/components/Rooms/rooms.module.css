@@ -49,8 +49,8 @@ body.visible {
     background: var(--White, #FFF);
     padding: 10px;
     position: absolute;
-    right: 45px;
-    top: 6rem;
+    right: 15rem;
+    top: 10rem;
 
 }
 
@@ -91,10 +91,9 @@ body.visible {
     color: #555555;
 }
 
-
 .gridView {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 0.3fr));
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     grid-template-rows: 0.25fr 0.25fr;
     column-gap: 4rem;
     row-gap: 4rem;
@@ -103,7 +102,7 @@ body.visible {
 }
 
 .wrapper {
-    width: 100vw;
+    width: 100%;
     height: auto;
 }
 .loading{

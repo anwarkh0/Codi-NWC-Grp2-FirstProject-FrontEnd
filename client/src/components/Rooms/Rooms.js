@@ -109,6 +109,7 @@ function Rooms({ idHotel }) {
             </ul>
           </div>
         </div>
+
         <div className={roomsModule.gridView}>
           {!isLoading && data ? (
             data.map((room, index) => {
