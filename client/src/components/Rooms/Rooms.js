@@ -125,7 +125,7 @@ function Rooms({ idHotel }) {
               );
             })
           ) : (
-            <span className={roomsModule.loading}>loading....</span>
+            <span className={roomsModule.loading}>Fetching Data....</span>
           )}
         </div>
       </div>

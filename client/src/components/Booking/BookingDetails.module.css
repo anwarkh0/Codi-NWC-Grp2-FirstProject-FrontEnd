@@ -15,7 +15,7 @@ body.visible{
     margin: auto;
     display: block;
     z-index: 100;
-    height: 70vh;
+    height: 70%;
     border-radius: 8px;
 }
 
@@ -59,8 +59,8 @@ body.visible{
     font-weight: 800;
 }
 .closebtn{
-    margin:4px;
     padding: 10px;
+    height: 2rem;
     border-radius: 4px;
     background-color: var(--main-blue);
     color: white;
@@ -71,11 +71,16 @@ body.visible{
 .closebtn:active{
 background-color: red;
 }
+.upper{
+    display: flex;
+    justify-content: space-between;
+}
 @media only screen and (width<900px) {
     
 .container{
-    width: 100%;
-    position: unset;
+    width: 70%;
+    margin: auto;
+    height: 50%;
 }
 
 }

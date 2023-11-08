@@ -4,8 +4,15 @@ const BookingDetails = ({ close }) => {
   return (
     <div className={styleBooking.whole}>
       <section className={styleBooking.container}>
-        <h1>RoomX</h1>
-        <h3>Your details</h3>
+        <section className={styleBooking.upper}>
+          <section className={styleBooking.left}>
+            <h1>RoomX</h1>
+            <h3>Your details</h3>
+          </section>
+          <button className={styleBooking.closebtn} onClick={close}>
+            X
+          </button>
+        </section>
         <form action="#" method="get">
           <section className={styleBooking.section}>
             <label id="Name" name="fullName" className={styleBooking.label}>
@@ -62,9 +69,6 @@ const BookingDetails = ({ close }) => {
             Submit
           </button>
         </form>
-        <button className={styleBooking.closebtn} onClick={close}>
-          Close
-        </button>
       </section>
     </div>
   );

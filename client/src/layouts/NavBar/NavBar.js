@@ -37,10 +37,14 @@ const Navbar = () => {
         </a>
         <ul className={Styles.linksWrapper}>
           <li>
-            <Link to="/">Home</Link>
+            <Link activeclassname={Styles.active} to="/">
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="room">Rooms</Link>
+            <Link activeclassname={Styles.active} to="room">
+              Rooms
+            </Link>
           </li>
           <li>
             <Link to="hotel">Hotels</Link>

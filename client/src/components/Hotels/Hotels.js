@@ -39,7 +39,7 @@ const Hotels = () => {
             return <CardHotel data={hotel} key={index} />;
           })
         ) : (
-          <span className={hotelsStyle.loading}>loading....</span>
+          <span className={hotelsStyle.loading}>Fetching Data....</span>
         )}
       </div>
     </div>
