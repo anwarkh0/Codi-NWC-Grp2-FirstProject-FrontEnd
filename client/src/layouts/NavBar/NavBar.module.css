@@ -23,7 +23,8 @@
     align-items: center;
     justify-content: space-evenly;
     text-align: center;
-    width: 20vw;
+    width: 25vw;
+    min-width: 280px;
     
 }
 .logoContainer {
@@ -41,10 +42,11 @@
     margin: 0;
     padding: 0;
     display: flex;
-    width: 40vw;
+    width: 28vw;
     align-items: center;
     justify-content: space-between;
     list-style: none;
+    min-width: 280px;
 }
 
 

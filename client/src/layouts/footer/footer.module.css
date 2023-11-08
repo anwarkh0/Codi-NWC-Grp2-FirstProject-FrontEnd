@@ -55,6 +55,14 @@
     padding: 5px 0;
     text-decoration: none;
 }
+.copyrights{
+    border-top:1px solid #555555b1;
+    text-align: center;
+    font-size: 0.5rem;
+    padding-top: 1rem;
+    margin:1rem auto;
+    width: 70vw;
+}
 @media(max-width:400px){
     .footer{
         column-gap: 2rem;
