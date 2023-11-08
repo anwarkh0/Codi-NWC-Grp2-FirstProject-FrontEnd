@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 import cardHotelStyle from "../../components/Hotels/CardHotel.module.css";
 
-const CardHotel = ({ data: { name, city, image, rate } }) => {
+
+const CardHotel = ({ data: { _id,name, city, image, rate } }) => {
   const rating = (rate) => {
     let string = "";
     const sym1 = "★";
@@ -17,10 +18,13 @@ const CardHotel = ({ data: { name, city, image, rate } }) => {
 
     return string;
   };
+
   const Rate = rating(rate);
+
   return (
+    //create condition according to the id given here if it's exit fetch new data 
     //fetching Data for rooms onClick
-    <Link to="/room" className={cardHotelStyle.hotelCard}>
+    <Link to={`/room/${_id}`} className={cardHotelStyle.hotelCard} >
       <img
         src={`http://localhost:8000/${image}`}
         alt={`${name} hotel`}
@@ -28,7 +32,7 @@ const CardHotel = ({ data: { name, city, image, rate } }) => {
       />
       <div className={cardHotelStyle.details}>
         <p className={cardHotelStyle.address}>{city}</p>
-        <p className={cardHotelStyle.hotelName}>{name}</p>
+        <h2 className={cardHotelStyle.hotelName}>{name}</h2>
         <div className={cardHotelStyle.Rating}>{Rate}</div>
       </div>
     </Link>

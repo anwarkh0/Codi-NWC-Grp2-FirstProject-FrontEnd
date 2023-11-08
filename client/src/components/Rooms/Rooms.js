@@ -4,26 +4,30 @@ import down from "../../assets/images/down.png";
 import up from "../../assets/images/up.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import room1 from "../../assets/images/rooms/room1.png";
-import room2 from "../../assets/images/rooms/room2.png";
-import room3 from "../../assets/images/rooms/rom3.png";
 import RoomCard from "../roomCard/RoomCard.js";
 
-function Rooms() {
+function Rooms({ idHotel }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("http://localhost:8000/room");
-        setData(response.data.dataRooms);
+        if (!idHotel) {
+          console.log(idHotel)
+          const response = await axios.get("http://localhost:8000/room");
+          setData(response.data.dataRooms);
+        }
+        else {
+          const response = await axios.get(`http://localhost:8000/room/byHotel/${idHotel}`);
+          setData(response.data.data.rooms);
+        }
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
-  }, []);
+  }, [idHotel]);
 
   const [active, setActive] = useState(false);
   const clickHandler = () => {
@@ -45,7 +49,7 @@ function Rooms() {
           <div className={roomsModule.upper}>
             <p className={roomsModule.sort}>Sort by</p>
             <span className={roomsModule.downarrow}>
-              <img src={arr} className={roomsModule.downarr} />
+              <img src={arr} className={roomsModule.downarr} alt='downarrow' />
             </span>
           </div>
           <div className={ink}>
