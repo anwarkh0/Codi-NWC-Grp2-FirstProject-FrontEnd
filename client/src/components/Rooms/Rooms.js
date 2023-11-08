@@ -28,7 +28,7 @@ function Rooms({ idHotel }) {
       }
     }
     fetchData();
-  }, [DefaultData]);
+  }, [idHotel,DefaultData]);
 
   const [active, setActive] = useState(false);
   const clickHandler = () => {
