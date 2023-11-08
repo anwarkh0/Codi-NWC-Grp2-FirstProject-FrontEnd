@@ -1,9 +1,7 @@
-
-import Styles from '../NavBar/NavBar.module.css'
-import { useEffect, useState } from "react"
-import { Link } from 'react-router-dom'
-import logo from '../../assets/images/logo.png'
-
+import Styles from "../NavBar/NavBar.module.css";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
 
 const Navbar = () => {
   const [collapesed, setCollapsed] = useState(false);
@@ -11,19 +9,21 @@ const Navbar = () => {
   useEffect(() => {
     function updateSize() {
       if (window.innerWidth > 600) {
-        setCollapsed(false)
+        setCollapsed(false);
       }
-
     }
-    window.addEventListener('resize', updateSize);
+    window.addEventListener("resize", updateSize);
     updateSize();
-    return () => window.removeEventListener('resize', updateSize);
+    return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  const toggleClasses = [Styles.linksWrapperMobile, collapesed ? Styles.activeNav : ''].join(' ');
-  const bar1 = [Styles.line1, collapesed ? Styles.a : ''].join(' ');
-  const bar2 = [Styles.line2, collapesed ? Styles.a : ''].join(' ');
-  const bar3 = [Styles.line3, collapesed ? Styles.a : ''].join(' ');
+  const toggleClasses = [
+    Styles.linksWrapperMobile,
+    collapesed ? Styles.activeNav : "",
+  ].join(" ");
+  const bar1 = [Styles.line1, collapesed ? Styles.a : ""].join(" ");
+  const bar2 = [Styles.line2, collapesed ? Styles.a : ""].join(" ");
+  const bar3 = [Styles.line3, collapesed ? Styles.a : ""].join(" ");
 
   return (
     <header className={Styles.header}>
@@ -31,40 +31,64 @@ const Navbar = () => {
         <a
           className={Styles.logoContainer}
           href="/"
-          aria-label="Go to homepage">
-
+          aria-label="Go to homepage"
+        >
           <img src={logo} width={200} height={60} alt="HotelXpress" />
-
         </a>
         <ul className={Styles.linksWrapper}>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='room'>Rooms</Link></li>
-          <li><Link to='hotel'>Hotels</Link></li>
-          <li><Link to='info'>About Us</Link></li>
-          <button className={Styles.logSignButton}><Link to='signUp'>Sign Up</Link></button>
-          <button className={Styles.logSignButton}><Link to="logIn">Log In</Link></button>
-
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="room">Rooms</Link>
+          </li>
+          <li>
+            <Link to="hotel">Hotels</Link>
+          </li>
+          <li>
+            <Link to="info">About Us</Link>
+          </li>
+        </ul>
+        <ul className={Styles.right}>
+          <li className={Styles.logSignButton}>
+            <Link to="signUp">Sign Up</Link>
+          </li>
+          <li className={Styles.logSignButton}>
+            <Link to="logIn">Log In</Link>
+          </li>
         </ul>
         <ul className={toggleClasses}>
-          <li><Link to='/'>Home</Link></li>
-          <li><Link to='room'>Rooms</Link></li>
-          <li><Link to='hotel'>Hotels</Link></li>
-          <li><Link to='info'>About Us</Link></li>
-          <li><Link to='signUp'>Sign Up</Link></li>
-          <li><Link to='logIn'>Log In</Link></li>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="room">Rooms</Link>
+          </li>
+          <li>
+            <Link to="hotel">Hotels</Link>
+          </li>
+          <li>
+            <Link to="info">About Us</Link>
+          </li>
+          <li>
+            <Link to="signUp">Sign Up</Link>
+          </li>
+          <li>
+            <Link to="logIn">Log In</Link>
+          </li>
         </ul>
 
-        <div className={Styles.burgerButton} onClick={() => setCollapsed(!collapesed)}>
+        <div
+          className={Styles.burgerButton}
+          onClick={() => setCollapsed(!collapesed)}
+        >
           <div className={bar1}></div>
           <div className={bar2}></div>
           <div className={bar3}></div>
         </div>
-
       </nav>
     </header>
-  )
-}
+  );
+};
 
-
-export default Navbar
-
+export default Navbar;

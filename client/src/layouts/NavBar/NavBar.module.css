@@ -9,7 +9,7 @@
 }
 
 .navBar {
-    width: 95%;
+    width: 100vw;
     margin: 0 auto;
     padding: 10px 0;
     display: flex;
@@ -17,7 +17,15 @@
     align-items: center;
     overflow: hidden;
 }
-
+.right{
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
+    width: 15vw;
+    
+}
 .logoContainer {
     transition: 0.3s opacity ease-in-out;
 
@@ -33,7 +41,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    width: 600px;
+    width: 40vw;
     align-items: center;
     justify-content: space-between;
     list-style: none;
@@ -60,10 +68,10 @@
 
 .logSignButton {
     width: 90px;
-    height: 40px;
+    padding: 6px;
     font-size: 18px;
     background-color: var(--main-blue);
-    border-radius: 35px;
+    border-radius: 20px;
     border: none;
     font-weight: 900;
     font-family: Open Sans;
@@ -140,7 +148,7 @@
 }
 
 .linksWrapperMobile.activeNav {
-    height: 180px;
+    height: 300px;
 }
 
 
@@ -150,10 +158,9 @@
 
     .navBar {
         width: 100%;
-
     }
 
-    .linksWrapper {
+    .linksWrapper, .right {
         display: none;
     }
 
