@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import roomsModule from "./rooms.module.css";
 import down from "../../assets/images/down.png";
 import up from "../../assets/images/up.png";
@@ -9,6 +9,7 @@ import RoomCard from "../roomCard/RoomCard.js";
 function Rooms({ idHotel }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [DefaultData, setDefaultData]=useState(false)
 
   useEffect(() => {
     async function fetchData() {
@@ -27,18 +28,15 @@ function Rooms({ idHotel }) {
       }
     }
     fetchData();
-  }, [idHotel]);
+  }, [DefaultData]);
 
   const [active, setActive] = useState(false);
   const clickHandler = () => {
     setActive(!active);
   };
 
-  const sorting=()=>{
-    
-    setData(data=>data.sort((a,b)=>a.price-b.price));
 
-  }
+
 
   let ink = roomsModule.open;
   let arr = down;
@@ -48,6 +46,19 @@ function Rooms({ idHotel }) {
   } else {
     ink = roomsModule.closed;
     arr = down;
+  }
+
+  //creating sorting ref
+  const defaultSorting = useRef();
+  const priceSorting = useRef();
+  const rateSorting = useRef();
+
+  const sorting = (reference) => {
+
+    if (reference.current.textContent === 'Default') setDefaultData(!DefaultData);
+    else if (reference.current.textContent === 'Price') setData(data.sort((a, b) => a.price - b.price))
+    else if (reference.current.textContent === 'Rate') setData(data.sort((a, b) => a.rate - b.rate))
+
   }
   return (
     <>
@@ -61,18 +72,18 @@ function Rooms({ idHotel }) {
           </div>
           <div className={ink}>
             <ul className={roomsModule.list}>
-            <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem} onClick={sorting}>
+              <li className={roomsModule.listItem}>
+                <a href="#" className={roomsModule.menuItem} ref={defaultSorting} onClick={() => sorting(defaultSorting)}>
                   Default
                 </a>
               </li>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem} onClick={sorting}>
+                <a href="#" className={roomsModule.menuItem} ref={priceSorting} onClick={() => sorting(priceSorting)}>
                   Price
                 </a>
               </li>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem} onClick={sorting}>
+                <a href="#" className={roomsModule.menuItem} ref={rateSorting} onClick={() => sorting(rateSorting)}>
                   Rate
                 </a>
               </li>
