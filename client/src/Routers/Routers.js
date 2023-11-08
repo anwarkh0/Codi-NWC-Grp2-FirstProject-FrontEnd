@@ -17,9 +17,11 @@ const AppRouter = () => {
         <Route path="/hotel" element={<Hotels />}></Route>
         <Route path="/booking" element={<Booking />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
+        <Route path="signUp/logIn" element={<Login />}></Route>
         <Route path="/logIn" element={<Login />}></Route>
+        <Route path="/logIn/signUp" element={<SignUp />}></Route>
         <Route path="info" element={<Info />}></Route>
-        <Route path="/room/:id?" element={<RoomsPage/>}></Route>
+        <Route path="/room/:id?" element={<RoomsPage />}></Route>
       </Routes>
     </BrowserRouter>
   );

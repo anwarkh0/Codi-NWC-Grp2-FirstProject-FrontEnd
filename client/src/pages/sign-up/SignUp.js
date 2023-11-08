@@ -2,6 +2,7 @@ import React from "react";
 import googleG from "../../assets/images/G.png";
 import hidden from "../../assets/images/hidden.png";
 import signupModule from "./signup.module.css";
+import { Link } from "react-router-dom";
 function SignUp() {
   return (
     <div className={signupModule.wrapper}>
@@ -38,18 +39,20 @@ function SignUp() {
             <img src={hidden} />
           </span>
         </label>
-        <button className={signupModule.signupBtn}>Sign Up</button>
+        <Link to="/" className={signupModule.signupBtn}>
+          Sign Up
+        </Link>
         <p className={signupModule.query}>Already have an account?</p>
-        <a href="#" className={signupModule.login}>
+        <Link to="login" className={signupModule.login}>
           Log in
-        </a>
+        </Link>
         <p className={signupModule.or}>Or</p>
-        <button className={signupModule.gSign}>
+        <Link to="/" className={signupModule.gSign}>
           <span className={signupModule.glogo}>
             <img src={googleG} />
           </span>
           Sign up with Google
-        </button>
+        </Link>
       </form>
     </div>
   );

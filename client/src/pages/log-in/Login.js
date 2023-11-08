@@ -73,20 +73,20 @@ function Login() {
             Forgot password?
           </a>
         </fieldset>
-        <button type="submit" className={loginModule.signupBtn}>
+        <Link to="/" className={loginModule.signupBtn}>
           Log in
-        </button>
+        </Link>
         <p className={loginModule.query}>Don't have an account?</p>
-        <a href="#" className={loginModule.signup}>
+        <Link to="/signUp" className={loginModule.signup}>
           Sign up
-        </a>
+        </Link>
         <p className={loginModule.or}>Or</p>
-        <button className={loginModule.gSign} type="submit">
+        <Link to="/" className={loginModule.gSign}>
           <span className={loginModule.glogo}>
             <img src={googleG} />
           </span>
           Log in with Google
-        </button>
+        </Link>
       </form>
     </div>
   );
