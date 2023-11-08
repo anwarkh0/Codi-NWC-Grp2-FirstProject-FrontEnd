@@ -110,20 +110,6 @@ function Rooms({ idHotel }) {
           </div>
         </div>
         <div className={roomsModule.gridView}>
-          {/* {data.map((room, index) => {
-
-            return (
-              <RoomCard
-                key={index}
-                image={room.image}
-                address={room.address}
-                hotel={room.hotel}
-                price={room.price}
-                stars={room.Hotel.rate}
-              />
-            );
-            
-          })} */}
           {!isLoading && data ? (
             data.map((room, index) => {
               return (
