@@ -9,18 +9,19 @@ import RoomCard from "../roomCard/RoomCard.js";
 function Rooms({ idHotel }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [DefaultData, setDefaultData]=useState(false)
+  const [DefaultData, setDefaultData] = useState(false);
 
   useEffect(() => {
     async function fetchData() {
       try {
         if (!idHotel) {
-          console.log(idHotel)
+          console.log(idHotel);
           const response = await axios.get("http://localhost:8000/room");
           setData(response.data.dataRooms);
-        }
-        else {
-          const response = await axios.get(`http://localhost:8000/room/byHotel/${idHotel}`);
+        } else {
+          const response = await axios.get(
+            `http://localhost:8000/room/byHotel/${idHotel}`
+          );
           setData(response.data.data.rooms);
         }
       } catch (error) {
@@ -28,15 +29,12 @@ function Rooms({ idHotel }) {
       }
     }
     fetchData();
-  }, [idHotel,DefaultData]);
+  }, [idHotel, DefaultData]);
 
   const [active, setActive] = useState(false);
   const clickHandler = () => {
     setActive(!active);
   };
-
-
-
 
   let ink = roomsModule.open;
   let arr = down;
@@ -54,36 +52,54 @@ function Rooms({ idHotel }) {
   const rateSorting = useRef();
 
   const sorting = (reference) => {
-
-    if (reference.current.textContent === 'Default') setDefaultData(!DefaultData);
-    else if (reference.current.textContent === 'Price') setData(data.sort((a, b) => a.price - b.price))
-    else if (reference.current.textContent === 'Rate') setData(data.sort((a, b) => a.rate - b.rate))
-
-  }
+    if (reference.current.textContent === "Default")
+      setDefaultData(!DefaultData);
+    else if (reference.current.textContent === "Price")
+      setData(data.sort((a, b) => a.price - b.price));
+    else if (reference.current.textContent === "Rate")
+      setData(data.sort((a, b) => a.rate - b.rate));
+  };
   return (
     <>
       <div className={roomsModule.wrapper}>
+        <h1 className={roomsModule.header}>All Rooms Section</h1>
+        <p className={roomsModule.subHeader}>Enjoy our luxurious getaways</p>
         <div className={roomsModule.filter} onClick={clickHandler}>
           <div className={roomsModule.upper}>
             <p className={roomsModule.sort}>Sort by</p>
             <span className={roomsModule.downarrow}>
-              <img src={arr} className={roomsModule.downarr} alt='downarrow' />
+              <img src={arr} className={roomsModule.downarr} alt="downarrow" />
             </span>
           </div>
           <div className={ink}>
             <ul className={roomsModule.list}>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem} ref={defaultSorting} onClick={() => sorting(defaultSorting)}>
+                <a
+                  href="#"
+                  className={roomsModule.menuItem}
+                  ref={defaultSorting}
+                  onClick={() => sorting(defaultSorting)}
+                >
                   Default
                 </a>
               </li>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem} ref={priceSorting} onClick={() => sorting(priceSorting)}>
+                <a
+                  href="#"
+                  className={roomsModule.menuItem}
+                  ref={priceSorting}
+                  onClick={() => sorting(priceSorting)}
+                >
                   Price
                 </a>
               </li>
               <li className={roomsModule.listItem}>
-                <a href="#" className={roomsModule.menuItem} ref={rateSorting} onClick={() => sorting(rateSorting)}>
+                <a
+                  href="#"
+                  className={roomsModule.menuItem}
+                  ref={rateSorting}
+                  onClick={() => sorting(rateSorting)}
+                >
                   Rate
                 </a>
               </li>

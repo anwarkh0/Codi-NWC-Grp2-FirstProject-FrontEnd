@@ -79,11 +79,18 @@ body.visible {
     border-top: 1px solid #313144;
 
 }
+.header, .subHeader{
+    font-family: Open Sans;
+    margin-left: 5rem;
+}
+.header{
+    margin-top: 10rem;
 
-/* .listItem:first-child {
-    border-bottom: 1px solid #313144;
-    border-top: 1px solid #313144;
-} */
+}
+.subHeader{
+    color: #555555;
+}
+
 
 .gridView {
     display: grid;
@@ -92,7 +99,7 @@ body.visible {
     column-gap: 4rem;
     row-gap: 4rem;
     width: 70vw;
-    margin: 10rem auto;
+    margin: 5rem auto;
 }
 
 .wrapper {
