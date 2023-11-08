@@ -37,7 +37,6 @@ function Rooms({ idHotel }) {
 
 
 
-
   let ink = roomsModule.open;
   let arr = down;
   if (active) {
@@ -91,18 +90,17 @@ function Rooms({ idHotel }) {
           </div>
         </div>
         <div className={roomsModule.gridView}>
-          {data.map((room, index) => {
-            return (
+      {data.map((room,index)=>
               <RoomCard
                 key={index}
                 image={room.image}
                 address={room.address}
                 hotel={room.hotel}
                 price={room.price}
-                stars={room.stars}
+                stars={room.Hotel.rate}
               />
-            );
-          })}
+            )
+          }
         </div>
       </div>
     </>
