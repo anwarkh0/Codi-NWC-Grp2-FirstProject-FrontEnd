@@ -1,5 +1,5 @@
 :root{
-  --dark-gray: #222;
+  --dark-gray: hsl(0, 0%, 13%);
   --main-blue:#088395;
   --background:rgb(53,162,159,0.1);
 }

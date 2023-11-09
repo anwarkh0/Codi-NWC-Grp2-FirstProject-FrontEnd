@@ -14,13 +14,14 @@
 align-self:flex-start;
 color: #000;
 font-family: Open Sans;
-font-size: 2em;
+font-size: 1.8em;
 font-style: normal;
 font-weight: 600;
 margin:100px 100px 25px 100px;
 }
 .aboutUsText{
     overflow: scroll;
+    min-height: 20vh;
     color: var(--gray1, #555);
     font-family: Open Sans;
     font-size: 24px;

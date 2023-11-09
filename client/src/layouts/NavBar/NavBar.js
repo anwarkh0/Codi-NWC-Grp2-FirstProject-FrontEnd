@@ -1,6 +1,6 @@
 import Styles from "../NavBar/NavBar.module.css";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 
 const Navbar = () => {
@@ -24,7 +24,12 @@ const Navbar = () => {
   const bar1 = [Styles.line1, collapesed ? Styles.a : ""].join(" ");
   const bar2 = [Styles.line2, collapesed ? Styles.a : ""].join(" ");
   const bar3 = [Styles.line3, collapesed ? Styles.a : ""].join(" ");
-
+  const stylo = ({ isActive }) => {
+    return {
+      borderBottom: isActive ? "1px solid gold" : "none",
+      color: isActive ? "#088395" : "black",
+    };
+  };
   return (
     <header className={Styles.header}>
       <nav className={Styles.navBar}>
@@ -37,20 +42,24 @@ const Navbar = () => {
         </a>
         <ul className={Styles.linksWrapper}>
           <li>
-            <Link activeclassname={Styles.active} to="/">
+            <NavLink style={stylo} to="/">
               Home
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link activeclassname={Styles.active} to="room">
+            <NavLink style={stylo} to="room">
               Rooms
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="hotel">Hotels</Link>
+            <NavLink style={stylo} to="hotel">
+              Hotels
+            </NavLink>
           </li>
           <li>
-            <Link to="info">About Us</Link>
+            <NavLink style={stylo} to="info">
+              About Us
+            </NavLink>
           </li>
         </ul>
         <ul className={Styles.right}>

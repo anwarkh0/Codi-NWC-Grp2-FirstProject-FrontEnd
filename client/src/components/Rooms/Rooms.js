@@ -5,6 +5,7 @@ import up from "../../assets/images/up.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RoomCard from "../roomCard/RoomCard.js";
+import loading from "../../assets/images/tt.gif";
 
 function Rooms({ idHotel }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -125,7 +126,17 @@ function Rooms({ idHotel }) {
               );
             })
           ) : (
-            <span className={roomsModule.loading}>Fetching Data....</span>
+            <span className={roomsModule.loading}>
+              <img
+                src={loading}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  marginLeft: "20rem",
+                }}
+                alt="loading"
+              />
+            </span>
           )}
         </div>
       </div>

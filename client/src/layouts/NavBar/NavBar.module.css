@@ -21,7 +21,7 @@
     display: flex;
     list-style: none;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
     text-align: center;
     width: 25vw;
     min-width: 280px;
@@ -29,6 +29,7 @@
 }
 .logoContainer {
     transition: 0.3s opacity ease-in-out;
+    width: 20vw;
 
 }
 
@@ -42,7 +43,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    width: 28vw;
+    width: 30vw;
     align-items: center;
     justify-content: space-between;
     list-style: none;
@@ -77,6 +78,7 @@
     border: none;
     font-weight: 900;
     font-family: Open Sans;
+    margin: 0 2rem 0 0;
 }
 
 
@@ -154,8 +156,6 @@
 .linksWrapperMobile.activeNav {
     height: 300px;
 }
-
-
 
 
 @media screen and (max-width: 750px) {
