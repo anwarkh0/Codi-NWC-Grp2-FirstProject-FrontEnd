@@ -18,11 +18,15 @@ function Rooms({ idHotel }) {
         setIsLoading(true);
         if (!idHotel) {
           console.log(idHotel);
-          const response = await axios.get("http://localhost:8000/room");
+          const response = await axios.get(
+            "http://localhost:8000/room" ||
+              "https://codi-nwc-grp2-firstproject-backend.onrender.com/"
+          );
           setData(response.data.dataRooms);
         } else {
           const response = await axios.get(
-            `http://localhost:8000/room/byHotel/${idHotel}`
+            `http://localhost:8000/room/byHotel/${idHotel}` ||
+              `https://codi-nwc-grp2-firstproject-backend.onrender.com/${idHotel}`
           );
           setData(response.data.data.rooms);
         }
