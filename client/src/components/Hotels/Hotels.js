@@ -14,9 +14,7 @@ const Hotels = () => {
     async function fetchData() {
       try {
         setIsloading(true);
-        const response = await axios.get(
-          "https://codi-nwc-grp2-firstproject-backend.onrender.com/hotel"
-        );
+        const response = await axios.get("http://localhost:8000/hotel");
         if (response) {
           setHotelData(response.data.data);
           // setIsloading(false)
