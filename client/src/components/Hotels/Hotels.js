@@ -15,7 +15,7 @@ const Hotels = () => {
       try {
         setIsloading(true);
         const response = await axios.get(
-          "https://codi-nwc-grp2-firstproject-backend.onrender.com/hotel"
+          `http://localhost:${process.env.REACT_APP_MY_API || 8000}/hotel`
         );
         if (response) {
           setHotelData(response.data.data);
