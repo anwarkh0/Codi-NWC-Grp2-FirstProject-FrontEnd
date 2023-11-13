@@ -19,14 +19,12 @@ function Rooms({ idHotel }) {
         if (!idHotel) {
           console.log(idHotel);
           const response = await axios.get(
-            `http://localhost:${process.env.REACT_APP_MY_API || 8000}/room`
+            `${process.env.REACT_APP_MY_API}/room`
           );
           setData(response.data.dataRooms);
         } else {
           const response = await axios.get(
-            `http://localhost:${
-              process.env.REACT_APP_MY_API || 8000
-            }/room/byHotel/${idHotel}`
+            `${process.env.REACT_APP_MY_API}/room/byHotel/${idHotel}`
           );
           setData(response.data.data.rooms);
         }

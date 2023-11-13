@@ -15,7 +15,7 @@ const Hotels = () => {
       try {
         setIsloading(true);
         const response = await axios.get(
-          `http://localhost:${process.env.REACT_APP_MY_API || 8000}/hotel`
+          `${process.env.REACT_APP_MY_API}/hotel`
         );
         if (response) {
           setHotelData(response.data.data);
