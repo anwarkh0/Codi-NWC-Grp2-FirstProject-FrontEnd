@@ -18,11 +18,13 @@ function Rooms({ idHotel }) {
         setIsLoading(true);
         if (!idHotel) {
           console.log(idHotel);
-          const response = await axios.get("http://localhost:8000/room");
+          const response = await axios.get(
+            `http://localhost:${process.env.PORT}/room`
+          );
           setData(response.data.dataRooms);
         } else {
           const response = await axios.get(
-            `http://localhost:8000/room/byHotel/${idHotel}`
+            `http://localhost:${process.env.PORT}/room/byHotel/${idHotel}`
           );
           setData(response.data.data.rooms);
         }
