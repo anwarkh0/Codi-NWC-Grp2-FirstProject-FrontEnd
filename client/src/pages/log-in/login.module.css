@@ -5,7 +5,7 @@
     align-items: center;
     margin: 8rem auto;
 }
-.login{
+/* .login{
     display: block;
     width: 70vw;
     color: #000;
@@ -18,7 +18,7 @@
     letter-spacing: -1.2px;
     border-bottom:1px solid #000;
     text-decoration: none;
-}
+} */
 .header{
     color: #1E1E1E;
     font-family: Inter;

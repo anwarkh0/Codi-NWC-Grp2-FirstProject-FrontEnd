@@ -5,7 +5,7 @@
     align-items: center;
     margin: 8rem auto;
 }
-.signup{
+/* .signup{
     display: block;
     width: 70vw;
     color: #000;
@@ -17,7 +17,7 @@
     line-height: 51.9px;
     letter-spacing: -1.2px;
     border-bottom:1px solid #000;
-}
+} */
 .welcome{
     color: #1E1E1E;
     font-family: Inter;
@@ -79,6 +79,7 @@ font-style: normal;
 font-weight: 600;
 line-height: 19px;
 text-decoration: none;
+margin-top: 20px;
 }
 .query{
     color: var(--gray1, #555);
@@ -93,7 +94,7 @@ text-decoration: none;
     color: #35A29F;
 text-align: center;
 font-family: Inter;
-font-size: 12px;
+/* font-size: 12px; */
 font-style: normal;
 font-weight: 600;
 line-height: 19px;

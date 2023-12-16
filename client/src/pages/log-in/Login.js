@@ -1,4 +1,5 @@
 import { React, useEffect, useState } from "react";
+import { Box, Button, Stack, TextField, Typography } from "@mui/material";
 import loginModule from "./login.module.css";
 import hidden from "../../assets/images/hidden.png";
 import googleG from "../../assets/images/G.png";
@@ -38,8 +39,8 @@ function Login() {
 
   return (
     <div className={loginModule.wrapper}>
-      <h1 className={loginModule.login}>Log in</h1>
-      <h1 className={loginModule.header}>Welcome to HotelXpress</h1>
+      {/* <h1 className={loginModule.login}>Log in</h1> */}
+      <h1 className={loginModule.header}>Welcome back to HotelXpress</h1>
       <form method="post" onSubmit={handleSubmit} className={loginModule.form}>
         <label className={loginModule.inpLabel}>
           Email
@@ -64,7 +65,7 @@ function Login() {
             <img src={hidden} />
           </span>
         </label>
-        <fieldset className={loginModule.rememberfield}>
+        {/* <fieldset className={loginModule.rememberfield}>
           <label className={loginModule.remember}>
             <input type="checkbox" className={loginModule.checkme} />
             <p className={loginModule.remembermetxt}>Remember me</p>
@@ -72,7 +73,7 @@ function Login() {
           <a href="#" className={loginModule.frgtpass}>
             Forgot password?
           </a>
-        </fieldset>
+        </fieldset> */}
         <Link to="/" className={loginModule.signupBtn}>
           Log in
         </Link>
