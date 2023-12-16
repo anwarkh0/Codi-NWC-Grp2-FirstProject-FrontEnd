@@ -41,8 +41,8 @@ function RoomCard({ image, address, hotel, price, stars }) {
         <p className={roomCardModule.address}>
           {address}
           <span className={roomCardModule.reservebtn}>
-            <button onClick={toggleOpen} className={roomCardModule.reserve}>
-              Reserve
+            <button onClick={toggleOpen} className={roomCardModule.viewMore}>
+              view more 
             </button>
           </span>
         </p>
