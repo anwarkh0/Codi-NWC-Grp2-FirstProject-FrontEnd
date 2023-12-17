@@ -7,7 +7,7 @@ function SignUp() {
   return (
     <div className={signupModule.wrapper}>
       {/* <h1 className={signupModule.signup}>Sign up</h1> */}
-      <h1 className={signupModule.welcome}>Welcome to HotelXpress</h1>
+      <h1 className={signupModule.welcome}>Sign up</h1>
       <Stack spacing={1} sx={{ mb: 3 }}>
               <Typography className={signupModule.query} >
               Already have an account? <Link to="login" className={signupModule.login} >Log in</Link>
