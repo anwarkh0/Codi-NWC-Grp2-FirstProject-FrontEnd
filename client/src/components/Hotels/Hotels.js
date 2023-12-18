@@ -3,7 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import CardHotel from "./CardHotel";
 import axios from "axios";
 import hotelsStyle from "./Hotels.module.css";
-import loading from "../../assets/images/tt.gif";
+import loading from "../../assets/images/LOADING-1.gif";
+import RoomCard from "../roomCard/RoomCard";
 
 const Hotels = () => {
   const [hotelData, setHotelData] = useState(null);
@@ -40,20 +41,24 @@ const Hotels = () => {
       <div className={hotelsStyle.Hotels}>
         {!isLoading && hotelData ? (
           hotelData.map((hotel, index) => {
-            return <CardHotel data={hotel} key={index} />;
+            return <RoomCard data={hotel} key={index} />;
           })
         ) : (
+          // { name "kjhdejw", rate : 6 , }
+
           <span className={hotelsStyle.loading}>
             <img
               src={loading}
               style={{
-                width: "60%",
-                height: "60%",
+                width: "15rem",
+                height: "15rem",
                 scale: "1",
               }}
               alt="loading"
             />
           </span>
+
+
         )}
       </div>
     </div>

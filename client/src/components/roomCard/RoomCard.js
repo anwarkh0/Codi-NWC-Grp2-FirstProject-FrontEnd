@@ -2,10 +2,10 @@ import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
 import Booking from "../Booking/BookingDetails.js";
 
-function RoomCard({ image, address, hotel, price, stars }) {
+function RoomCard({ data, image, address, hotel, price, stars }) {
   const rating = (stars) => {
     let string = "";
-    const sym1 = "★";
+    const sym1 = "★"
     const sym2 = "☆";
     for (let i = 0; i < Math.floor(stars); i++) {
       string += sym1;
@@ -17,7 +17,7 @@ function RoomCard({ image, address, hotel, price, stars }) {
 
     return string;
   };
-  const rate = rating(stars);
+  const rate = rating(data ? data.rate : stars);
 
   const [open, setOpen] = useState(false);
   const toggleOpen = () => {
@@ -35,20 +35,51 @@ function RoomCard({ image, address, hotel, price, stars }) {
         <img
           alt="room"
           className={roomCardModule.roompic}
-          src={`http://localhost:8000/${image}`}
+          src={`http://localhost:8000/${data ? data.image : image}`}
         />
+        <div style={
+          {
+            // paddingRight:"5px",
+            display: "flex",
+            flexDirection: "row-reverse",
+            justifyContent:"space-between",
+            alignItems:"center",
+            width: "100%"
+          }
+        }>
 
-        <p className={roomCardModule.address}>
-          {address}
-          <span className={roomCardModule.reservebtn}>
-            <button onClick={toggleOpen} className={roomCardModule.reserve}>
-              Reserve
+          <span className={roomCardModule.reservebtn} style={{marginRight:"10px"}}>
+            <button onClick={toggleOpen} className={roomCardModule.viewMore}>
+              view more
             </button>
           </span>
-        </p>
+          <p className={roomCardModule.address} style={{
+            display: 'flex',
+            flexDirection: 'column',
+            rowGap: '0.5rem'
+          }}>
+            <span style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold'
+            }}>
+              {data ? data.name : address}
+            </span>
+            <span style={{
+              color: 'black'
+            }}>
+              {data ? data.city : ''}
+            </span>
+
+          </p>
+        </div>
         <h3 className={roomCardModule.hotelName}>{hotel}</h3>
         <p className={roomCardModule.priceAndRate}>
-          {price} $ per night<span className={roomCardModule.rate}>{rate}</span>
+          {data ? '' : (
+            <span>
+              {price} $ per night
+            </span>
+          )}
+          <span className={roomCardModule.rate}>{rate}</span>
         </p>
       </div>
       {open && (

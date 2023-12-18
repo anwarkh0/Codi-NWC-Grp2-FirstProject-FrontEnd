@@ -63,12 +63,16 @@ const Navbar = () => {
           </li>
         </ul>
         <ul className={Styles.right}>
-          <li className={Styles.logSignButton}>
-            <Link to="signUp">Sign Up</Link>
-          </li>
-          <li className={Styles.logSignButton}>
-            <Link to="logIn">Log In</Link>
-          </li>
+          <Link to="signUp" className={Styles.link}>
+            <li className={Styles.logSignButton}>
+              Sign Up
+            </li>
+          </Link>
+          <Link to="logIn" className={Styles.link}>
+            <li className={Styles.logSignButton}>
+              Log In
+            </li>
+          </Link>
         </ul>
         <ul className={toggleClasses}>
           <li>

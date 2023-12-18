@@ -5,7 +5,7 @@ import up from "../../assets/images/up.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RoomCard from "../roomCard/RoomCard.js";
-import loading from "../../assets/images/tt.gif";
+import loading from "../../assets/images/hotel-loading-gif.gif";
 
 function Rooms({ idHotel }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -113,9 +113,9 @@ function Rooms({ idHotel }) {
           </div>
         </div>
 
-        <div className={roomsModule.gridView}>
           {!isLoading && data ? (
-            data.map((room, index) => {
+            <div className={roomsModule.gridView}>
+            {data.map((room, index) => {
               return (
                 <RoomCard
                   image={room.image}
@@ -125,23 +125,23 @@ function Rooms({ idHotel }) {
                   stars={room.Hotel.rate}
                   key={index}
                 />
-              );
-            })
+                );
+              })}
+              </div>
           ) : (
             <span className={roomsModule.loading}>
               <img
                 src={loading}
                 style={{
-                  width: "100%",
-                  height: "100%",
-                  marginLeft: "20rem",
+                  width: "15rem",
+                  height: "15rem",
+                  // marginLeft: "20rem",
                 }}
                 alt="loading"
               />
             </span>
           )}
         </div>
-      </div>
     </>
   );
 }
