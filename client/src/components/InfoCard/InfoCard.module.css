@@ -1,0 +1,38 @@
+.Container{
+    border: solid 2px #BABABA;
+    width: 20rem;
+    height: 7rem;
+    border-radius: 5px;
+    position: relative;
+    padding: 1.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around ;
+    z-index: -1;
+}
+.Container::after{
+    content: '';
+    width: 0.4rem;
+    height: 4rem;
+    background-color: var(--main-blue);
+    position: absolute;
+    left : 1rem;
+    top: 1.5rem ;
+    border-radius: 10px;
+}
+.H2{
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    color: black;
+    font-size: 1.5rem;
+    margin: 0;
+}
+.P{
+    width: 100%;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color:var(--main-blue);
+    margin: 0;
+}
