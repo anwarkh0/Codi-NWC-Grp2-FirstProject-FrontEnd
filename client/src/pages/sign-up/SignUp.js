@@ -15,6 +15,23 @@ function SignUp() {
             </Stack>
             <form >
               <Stack spacing={3}>
+              <TextField
+                  fullWidth
+                  label="Full Name"
+                  name="fullname"
+                  // value={formData.email}
+                  // onChange={handleInputChange}
+                  required
+                  sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                      {
+                        borderColor: "#088395",
+                      },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#088395",
+                    },
+                  }}
+                />
                 <TextField
                   fullWidth
                   label="Email Address"
