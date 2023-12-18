@@ -7,7 +7,7 @@ function SignUp() {
   return (
     <div className={signupModule.wrapper}>
       {/* <h1 className={signupModule.signup}>Sign up</h1> */}
-      <h1 className={signupModule.welcome}>Welcome to HotelXpress</h1>
+      <h1 className={signupModule.welcome}>Sign up</h1>
       <Stack spacing={1} sx={{ mb: 3 }}>
               <Typography className={signupModule.query} >
               Already have an account? <Link to="login" className={signupModule.login} >Log in</Link>
@@ -15,6 +15,23 @@ function SignUp() {
             </Stack>
             <form >
               <Stack spacing={3}>
+              <TextField
+                  fullWidth
+                  label="Full Name"
+                  name="fullname"
+                  // value={formData.email}
+                  // onChange={handleInputChange}
+                  required
+                  sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                      {
+                        borderColor: "#088395",
+                      },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#088395",
+                    },
+                  }}
+                />
                 <TextField
                   fullWidth
                   label="Email Address"
@@ -52,6 +69,7 @@ function SignUp() {
                 />
                  <TextField
                   fullWidth
+                  type="password"
                   label="Confirm Password"
                   name="confirm"
                   // value={formData.email}

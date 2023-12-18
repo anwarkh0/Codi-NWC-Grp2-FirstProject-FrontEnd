@@ -39,32 +39,50 @@ function Login() {
 
   return (
     <div className={loginModule.wrapper}>
-      {/* <h1 className={loginModule.login}>Log in</h1> */}
-      <h1 className={loginModule.header}>Welcome back to HotelXpress</h1>
+      <h1 className={loginModule.login}>Log in</h1>
+      {/* <h1 className={loginModule.header}>Welcome back to HotelXpress</h1> */}
+        <Stack spacing={1} sx={{ mb: 3 }}>
+              <Typography className={loginModule.query} >
+              Don't have an account? <Link to="/signUp" className={loginModule.signup} >Sign up</Link>
+              </Typography>
+            </Stack>
       <form method="post" onSubmit={handleSubmit} className={loginModule.form}>
-        <label className={loginModule.inpLabel}>
-          Email
-          <input
-            className={loginModule.inp}
-            placeholder="Enter your email"
-            type="email"
-            value={userData.email}
-            onChange={handleChange}
-          />
-        </label>
-        <label className={loginModule.inpLabel}>
-          Password
-          <input
-            className={loginModule.inp}
-            placeholder="Enter your password"
-            type="password"
-            value={userData.password}
-            onChange={handleChange}
-          />
-          <span className={loginModule.hidden}>
-            <img src={hidden} />
-          </span>
-        </label>
+      <Stack spacing={3}>
+      <TextField
+                  fullWidth
+                  label="Email Address"
+                  name="email"
+                  // value={formData.email}
+                  // onChange={handleInputChange}
+                  required
+                  sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                      {
+                        borderColor: "#088395",
+                      },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#088395",
+                    },
+                  }}
+                />
+        <TextField
+                  fullWidth
+                  label="Password"
+                  name="password"
+                  // value={formData.email}
+                  // onChange={handleInputChange}
+                  required
+                  sx={{
+                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                      {
+                        borderColor: "#088395",
+                      },
+                    "& .MuiInputLabel-root.Mui-focused": {
+                      color: "#088395",
+                    },
+                  }}
+                />
+                </Stack>
         {/* <fieldset className={loginModule.rememberfield}>
           <label className={loginModule.remember}>
             <input type="checkbox" className={loginModule.checkme} />
@@ -76,10 +94,6 @@ function Login() {
         </fieldset> */}
         <Link to="/" className={loginModule.signupBtn}>
           Log in
-        </Link>
-        <p className={loginModule.query}>Don't have an account?</p>
-        <Link to="/signUp" className={loginModule.signup}>
-          Sign up
         </Link>
         <p className={loginModule.or}>Or</p>
         <Link to="/" className={loginModule.gSign}>
