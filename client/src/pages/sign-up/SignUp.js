@@ -69,6 +69,7 @@ function SignUp() {
                 />
                  <TextField
                   fullWidth
+                  type="password"
                   label="Confirm Password"
                   name="confirm"
                   // value={formData.email}
