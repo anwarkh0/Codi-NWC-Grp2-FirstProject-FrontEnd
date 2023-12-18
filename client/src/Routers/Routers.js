@@ -16,37 +16,53 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" exact element={
-          <LayoutWithNavbar>
-            <Home />
-          </LayoutWithNavbar>
-        }></Route>
-        <Route path="/hotel" element={
-          <LayoutWithNavbar>
-            <Hotels />
-          </LayoutWithNavbar>
-        }></Route>
-        <Route path="/booking" element={
-        <LayoutWithNavbar>
-          <Booking />
-        </LayoutWithNavbar>        
-        }></Route>
-        <Route path="info" element={
-        <LayoutWithNavbar>
-          <Info />
-        </LayoutWithNavbar>
-        }></Route>
-        <Route path="/room/:id?" element={
-        <LayoutWithNavbar>
-          <RoomsPage />
-        </LayoutWithNavbar>
-        }></Route>
+        <Route
+          path="/"
+          exact
+          element={
+            <LayoutWithNavbar>
+              <Home />
+            </LayoutWithNavbar>
+          }
+        ></Route>
+        <Route
+          path="/hotel"
+          element={
+            <LayoutWithNavbar>
+              <Hotels />
+            </LayoutWithNavbar>
+          }
+        ></Route>
+        <Route
+          path="/booking"
+          element={
+            <LayoutWithNavbar>
+              <Booking />
+            </LayoutWithNavbar>
+          }
+        ></Route>
+        <Route
+          path="/info"
+          element={
+            <LayoutWithNavbar>
+              <Info />
+            </LayoutWithNavbar>
+          }
+        ></Route>
+        <Route
+          path="/room/:id?"
+          element={
+            <LayoutWithNavbar>
+              <RoomsPage />
+            </LayoutWithNavbar>
+          }
+        ></Route>
         <Route path="/logIn" element={<Login />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
-        <Route path="/dashboard" element={<Dashboard/>}></Route>
-        <Route path="/dashboard/users" element={<UsersDashboard/>}></Route>
-        <Route path="/dashboard/rooms" element={<RoomsDashboard/>}></Route>
-        <Route path="/dashboard/hotels" element={<HotelsDashboard/>}></Route>
+        <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/dashboard/users" element={<UsersDashboard />}></Route>
+        <Route path="/dashboard/rooms" element={<RoomsDashboard />}></Route>
+        <Route path="/dashboard/hotels" element={<HotelsDashboard />}></Route>
       </Routes>
     </BrowserRouter>
   );

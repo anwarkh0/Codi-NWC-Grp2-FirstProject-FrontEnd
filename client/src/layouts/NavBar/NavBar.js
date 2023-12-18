@@ -47,17 +47,17 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <NavLink style={stylo} to="room">
+            <NavLink style={stylo} to="/room">
               Rooms
             </NavLink>
           </li>
           <li>
-            <NavLink style={stylo} to="hotel">
+            <NavLink style={stylo} to="/hotel">
               Hotels
             </NavLink>
           </li>
           <li>
-            <NavLink style={stylo} to="info">
+            <NavLink style={stylo} to="/info">
               About Us
             </NavLink>
           </li>
@@ -79,19 +79,19 @@ const Navbar = () => {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="room">Rooms</Link>
+            <Link to="/room">Rooms</Link>
           </li>
           <li>
-            <Link to="hotel">Hotels</Link>
+            <Link to="/hotel">Hotels</Link>
           </li>
           <li>
-            <Link to="info">About Us</Link>
+            <Link to="/info">About Us</Link>
           </li>
           <li>
-            <Link to="signUp">Sign Up</Link>
+            <Link to="/signUp">Sign Up</Link>
           </li>
           <li>
-            <Link to="logIn">Log In</Link>
+            <Link to="/logIn">Log In</Link>
           </li>
         </ul>
 
