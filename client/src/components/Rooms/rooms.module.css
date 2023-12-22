@@ -107,14 +107,16 @@ body.visible {
 }
 .loading{
     width: 100%;
-    height: 100%;
+    height: 65vh;
+    display: flex;
+    justify-content: center ;
+    align-items: center;
     margin: auto;
     color: var(--blues-gray-2);
     font-size: 3rem;
     font-weight: bold;
     text-align: center;
     font-family: Open Sans;
-
 }
 @media (max-width:800px) {
     .gridView {

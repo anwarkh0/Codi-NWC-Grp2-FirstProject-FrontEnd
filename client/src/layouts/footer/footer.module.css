@@ -15,10 +15,10 @@
 .text{
     color: var(--gray1, #555);
     font-family: Open Sans;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     font-style: normal;
     font-weight: 400;
-    line-height: 0.8rem;
+    line-height: 1rem;
 }
 .logos{
     display: flex;
@@ -36,7 +36,7 @@
 .helpHeader, .homeHeader, .appHeader{
     color: var(--dark-gray, #222);
     font-family: Open Sans;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-style: normal;
     font-weight: 400;
     line-height: 0.8rem; 
@@ -48,7 +48,7 @@
 .helpitems, .homeitems, .appitems{
     color: var(--dark-gray, #222);
     font-family: Open Sans;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     font-style: normal;
     font-weight: 400;
     line-height: 0.8rem;
@@ -58,18 +58,45 @@
 .copyrights{
     border-top:1px solid #555555b1;
     text-align: center;
-    font-size: 0.5rem;
+    font-size: 0.6rem;
     padding-top: 1rem;
     margin:1rem auto;
     width: 70vw;
 }
+
+@media(max-width:760px){
+    .helpitems, .homeitems, .appitems{
+        font-size: 0.7rem;
+    }
+    .text{
+        font-size: 0.7rem;
+    }
+    .helpHeader, .homeHeader, .appHeader{
+        font-size: 0.85rem; 
+        }
+    
+}
+
+
 @media(max-width:400px){
+    .helpHeader, .homeHeader, .appHeader{
+        font-size: 0.78rem; 
+        }
     .footer{
-        column-gap: 2rem;
+        column-gap: 1.5rem;
+        width: 80vw;
     }
     .logo{
         scale: 0.8;
         padding: 8px;
+    }
+    .footer{
+        margin: 0 auto;
+        padding: 1rem;
+    }
+    .copyrights{
+        margin:0;
+        width: 90vw;
     }
     
 }

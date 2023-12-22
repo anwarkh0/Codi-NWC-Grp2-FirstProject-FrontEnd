@@ -1,8 +1,8 @@
 .wrapper{
     display: flex;
     flex-direction: column;
-    width: 70vw;
-    align-items: center;
+    width: 300px;
+    align-items: flex-start;
     margin: 8rem auto;
 }
 /* .login{
@@ -79,6 +79,7 @@ font-size: 14px;
 font-style: normal;
 font-weight: 600;
 line-height: 19px;
+margin-top: 20px;
 }
 .query{
     color: var(--gray1, #555);
@@ -93,7 +94,7 @@ line-height: 19px;
     color: #35A29F;
 text-align: center;
 font-family: Inter;
-font-size: 12px;
+font-size: 15px;
 font-style: normal;
 font-weight: 600;
 line-height: 19px;
