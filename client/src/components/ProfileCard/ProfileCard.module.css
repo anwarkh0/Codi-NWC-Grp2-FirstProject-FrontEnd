@@ -1,0 +1,32 @@
+.Name{
+    position: relative;
+}
+
+.Name::after{
+    position: absolute;
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    background-color: green;
+    border-radius: 50%;
+}
+
+.Span{
+    padding:1rem ;
+    font-weight: 600;
+    font-size: 1.3rem;
+    color: var(--color-font-gray );
+    z-index: 1;
+}
+
+.ActiveSpan {
+    border-bottom: 2px solid var(--main-blue);
+  }
+
+.Span:hover{
+    cursor: pointer;
+}
+
+.Span:active , .Span:focus{
+    border-bottom: 2px solid var(--main-blue);
+}
