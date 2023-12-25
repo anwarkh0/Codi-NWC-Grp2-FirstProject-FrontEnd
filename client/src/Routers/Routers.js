@@ -68,13 +68,13 @@ const AppRouter = () => {
             </LayoutWithNavbar>
           }
         />
-        <Route path="/hotel/login" element={<Login/>}/>
-        <Route path="/room/login" element={<Login/>}/>
-        <Route path="/info/login" element={<Login/>}/>
-        <Route path="/hotel/signUp" element={<SignUp/>}/>
-        <Route path="/room/signUp" element={<SignUp/>}/>
-        <Route path="/info/signUp" element={<SignUp/>}/>
-        <Route path="/hotel/login" element={<Login/>}/>
+        <Route path="/hotel/login" element={<Login />} />
+        <Route path="/room/login" element={<Login />} />
+        <Route path="/info/login" element={<Login />} />
+        <Route path="/hotel/signUp" element={<SignUp />} />
+        <Route path="/room/signUp" element={<SignUp />} />
+        <Route path="/info/signUp" element={<SignUp />} />
+        <Route path="/hotel/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/logIn" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
