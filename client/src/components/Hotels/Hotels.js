@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import CardHotel from "./CardHotel";
 import axios from "axios";
 import hotelsStyle from "./Hotels.module.css";
-import loading from "../../assets/images/LOADING-1.gif";
+import loading from "../../assets/images/hotel-loading-gif.gif";
 import RoomCard from "../roomCard/RoomCard";
 
 const Hotels = () => {

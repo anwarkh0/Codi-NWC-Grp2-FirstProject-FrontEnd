@@ -1,6 +1,7 @@
 import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
 import Booking from "../Booking/BookingDetails.js";
+import { useNavigate } from "react-router-dom";
 
 function RoomCard({ data, image, address, hotel, price, stars }) {
   const rating = (stars) => {
@@ -17,7 +18,11 @@ function RoomCard({ data, image, address, hotel, price, stars }) {
 
     return string;
   };
+  const navigate = useNavigate()
   const rate = rating(data ? data.rate : stars);
+  const navigateHotel = () => {
+    navigate('/hotel:id')
+  }
 
   const [open, setOpen] = useState(false);
   const toggleOpen = () => {
@@ -42,14 +47,14 @@ function RoomCard({ data, image, address, hotel, price, stars }) {
             // paddingRight:"5px",
             display: "flex",
             flexDirection: "row-reverse",
-            justifyContent:"space-between",
-            alignItems:"center",
+            justifyContent: "space-between",
+            alignItems: "center",
             width: "100%"
           }
         }>
 
-          <span className={roomCardModule.reservebtn} style={{marginRight:"10px"}}>
-            <button onClick={toggleOpen} className={roomCardModule.viewMore}>
+          <span className={roomCardModule.reservebtn} style={{ marginRight: "10px" }}>
+            <button onClick={data ? navigateHotel : toggleOpen} className={roomCardModule.viewMore}>
               view more
             </button>
           </span>
