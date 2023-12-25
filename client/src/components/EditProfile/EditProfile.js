@@ -15,7 +15,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import EditIcon from '@mui/icons-material/Edit';
@@ -89,17 +89,18 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
   return (
     <Box
       sx={{
-        bgcolor: "#212936",
-        width: "90%",
-        padding: "2rem",
+        bgcolor: "white",
+        width: '100%',
+        padding: screenWidth < 380 ? '10px' : "2rem",
         mb: "5rem",
-        borderRadius: "20px",
+        borderRadius: "10px",
+        boxShadow: '1px 1px 5px 5px #BABABA' ,
         "& .MuiFormControl-root": {
           mt: 2,
           mb: 2,
           ml: 0,
           mr: 0,
-          width: screenWidth < 550 ? "15rem" : "20rem",
+          width:screenWidth < 380 ? "10rem" :  screenWidth < 550 ? "15rem" : "20rem",
         },
         "& .MuiInputBase-root": {
           color: "black",
@@ -108,7 +109,7 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
           color: "black",
         },
         "& .MuiOutlinedInput-root": {
-          border: "white",
+          border: "black !important",
         },
         "& .MuiBox-root css-3b5rqz": {
           margin: "2rem !important",
@@ -117,7 +118,7 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
           color: "white",
         },
         "& .MuiButton-containedPrimary": {
-          bgcolor: "#e1b843 !important",
+          bgcolor: "#088395 !important",
           padding: 0,
           mt: 2,
           mb: 2,
@@ -125,7 +126,7 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
           width: screenWidth < 550 ? "15rem" : "20rem",
         },
         "& .MuiButton-containedPrimary:hover": {
-          bgcolor: "#af8f34 !important",
+          bgcolor: "#035e6b !important",
         },
         "& .MuiStack-root": {
           padding: 0,
@@ -133,30 +134,32 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
         },
         "& .MuiButtonBase-root": {
           borderRadius: 0,
-          bgcolor: "#1976d2",
+          bgcolor: "#088395",
           padding: "15px",
         },
         "& .MuiButtonBase-root:hover": {
           bgcolor: "#17456E",
         },
         "& .MuiOutlinedInput-notchedOutline ": {
-          border: "1px solid white",
+          border: "1.5px solid #088395 !important",
           borderRadius: "4px",
         },
-        "& .Mui-focused": {
-          border: "#2D99EF",
-        },
-        " & .css-1d3z3hw-MuiOutlinedInput-notchedOutline": {
-          border: "1px solid white !important",
+        "& .Mui-focused > .MuiOutlinedInput-notchedOutline ": {
+          border: "1.5px solid #088395 !important",
           borderRadius: "4px",
         },
-        "& .css-1jy569b-MuiFormLabel-root-MuiInputLabel-root.Mui-disabled": {
-          color: "white",
+        '& .Mui-focused > .MuiOutlinedInput-notchedOutline > fieldset > legend':{
+          color : '#088395 !important'
         },
-        "& .MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.Mui-disabled":
-          {
-            color: "white !important",
-          },
+        '& .MuiStack-root ':{
+          width : screenWidth < 380 ? '10rem' : screenWidth < 500 ? '15rem' : '20rem',
+          margin : screenWidth < 900 ? 0 : screenWidth < 1100 ?'0 3rem' : '0 5rem' ,
+          alignItems: screenWidth < 550 ? 'center' : ''
+        },
+        '& .MuiFormControl-root , & .MuiTextField-root , & .MuiInputBase-root' :{
+          width : screenWidth < 380 ? '10rem' : screenWidth < 500 ? '15rem' : '20rem',
+          minWidth: '0 !important'
+        }
       }}
       autoComplete="off"
     >
@@ -171,7 +174,10 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
           <Typography variant="h5">Loading...</Typography>
         </div>
       ) : (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} style={{
+          display: 'flex',
+          justifyContent: 'center'
+        }}>
           <Stack
             flexDirection={display}
             sx={{
@@ -230,7 +236,7 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                   </MenuItem>
                   <MenuItem value={"Admin"}>Admin</MenuItem>
                   <MenuItem value={"Manager"}>Manager</MenuItem>
-                  <MenuItem value={"Acountant"}>Acountant</MenuItem>
+                  <MenuItem value={"Acountant"}>User</MenuItem>
                 </Select>
               </FormControl>
               {screenWidth > 900 ? (
@@ -259,7 +265,7 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
             >
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
-                  <DateTimePicker
+                  <DatePicker
                     label="Date"
                     value={dob}
                     name="dob"
@@ -269,7 +275,7 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
               </LocalizationProvider>
               <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
-                  Old Password*
+                  Password*
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password1"
@@ -288,14 +294,14 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                     </InputAdornment>
                   }
                   label="Password"
-                  name="Oldpassword"
+                  name="password"
                   value={password}
                   disabled
                 />
               </FormControl>
               <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
                 <InputLabel htmlFor="outlined-adornment-password">
-                  New Password*
+                  confirm*
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password"
@@ -319,12 +325,17 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                   value={password}
                 />
               </FormControl>
+              <FormControl>
               <input
                 type="file"
                 name="image"
                 id="image"
                 onChange={handleChange}
+                style={{
+                  width: screenWidth < 380 ? '10rem' : screenWidth < 550 ? '15rem' : '20rem',
+                }}
               />
+              </FormControl>
             </Stack>
             {screenWidth < 900 ? (
               <>

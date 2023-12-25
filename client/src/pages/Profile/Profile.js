@@ -89,18 +89,22 @@ const user = {
   return (
     <div
       style={{
-        marginLeft: "5rem",
+        marginLeft: "4rem",
+        marginRight: '0.3rem',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center'
       }}
     >
-      <Navbar />
       <Sidebar />
       <Toaster/>
       <>
         <span
           style={{
-            marginTop: "6rem",
+            marginTop: "7rem",
             display: "flex",
-            zIndex: -2,
+            justifyContent: 'center',
+            width: '90%'
           }}
         >
           <ProfileCard
@@ -111,16 +115,28 @@ const user = {
             userData={userData && userData}
           />
         </span>
-        <div className={style.container}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          boxShadow: '1px 1px 5px 5px #BABABA',
+          width : '90%',
+          borderRadius: '10px'
+        }}>
           {overview && <ProfileActivity userData={userData && userData} />}
 
           {overview && <ProfileDetails userData={userData && userData} />}
         </div>
         {edit && (
-          <EditProfile
-            userData={userData && userData}
-            setSuccessEdit={setSuccessEdit}
-          />
+          <span style={{
+            display: 'flex',
+            justifyContent: 'center',
+            width : '90%'
+          }}>
+            <EditProfile
+              userData={userData && userData}
+              setSuccessEdit={setSuccessEdit}
+            />
+          </span>
         )}
       </>
     </div>

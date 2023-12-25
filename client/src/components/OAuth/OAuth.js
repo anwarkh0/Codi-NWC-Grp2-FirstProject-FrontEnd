@@ -14,7 +14,7 @@ export default function OAuth() {
             const result = await signInWithPopup(auth,provider)
             console.log(result);
             
-            const res = await axios.post('api/auth/google', {
+            const res = await axios.post(`${process.env.REACT_APP_SQL_API}/api/auth/google`, {
                 name: result.user.displayName,
                 email: result.user.email, 
                 photo: result.user.photoURL

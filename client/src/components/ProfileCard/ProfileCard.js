@@ -23,13 +23,14 @@ const ProfileCard = ({handleOverview , overview , handleEdit , edit  , userData}
         className={styles.Box} 
             sx={{
                 bgcolor: 'white',
-                width: '90%',
+                width:'100%' ,
                 mb: '2rem',
                 borderRadius: '10px',
                 padding: '2rem 0 0 0',
                 display: 'flex',
                 flexDirection:'column',
-                zIndex: 0
+                zIndex: 0,
+                boxShadow: '1px 1px 5px 5px #BABABA'
             }}
         >   
             <span style={{
@@ -48,8 +49,8 @@ const ProfileCard = ({handleOverview , overview , handleEdit , edit  , userData}
         </span>
             <Stack>
                 <Typography
-                    variant="h4"
-                    component='h4'
+                    variant= {screenWidth < 380 ? 'h5' : 'h4'}
+                    component= {screenWidth < 380 ? 'h5' : 'h4'}
                     sx={{
                         width: '100%',
                         textAlign: 'center', 

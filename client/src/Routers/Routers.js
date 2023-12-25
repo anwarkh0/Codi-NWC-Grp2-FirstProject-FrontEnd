@@ -12,6 +12,7 @@ import Dashboard from "../pages/Dashboard/Dashboard.js";
 import UsersDashboard from "../pages/UsersDashboard/Users.js";
 import HotelsDashboard from "../pages/HotelsDashboard/HotelsDashboard.js";
 import RoomsDashboard from "../pages/RoomsDashboard/RoomsDashboard.js";
+import Profile from "../pages/Profile/Profile.js";
 const AppRouter = () => {
   return (
     <BrowserRouter>
@@ -57,6 +58,7 @@ const AppRouter = () => {
             </LayoutWithNavbar>
           }
         ></Route>
+        <Route path="/profile" element={<Profile />}></Route>
         <Route path="/logIn" element={<Login />}></Route>
         <Route path="/signUp" element={<SignUp />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>

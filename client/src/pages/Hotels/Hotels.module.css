@@ -2,6 +2,7 @@
     width: 75%;
     margin: 8rem auto 10px auto;
     font-family: Open Sans;
+    height: 100vh;
 }
 
 .container>h1 {
@@ -35,7 +36,7 @@
     font-family: Open Sans;
 }
 
-@media only screen and (width<850px) {
+@media only screen and (width<1222px) {
     .container {
         display: flex;
         flex-direction: column;
@@ -48,4 +49,11 @@
         flex-direction: column;
         align-items: center;
     }
+}
+
+@media screen and (max-width : 1222px) {
+    .Hotels{
+        justify-content: center;
+    }
+    
 }

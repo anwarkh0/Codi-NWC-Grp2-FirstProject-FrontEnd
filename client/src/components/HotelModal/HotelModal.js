@@ -3,23 +3,12 @@ import Modal from "@mui/material/Modal";
 import {
   Box,
   IconButton,
-  FormControl,
   TextField,
-  InputLabel,
-  Select,
   Button ,
-  MenuItem,
   Stack,
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import axios from "axios";
 import dayjs from "dayjs";
 import LoadingButton from '@mui/lab/LoadingButton'
@@ -39,8 +28,7 @@ const HotelModal = ({
   const [loading, setLoading] = useState(false);
   const [name, setname] = useState("");
   const [city, setcity] = useState("");
-  const [image, setImage] = useState("");
-  const [rate, setrate] = useState("");
+  const [description, setdescription] = useState("");
   const [address, setaddress] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -49,42 +37,74 @@ const HotelModal = ({
     if (type === "edit" && selectedRowData) {
       setname(selectedRowData.name);
       setcity(selectedRowData.city);
-      setImage(selectedRowData.image);  
-      setrate(selectedRowData.rate);
+      setdescription(selectedRowData.description);
       setaddress(selectedRowData.address);
     }
   }, [type, selectedRowData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "image") {
-      setImage(value);
-    } else if (name === "name") {
+    if (name === "name") {
       setname(value);
     } else if (name === "city") {
       setcity(value);
     } else if (name === "address") {
       setaddress(value);
-    } else if (name === "rate") {
-      setrate(value);
+    } else if (name === "description") {
+      setdescription(value);
     }
   };
 
   const handleAddUser = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true)
+      const response = await axios.post(`${process.env.REACT_APP_SQL_API}/hotel`, {
+        name : name , 
+        city : city , 
+        address : address , 
+        description : description
+      })      
+      setLoading(false)
+      setSuccessAdd(true)
+    } catch (error) {
+      setLoading(false)
+      setError(true)
+      setSuccessAdd(false)
+    }finally{
+      setLoading(false)
+      handleClose()
+    }
   };
 
   const handleEditUser = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true)
+      const response = await axios.patch(`${process.env.REACT_APP_SQL_API}/hotel`, {
+        id : selectedRowData.id ,
+        name : name , 
+        city : city , 
+        address : address , 
+        description : description
+      })      
+      setLoading(false)
+      setSuccessAdd(true)
+    } catch (error) {
+      setLoading(false)
+      setError(true)
+      setSuccessEdit(false)
+    }finally{
+      setLoading(false)
+      handleClose()
+    }
   };
 
   const handleFromClear = () => {
     setname("");
     setcity("");
     setaddress("");
-    setImage("");
-    setrate("");
-    setname("");
+    setdescription("");
   };
 
   const divStyle = {
@@ -237,18 +257,11 @@ const HotelModal = ({
                 <TextField
                   required
                   id="outlined-required12"
-                  label="Rate"
-                  placeholder="Rate"
-                  name="rate"
+                  label="Description"
+                  placeholder="Description"
+                  name="description"
                   onChange={handleChange}
-                  value={rate}
-                  type="number"
-                />
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  onChange={handleChange}
+                  value={description}
                 />
                 <div style={divStyle}>
                   <span
@@ -257,7 +270,12 @@ const HotelModal = ({
                     {loading === true ? (
                       <LoadingButton variant="contained" size="large" loading >Loading</LoadingButton>
                     ): (
-                      <Button variant="contained" size="large" color="primary" type="submit">Submit</Button>
+                      <Button variant="contained" size="large" type="submit" sx={{
+                        ":hover":{
+                          bgcolor: '#035e6b !important'
+                        } ,
+                        bgcolor: '#088395 !important'
+                      }}>Submit</Button>
                     )}
                   </span>
                 </div>

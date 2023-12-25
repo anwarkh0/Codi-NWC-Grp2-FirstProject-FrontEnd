@@ -44,166 +44,91 @@ const TableComponent = ({
   let visibleFields;
   useEffect(() => {
     try {
-        if (ForWhat === "rooms") {
-          visibleFields = ["id", "Hotel", "price", "number", "maxpeople", "isBooked"];
-        } else if (ForWhat === "users") {
-          visibleFields = ["id", "firstName", "lastName", "role", "dob"];
-        }else if (ForWhat === "hotels"){
-          visibleFields = ["id", "name", "city", "address", "rate", 'roomNumber'];
-        }
-        else {
-          visibleFields = Object.keys(data[0]);
-        }
-        if (buton === false) {
-          setColumns(
-            visibleFields.map((field) => ({
-              field,
-              headerName: field,
-              flex: 1,
-            }))
-          );
-        } else {
-          if (ForWhat === "users") {
-            const updatedColumns = [
-              ...visibleFields.map((field) => ({
-                field,
-                headerName: field,
-                flex: 1,
-              })),
-              {
-                field: "Edit",
-                headerName: "Edit",
-                renderCell: (params) => (
-                  <Grid
-                    container
-                    md={12}
+      if (ForWhat === "rooms") {
+        visibleFields = [
+          "id",
+          "Hotel",
+          "price",
+          "number",
+          "maxpeople",
+          "isBooked",
+        ];
+      } else if (ForWhat === "users") {
+        visibleFields = ["id", "firstName", "lastName", "role", "dob"];
+      } else if (ForWhat === "hotels") {
+        visibleFields = ["id", "name", "city", "address", "rating", "roomNumber"];
+      } else {
+        visibleFields = Object.keys(data[0]);
+      }
+      if (buton === false) {
+        setColumns(
+          visibleFields.map((field) => ({
+            field,
+            headerName: field,
+            flex: 1,
+          }))
+        );
+      } else {
+        const updatedColumns = [
+          ...visibleFields.map((field) => ({
+            field,
+            headerName: field,
+            editable: true,
+            flex: 1,
+          })),
+          {
+            field: "Edit",
+            headerName: "Edit",
+            renderCell: (params) => (
+              <Grid
+                container
+                md={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <IconButton onClick={(e) => handleEdit(e, params.row)}>
+                  <EditIcon
                     sx={{
-                      display: "flex",
-                      justifyContent: "center",
+                      ":hover": {
+                        color: "#035e6b !important",
+                      },
                     }}
-                  >
-                    <IconButton onClick={(e) => handleEdit(e, params.row)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                ),
-              },
-              {
-                field: "Delete",
-                headerName: "Delete",
-                renderCell: (params) => (
-                  <Grid
-                    container
-                    md={12}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IconButton onClick={(e) => handleDelete(e, params.row)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                ),
-              },
-            ];
-            setColumns(updatedColumns);
-          } else if (ForWhat === "transaction") {
-            const updatedColumns = [
-              ...visibleFields.map((field) => ({
-                field,
-                headerName: field,
-                editable: true,
-                flex: 1,
-              })),
-              {
-                field: "Edit",
-                headerName: "Edit",
-                renderCell: (params) => (
-                  <Grid
-                    container
-                    md={12}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IconButton onClick={(e) => handleEdit(e, params.row)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                ),
-              },
-              {
-                field: "Delete",
-                headerName: "Delete",
-                renderCell: (params) => (
-                  <Grid
-                    container
-                    md={12}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IconButton onClick={(e) => handleDelete(e, params.row)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                ),
-              },
-            ];
-            setColumns(updatedColumns);
-          } else {
-            const updatedColumns = [
-              ...visibleFields.map((field) => ({
-                field,
-                headerName: field,
-                editable: true,
-                flex: 1,
-              })),
-              {
-                field: "Edit",
-                headerName: "Edit",
-                renderCell: (params) => (
-                  <Grid
-                    container
-                    md={12}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IconButton onClick={(e) => handleEdit(e, params.row)}>
-                      <EditIcon />
-                    </IconButton>
-                  </Grid>
-                ),
-              },
-              {
-                field: "Delete",
-                headerName: "Delete",
-                renderCell: (params) => (
-                  <Grid
-                    container
-                    md={12}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <span>
-                      <IconButton onClick={(e) => handleDelete(e, params.row)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </span>
-                  </Grid>
-                ),
-              },
-            ];
-            setColumns(updatedColumns);
-          }
-        }
+                  />
+                </IconButton>
+              </Grid>
+            ),
+          },
+          {
+            field: "Delete",
+            headerName: "Delete",
+            renderCell: (params) => (
+              <Grid
+                container
+                md={12}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <span>
+                  <IconButton onClick={(e) => handleDelete(e, params.row)}>
+                    <DeleteIcon
+                      sx={{
+                        ":hover": {
+                          color: "#035e6b !important",
+                        },
+                      }}
+                    />
+                  </IconButton>
+                </span>
+              </Grid>
+            ),
+          },
+        ];
+        setColumns(updatedColumns);
+      }
 
       setError(false);
     } catch (error) {
@@ -214,7 +139,7 @@ const TableComponent = ({
 
   return (
     <>
-      <Box sx={{ height: 707, mt: "3rem", mb: "3rem" ,}}>
+      <Box sx={{ height: 707, mt: "3rem", mb: "3rem" }}>
         <DataGrid
           isCellEditable={false}
           isRowSelectable={false}
@@ -238,14 +163,15 @@ const TableComponent = ({
           sx={{
             marginBottom: "4rem",
             width: "98%",
-            border: 'solid 1px #BABABA',
+            border: "solid 1px #BABABA",
             "& .MuiToolbar-root , .MuiInputBase-input , .MuiDataGrid-columnHeaderTitleContainer , .MuiDataGrid-cell":
               {
                 color: "black",
               },
-            "& .MuiButtonBase-root , & .MuiSvgIcon-root , &  .MuiSvgIcon-root": {
-              color: "#088395",
-            },
+            "& .MuiButtonBase-root , & .MuiSvgIcon-root , &  .MuiSvgIcon-root":
+              {
+                color: "#088395",
+              },
             "& .MuiDataGrid-root , .MuiDataGrid-colCell, .MuiDataGrid-root , .MuiDataGrid-cell":
               {
                 maxHeight: "100px !important",
@@ -253,8 +179,8 @@ const TableComponent = ({
             "& .MuiInputBase-root , & .MuiInputBase-input": {
               color: "#000",
             },
-            '& .css-v4u5dn-MuiInputBase-root-MuiInput-root:after':{
-                borderBottomColor : "#088395"
+            "& .css-v4u5dn-MuiInputBase-root-MuiInput-root:after": {
+              borderBottomColor: "#088395",
             },
             " & .Mui-selected ": {
               bgcolor: "#088395 !important",

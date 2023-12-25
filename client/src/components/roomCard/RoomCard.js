@@ -30,7 +30,7 @@ function RoomCard({ data, image, address, hotel, price, stars }) {
   }
 
   return (
-    <div className={roomCardModule.alignModal}>
+    < >
       <div className={roomCardModule.wrapper}>
         <img
           alt="room"
@@ -87,7 +87,7 @@ function RoomCard({ data, image, address, hotel, price, stars }) {
           <Booking close={toggleOpen} />
         </div>
       )}
-    </div>
+    </>
   );
 }
 
