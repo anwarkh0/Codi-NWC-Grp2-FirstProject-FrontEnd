@@ -12,9 +12,8 @@ import Dashboard from "../pages/Dashboard/Dashboard.js";
 import UsersDashboard from "../pages/UsersDashboard/Users.js";
 import HotelsDashboard from "../pages/HotelsDashboard/HotelsDashboard.js";
 import RoomsDashboard from "../pages/RoomsDashboard/RoomsDashboard.js";
-import HotelDetails from "../pages/HotelDetails/HotelDetails.js"
+import HotelDetails from "../pages/HotelDetails/HotelDetails.js";
 import Profile from "../pages/Profile/Profile.js";
-
 
 const AppRouter = () => {
   return (
@@ -28,7 +27,7 @@ const AppRouter = () => {
               <Home />
             </LayoutWithNavbar>
           }
-        ></Route>
+        />
         <Route
           path="/hotel"
           element={
@@ -36,7 +35,7 @@ const AppRouter = () => {
               <Hotels />
             </LayoutWithNavbar>
           }
-        ></Route>
+        />
         <Route
           path="/hotel:id"
           element={
@@ -44,7 +43,7 @@ const AppRouter = () => {
               <HotelDetails />
             </LayoutWithNavbar>
           }
-        ></Route>
+        />
         <Route
           path="/booking"
           element={
@@ -52,7 +51,7 @@ const AppRouter = () => {
               <Booking />
             </LayoutWithNavbar>
           }
-        ></Route>
+        />
         <Route
           path="/info"
           element={
@@ -60,7 +59,7 @@ const AppRouter = () => {
               <Info />
             </LayoutWithNavbar>
           }
-        ></Route>
+        />
         <Route
           path="/room/:id?"
           element={
@@ -68,14 +67,21 @@ const AppRouter = () => {
               <RoomsPage />
             </LayoutWithNavbar>
           }
-        ></Route>
-        <Route path="/profile" element={<Profile />}></Route>
-        <Route path="/logIn" element={<Login />}></Route>
-        <Route path="/signUp" element={<SignUp />}></Route>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/dashboard/users" element={<UsersDashboard />}></Route>
-        <Route path="/dashboard/rooms" element={<RoomsDashboard />}></Route>
-        <Route path="/dashboard/hotels" element={<HotelsDashboard />}></Route>
+        />
+        <Route path="/hotel/login" element={<Login/>}/>
+        <Route path="/room/login" element={<Login/>}/>
+        <Route path="/info/login" element={<Login/>}/>
+        <Route path="/hotel/signUp" element={<SignUp/>}/>
+        <Route path="/room/signUp" element={<SignUp/>}/>
+        <Route path="/info/signUp" element={<SignUp/>}/>
+        <Route path="/hotel/login" element={<Login/>}/>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/logIn" element={<Login />} />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/users" element={<UsersDashboard />} />
+        <Route path="/dashboard/rooms" element={<RoomsDashboard />} />
+        <Route path="/dashboard/hotels" element={<HotelsDashboard />} />
       </Routes>
     </BrowserRouter>
   );
