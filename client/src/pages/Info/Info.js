@@ -1,7 +1,7 @@
 import React from 'react'
 import Location  from '../../components/Location/Location'
 import AboutUs from '../../components/AboutUs/AboutUs'
-
+import Footer from '../../layouts/footer/Footer'
 
 
 const Info = () => {
@@ -9,6 +9,7 @@ const Info = () => {
     <>
       <AboutUs/>
       <Location/>
+      <Footer/>
     </>
   )
 }
