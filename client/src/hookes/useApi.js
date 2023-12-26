@@ -31,6 +31,8 @@ const UseApi = () => {
                     console.log("forbidden access")
                 }
             }
+        } finally{
+            setLoading(false)
         }
     }
     return { apiCall, error, loading }
