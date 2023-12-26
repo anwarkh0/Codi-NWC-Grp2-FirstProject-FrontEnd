@@ -8,7 +8,7 @@ import RoomCard from "../roomCard/RoomCard.js";
 import loading from "../../assets/images/hotel-loading-gif.gif";
 import UseApi from "../../hookes/useApi.js";
 function Rooms({ idHotel }) {
-  const {apiCall}=UseApi()
+  const {apiCall,loading,error}=UseApi()
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
   const [DefaultData, setDefaultData] = useState(false);

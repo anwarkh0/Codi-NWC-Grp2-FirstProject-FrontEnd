@@ -48,15 +48,32 @@ const RoomsDashboard = () => {
         const fetchRooms =async () =>{
           try {
             const response = await apiCall({ url: "/room", method: "get" })
-            console.log(response.data)
             setroomData(response.data)
           } catch (error) {
             console.error(error);
           }
         }
         fetchRooms()
-    },[])
-
+    },[successDelete])
+    const mapDataToColumns = (roomData, visibleFields) => {
+      return roomData.map((item) => {
+        const newItem = {};
+        visibleFields.forEach((field) => {
+          newItem[field] = item[field];
+        });
+        return newItem;
+      });
+    };
+    const visibleFields = [
+      "id",
+      "Hotel",
+      "price",
+      "number",
+      "maxpeople",
+      "isBooked",
+    ];
+    // Usage example
+    const structuredData =roomData? mapDataToColumns(roomData, visibleFields):[];
     return(
         <Box
         sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: "5rem" }}
@@ -186,7 +203,7 @@ const RoomsDashboard = () => {
                 }}>Add Room</Button>
               </span>
             <TableComponent
-              data={roomData !== null && roomData}
+              data={structuredData !== null && structuredData}
               isEdit={true}
               ForWhat={"rooms"}
               handleEditOpen={handleEditOpen}
