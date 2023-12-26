@@ -6,36 +6,25 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import RoomCard from "../roomCard/RoomCard.js";
 import loading from "../../assets/images/hotel-loading-gif.gif";
-
+import UseApi from "../../hookes/useApi.js";
 function Rooms({ idHotel }) {
+  const {apiCall}=UseApi()
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState(null);
   const [DefaultData, setDefaultData] = useState(false);
 
-  useEffect(() => {
-    async function fetchData() {
+  useEffect(()=>{
+    const fetchRooms =async () =>{
       try {
-        setIsLoading(true);
-        if (!idHotel) {
-          console.log(idHotel);
-          const response = await axios.get(
-            `${process.env.REACT_APP_MY_API}/room`
-          );
-          setData(response.data.dataRooms);
-        } else {
-          const response = await axios.get(
-            `${process.env.REACT_APP_MY_API}/room/byHotel/${idHotel}`
-          );
-          setData(response.data.data.rooms);
-        }
+        const response = await apiCall({ url: "/room", method: "get" })
+        console.log(response.data)
+        setData(response.data)
       } catch (error) {
         console.error(error);
-      } finally {
-        setIsLoading(false);
       }
     }
-    fetchData();
-  }, [idHotel, DefaultData]);
+    fetchRooms()
+},[])
 
   const [active, setActive] = useState(false);
   const clickHandler = () => {
