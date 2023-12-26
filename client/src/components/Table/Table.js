@@ -129,7 +129,6 @@ const TableComponent = ({
         ];
         setColumns(updatedColumns);
       }
-
       setError(false);
     } catch (error) {
       setError(true);

@@ -16,6 +16,7 @@ const UseApi = () => {
             setLoading(true)
             const response = await axiosInstance({ url, method, data })
             // setData(response.data)
+            setLoading(false)
             return response.data
         } catch (error) {
             setError(true)
