@@ -45,13 +45,14 @@ const TableComponent = ({
   useEffect(() => {
     try {
       if (ForWhat === "rooms") {
-        visibleFields = [
+         visibleFields = [
           "id",
           "Hotel",
           "price",
           "number",
-          "maxpeople",
+          "guestNumber",
           "isBooked",
+          "description"
         ];
       } else if (ForWhat === "users") {
         visibleFields = ["id", "firstName", "lastName", "role", "dob"];

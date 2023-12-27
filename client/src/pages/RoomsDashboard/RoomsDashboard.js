@@ -69,8 +69,9 @@ const RoomsDashboard = () => {
       "Hotel",
       "price",
       "number",
-      "maxpeople",
+      "guestNumber",
       "isBooked",
+      "description"
     ];
     // Usage example
     const structuredData =roomData? mapDataToColumns(roomData, visibleFields):[];
