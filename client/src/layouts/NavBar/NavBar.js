@@ -1,11 +1,17 @@
 import Styles from "../NavBar/NavBar.module.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-
+import { AuthContext } from "../../context/authContext";
+import { Dropdown } from '@mui/base/Dropdown';
+import { MenuButton } from '@mui/base/MenuButton';
+import { Menu } from '@mui/base/Menu';
+import { MenuItem } from '@mui/base/MenuItem';
+import MenuSimple from "../../components/DropDownList";
 const Navbar = () => {
   const [collapesed, setCollapsed] = useState(false);
-
+  const { user } = useContext(AuthContext);
+  
   useEffect(() => {
     function updateSize() {
       if (window.innerWidth > 600) {
@@ -62,18 +68,19 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <ul className={Styles.right}>
-          <Link to="signUp" className={Styles.link}>
-            <li className={Styles.logSignButton}>
-              Sign Up
-            </li>
-          </Link>
-          <Link to="logIn" className={Styles.link}>
-            <li className={Styles.logSignButton}>
-              Log In
-            </li>
-          </Link>
-        </ul>
+        {!user ? (
+          <ul className={Styles.right}>
+            <Link to="signUp" className={Styles.link}>
+              <li className={Styles.logSignButton}>Sign Up</li>
+            </Link>
+            <Link to="logIn" className={Styles.link}>
+              <li className={Styles.logSignButton}>Log In</li>
+            </Link>
+          </ul>
+        ) : (<>
+          <MenuSimple className={Styles.menue}/>
+         </>
+        )}
         <ul className={toggleClasses}>
           <li>
             <Link to="/">Home</Link>
@@ -87,12 +94,16 @@ const Navbar = () => {
           <li>
             <Link to="/info">About Us</Link>
           </li>
-          <li>
-            <Link to="/signUp">Sign Up</Link>
-          </li>
-          <li>
-            <Link to="/logIn">Log In</Link>
-          </li>
+          {!user && (
+            <>
+              <li>
+                <Link to="/signUp">Sign Up</Link>
+              </li>
+              <li>
+                <Link to="/logIn">Log In</Link>
+              </li>
+            </>
+          )}
         </ul>
 
         <div
