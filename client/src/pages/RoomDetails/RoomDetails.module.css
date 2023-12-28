@@ -1,0 +1,16 @@
+.gridView {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-rows: 0.25fr 0.25fr;
+    column-gap: 4rem;
+    row-gap: 4rem;
+    width: 70vw;
+    margin: 5rem auto;
+}
+
+@media (max-width:800px) {
+    .gridView {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+}

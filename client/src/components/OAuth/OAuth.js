@@ -1,6 +1,7 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { app } from "../../Firebase";
-import axios from "axios";
+import { useContext } from "react";
+import { AuthContext } from "../../context/authContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import googleG from "../../assets/images/G.png";
@@ -9,6 +10,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function OAuth() {
   const {apiCall , loading , error} = UseApi()
+  const {fetchUserData , setUser} = useContext(AuthContext)
   const navigate = useNavigate();
   const handleGoogleClick = async () => {
     try {
@@ -18,7 +20,7 @@ export default function OAuth() {
       const result = await signInWithPopup(auth, provider);
       console.log(result);
 
-      const res = await apiCall({
+      const response = await apiCall({
         url : `${process.env.REACT_APP_SQL_API}/google`,
         method : 'post',
         data :         {
@@ -28,8 +30,8 @@ export default function OAuth() {
         }
       }
       );
-
-      const data = await res.json();
+      setUser(response)
+      await fetchUserData()
       navigate("/");
     } catch (error) {
       console.log("could not sign in with google", error);

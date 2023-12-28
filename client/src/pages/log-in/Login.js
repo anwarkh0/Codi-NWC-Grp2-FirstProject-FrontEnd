@@ -57,9 +57,11 @@ const Login = () => {
         data: { email, password },
       });
       await fetchUserData();
-      navigate("/");
+      
     } catch (error) {
       console.error(error);
+    }finally{
+      navigate("/");
     }
   };
   return (
