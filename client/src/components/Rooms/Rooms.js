@@ -5,20 +5,19 @@ import up from "../../assets/images/up.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import RoomCard from "../roomCard/RoomCard.js";
-import loading from "../../assets/images/hotel-loading-gif.gif";
+import loadingImg from "../../assets/images/hotel-loading-gif.gif";
 import UseApi from "../../hookes/useApi.js";
 function Rooms({ idHotel }) {
   const {apiCall,loading,error}=UseApi()
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState(null);
+  const [roomData, setRoomData] = useState(null);
   const [DefaultData, setDefaultData] = useState(false);
 
   useEffect(()=>{
     const fetchRooms =async () =>{
       try {
         const response = await apiCall({ url: "/room", method: "get" })
-        console.log(response.data)
-        setData(response.data)
+        setRoomData(response.data)
       } catch (error) {
         console.error(error);
       }
@@ -50,9 +49,9 @@ function Rooms({ idHotel }) {
     if (reference.current.textContent === "Default")
       setDefaultData(!DefaultData);
     else if (reference.current.textContent === "Price")
-      setData(data.sort((a, b) => a.price - b.price));
+    setRoomData(roomData.sort((a, b) => a.price - b.price));
     else if (reference.current.textContent === "Rate")
-      setData(data.sort((a, b) => a.Hotel.rate - b.Hotel.rate));
+    setRoomData(roomData.sort((a, b) => a.Hotel.rate - b.Hotel.rate));
   };
   return (
     <>
@@ -102,11 +101,12 @@ function Rooms({ idHotel }) {
           </div>
         </div>
 
-          {!isLoading && data ? (
+          {!loading && roomData ? (
             <div className={roomsModule.gridView}>
-            {data.map((room, index) => {
+            {roomData.map((room, index) => {
               return (
                 <RoomCard
+                  roomId={room.id}
                   image={room.image}
                   address={room.address}
                   hotel={room.hotel}
@@ -120,11 +120,10 @@ function Rooms({ idHotel }) {
           ) : (
             <span className={roomsModule.loading}>
               <img
-                src={loading}
+                src={loadingImg}
                 style={{
                   width: "15rem",
                   height: "15rem",
-                  // marginLeft: "20rem",
                 }}
                 alt="loading"
               />

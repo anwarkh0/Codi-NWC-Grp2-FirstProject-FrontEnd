@@ -4,7 +4,6 @@ import Home from "../pages/home/Home";
 import Hotels from "../pages/Hotels/hotels";
 import Booking from "../components/Booking/BookingDetails";
 import RoomsPage from "../pages/roomss/RoomsPage";
-import Info from "../pages/Info/Info";
 import Login from "../pages/log-in/Login.js";
 import SignUp from "../pages/sign-up/SignUp.js";
 import LayoutWithNavbar from "./LayoutWithNavbar.js";
@@ -14,6 +13,8 @@ import HotelsDashboard from "../pages/HotelsDashboard/HotelsDashboard.js";
 import RoomsDashboard from "../pages/RoomsDashboard/RoomsDashboard.js";
 import HotelDetails from "../pages/HotelDetails/HotelDetails.js";
 import Profile from "../pages/Profile/Profile.js";
+import RoomDetails from "../pages/RoomDetails/RoomDetails.js";
+import AboutUs from "../pages/AboutUs/AboutUs.js";
 
 const AppRouter = () => {
   return (
@@ -37,7 +38,7 @@ const AppRouter = () => {
           }
         />
         <Route
-          path="/hotel:id"
+          path="/hotel/:hotelId"
           element={
             <LayoutWithNavbar>
               <HotelDetails />
@@ -56,15 +57,23 @@ const AppRouter = () => {
           path="/info"
           element={
             <LayoutWithNavbar>
-              <Info />
+              <AboutUs />
             </LayoutWithNavbar>
           }
         />
         <Route
-          path="/room/:id?"
+          path="/room"
           element={
             <LayoutWithNavbar>
               <RoomsPage />
+            </LayoutWithNavbar>
+          }
+        />
+        <Route
+          path="/room/:roomId?"
+          element={
+            <LayoutWithNavbar>
+              <RoomDetails />
             </LayoutWithNavbar>
           }
         />

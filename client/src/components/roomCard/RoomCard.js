@@ -2,14 +2,14 @@ import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
 import { useNavigate } from "react-router-dom";
 
-const  RoomCard = ({ data, image, address, hotel, price, stars }) => {
+const  RoomCard = ({ data, image, address, hotel, price, stars , roomId}) => {
 
   const navigate = useNavigate()
   const navigateHotel = () => {
-    navigate('/hotel:id')
-  }
+    navigate(`/hotel/${data.id}`)
+  } 
   const navigateRoom = () => {
-    navigate('/room:id')
+    navigate(`/room/${roomId}`) 
   }
 
   return (
@@ -18,7 +18,7 @@ const  RoomCard = ({ data, image, address, hotel, price, stars }) => {
         <img
           alt="room"
           className={roomCardModule.roompic}
-          src={`http://localhost:4000/${data ? data.image : image}`}
+          src={`${process.env.REACT_APP_SQL_API}/${data && data.HotelImages ? data.HotelImages[0].icon : image}`}
         />
         <div style={
           {

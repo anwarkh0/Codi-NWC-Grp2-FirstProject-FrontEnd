@@ -1,19 +1,20 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import {
   Box,
   IconButton,
   TextField,
-  Button ,
+  Button,
   Stack,
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import dayjs from "dayjs";
-import LoadingButton from '@mui/lab/LoadingButton'
+import LoadingButton from "@mui/lab/LoadingButton";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-
+import { AuthContext } from "../../context/authContext";
+import UseApi from "../../hookes/useApi";
 dayjs.extend(customParseFormat);
 
 const HotelModal = ({
@@ -25,12 +26,13 @@ const HotelModal = ({
   setSuccessAdd,
   setSuccessEdit,
 }) => {
-  const [loading, setLoading] = useState(false);
+  const { apiCall, loading, error } = UseApi();
+  const { user } = useContext(AuthContext);
   const [name, setname] = useState("");
   const [city, setcity] = useState("");
   const [description, setdescription] = useState("");
   const [address, setaddress] = useState("");
-  const [error, setError] = useState(false);
+  const [icon, setIcon] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -55,48 +57,66 @@ const HotelModal = ({
     }
   };
 
-  const handleAddUser = async (e) => {
+  const handleAddHotel = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
-      const response = await axios.post(`${process.env.REACT_APP_SQL_API}/hotel`, {
-        name : name , 
-        city : city , 
-        address : address , 
-        description : description
-      })      
-      setLoading(false)
-      setSuccessAdd(true)
+      const response = await apiCall({
+        url: "/hotel",
+        method: "post",
+        data: {
+          name: name,
+          city: city,
+          address: address,
+          description: description,
+          userId: user.id,
+        },
+      });
+      const addImage = await axios.post(
+        `${process.env.REACT_APP_SQL_API}/hotel/image/add`,
+        {
+          icon: icon,
+          hotelId: response.id,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setSuccessAdd(true);
     } catch (error) {
-      setLoading(false)
-      setError(true)
-      setSuccessAdd(false)
-    }finally{
-      setLoading(false)
-      handleClose()
+      setSuccessAdd(false);
+    } finally {
+      handleClose();
+      setTimeout(() => {
+        setSuccessAdd(false)
+      }, 60000);
     }
   };
 
-  const handleEditUser = async (e) => {
+  const handleEditHotel = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
-      const response = await axios.patch(`${process.env.REACT_APP_SQL_API}/hotel`, {
-        id : selectedRowData.id ,
-        name : name , 
-        city : city , 
-        address : address , 
-        description : description
-      })      
-      setLoading(false)
-      setSuccessAdd(true)
+      const response = await apiCall({
+        url: "/hotel",
+        method: "patch",
+        data: {
+          id: selectedRowData.id,
+          name: name,
+          city: city,
+          address: address,
+          description: description,
+          userId: user.id,
+        },
+      });
+      setSuccessEdit(true);
     } catch (error) {
-      setLoading(false)
-      setError(true)
-      setSuccessEdit(false)
-    }finally{
-      setLoading(false)
-      handleClose()
+      setSuccessEdit(false);
+    } finally {
+      handleClose();
+      setTimeout(() => {
+        setSuccessEdit(false)
+      }, 60000);
     }
   };
 
@@ -173,12 +193,12 @@ const HotelModal = ({
                 mb: "1rem",
               },
               "& .Mui-focused > .MuiOutlinedInput-notchedOutline ": {
-                border: "1.5px solid #088395 !important",
+                border: "2px solid #088395 !important",
                 borderRadius: "4px",
               },
-              '& .Mui-focused > .MuiOutlinedInput-notchedOutline > legend':{
-                color : '#088395 !important'
-              }
+              "& .Mui-focused > .MuiOutlinedInput-notchedOutline > legend": {
+                color: "#088395 !important",
+              },
             }}
             autoComplete="off"
           >
@@ -187,7 +207,7 @@ const HotelModal = ({
                 <Typography
                   variant="h4"
                   component="h4"
-                  color='#088395'
+                  color="#088395"
                   sx={{
                     textAlign: "left",
                     mt: 3,
@@ -225,7 +245,7 @@ const HotelModal = ({
                 <CloseIcon />
               </IconButton>
             </div>
-            <form onSubmit={type === "add" ? handleAddUser : handleEditUser}>
+            <form onSubmit={type === "add" ? handleAddHotel : handleEditHotel}>
               <Stack>
                 <TextField
                   required
@@ -263,19 +283,34 @@ const HotelModal = ({
                   onChange={handleChange}
                   value={description}
                 />
+                <label htmlFor="icon">Cover Image</label>
+                <input
+                name="icon"
+                  type="file"
+                  onChange={(e) => setIcon(e.target.files[0])}
+                />
                 <div style={divStyle}>
                   <span
-                    onClick={type === "add" ? handleAddUser : handleEditUser}
+                    onClick={type === "add" ? handleAddHotel : handleEditHotel}
                   >
                     {loading === true ? (
-                      <LoadingButton variant="contained" size="large" loading >Loading</LoadingButton>
-                    ): (
-                      <Button variant="contained" size="large" type="submit" sx={{
-                        ":hover":{
-                          bgcolor: '#035e6b !important'
-                        } ,
-                        bgcolor: '#088395 !important'
-                      }}>Submit</Button>
+                      <LoadingButton variant="contained" size="large" loading>
+                        Loading
+                      </LoadingButton>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        size="large"
+                        type="submit"
+                        sx={{
+                          ":hover": {
+                            bgcolor: "#035e6b !important",
+                          },
+                          bgcolor: "#088395 !important",
+                        }}
+                      >
+                        Submit
+                      </Button>
                     )}
                   </span>
                 </div>
