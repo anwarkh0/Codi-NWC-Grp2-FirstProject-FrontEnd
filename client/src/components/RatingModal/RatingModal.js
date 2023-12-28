@@ -9,7 +9,7 @@ import { AuthContext } from "../../context/authContext";
 
 const RatingModal = ({ openRating, handleClose, setSuccessRate , hotelId}) => {
   const { user } = useContext(AuthContext);
-  const [rate, setRate] = useState();
+  const [rate, setRate] = useState(0.0);
   const [feedback, setFeedback] = useState();
   const { apiCall, loading, error } = UseApi();
   const style = {

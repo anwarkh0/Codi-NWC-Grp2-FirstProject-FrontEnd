@@ -107,11 +107,10 @@ function Rooms({ idHotel }) {
               return (
                 <RoomCard
                   roomId={room.id}
-                  image={room.image}
-                  address={room.address}
+                  image={room.RoomImages[0]}
+                  quality={room.quality}
                   hotel={room.hotel}
                   price={room.price}
-                  stars={room.Hotel.rate}
                   key={index}
                 />
                 );

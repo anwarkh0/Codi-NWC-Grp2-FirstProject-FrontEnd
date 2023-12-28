@@ -66,7 +66,7 @@ const RoomsDashboard = () => {
     };
     const visibleFields = [
       "id",
-      "Hotel",
+      "hotel",
       "price",
       "number",
       "guestNumber",

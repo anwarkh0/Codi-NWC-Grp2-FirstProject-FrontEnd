@@ -47,7 +47,7 @@ const TableComponent = ({
       if (ForWhat === "rooms") {
          visibleFields = [
           "id",
-          "Hotel",
+          "hotel",
           "price",
           "number",
           "guestNumber",

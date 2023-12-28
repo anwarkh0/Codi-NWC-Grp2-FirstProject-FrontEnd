@@ -25,6 +25,7 @@ import dayjs from "dayjs";
 import LoadingButton from "@mui/lab/LoadingButton";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { AuthContext } from "../../context/authContext";
+import axios from "axios";
 dayjs.extend(customParseFormat);
 
 const RoomModal = ({
@@ -55,10 +56,7 @@ const RoomModal = ({
   };
   const [errorMessage, setErrorMessage] = useState("");
   const [hotels, setHotels] = useState([]);
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setImage(file);
-  };
+  const [icon, setIcon] = useState();
 
   useEffect(() => {
     if (type === "edit" && selectedRowData) {
@@ -107,11 +105,26 @@ const RoomModal = ({
         method: "post",
         data: roomInfo,
       });
+      const addImage = await axios.post(
+        `${process.env.REACT_APP_SQL_API}/room/image/add`,
+        {
+          icon: icon,
+          roomId: response.id,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setSuccessAdd(true);
-      // const imageresponse = await apiCall({ url: "/room/image/add", method: "post", data:formData})
-      handleClose();
     } catch (error) {
       console.error(error);
+    }finally{
+      handleClose();
+      setTimeout(()=>{
+        setSuccessAdd(false)
+      }, 30000)
     }
   };
 
@@ -124,11 +137,27 @@ const RoomModal = ({
         method: "patch",
         data: roomInfo,
       });
+      const editImage = await axios.patch(
+        `${process.env.REACT_APP_SQL_API}/room/image`,
+        {
+          icon: icon,
+          id : 1 ,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setSuccessAdd(true);
       // const imageresponse = await apiCall({ url: "/room/image/add", method: "post", data:formData})
-      handleClose();
     } catch (error) {
       console.error(error);
+    }finally{
+      handleClose();
+      setTimeout(()=>{
+        setSuccessEdit(false)
+      }, 30000)
     }
   };
 
@@ -202,7 +231,7 @@ const RoomModal = ({
                 mb: "1rem",
               },
               "& .Mui-focused > .MuiOutlinedInput-notchedOutline ": {
-                border: "1.5px solid #088395 !important",
+                border: "2px solid #088395 !important",
                 borderRadius: "4px",
               },
               "& .Mui-focused > .MuiOutlinedInput-notchedOutline > legend": {
@@ -403,16 +432,15 @@ const RoomModal = ({
                 )}
                 {type === "edit" && (
                   <Typography variant="body1" gutterBottom>
-                    Selected Hotel: {selectedRowData && selectedRowData.Hotel}
+                    Selected Hotel: {selectedRowData && selectedRowData.hotel}
                   </Typography>
                 )}
-                {/* <input
-                  required
+                <label htmlFor="icon">Cover Image</label>
+                <input
+                name="icon"
                   type="file"
-                  name="image"
-                  id="image"
-                  onChange={handleImageChange}
-                /> */}
+                  onChange={(e) => setIcon(e.target.files[0])}
+                />
                 <div style={divStyle}>
                   <span
                     onClick={type === "add" ? handleAddRoom : handleEditRoom}

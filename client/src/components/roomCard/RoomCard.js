@@ -1,8 +1,9 @@
 import { React, useState } from "react";
 import roomCardModule from "./roomCard.module.css";
 import { useNavigate } from "react-router-dom";
+import { Rating } from "@mui/material";
 
-const  RoomCard = ({ data, image, address, hotel, price, stars , roomId}) => {
+const  RoomCard = ({ data, image, quality, hotel, price , roomId}) => {
 
   const navigate = useNavigate()
   const navigateHotel = () => {
@@ -18,7 +19,7 @@ const  RoomCard = ({ data, image, address, hotel, price, stars , roomId}) => {
         <img
           alt="room"
           className={roomCardModule.roompic}
-          src={`${process.env.REACT_APP_SQL_API}/${data && data.HotelImages ? data.HotelImages[0].icon : image}`}
+          src={`${process.env.REACT_APP_SQL_API}/${data && data.HotelImages ? data.HotelImages[0].icon : image && image.icon}`}
         />
         <div style={
           {
@@ -43,12 +44,14 @@ const  RoomCard = ({ data, image, address, hotel, price, stars , roomId}) => {
           }}>
             <span style={{
               fontSize: '1.5rem',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              fontFamily: 'Helvetica Neue'
             }}>
-              {data ? data.name : address}
+              {data ? data.name : quality + " quality"}
             </span>
             <span style={{
-              color: 'black'
+              color: 'black',
+              fontFamily: 'Helvetica Neue'
             }}>
               {data ? data.city : ''}
             </span>
@@ -61,7 +64,7 @@ const  RoomCard = ({ data, image, address, hotel, price, stars , roomId}) => {
             <span>
               {price} $ per night
             </span> ): (
-              <span className={roomCardModule.rate}>{}</span>
+              <span className={roomCardModule.rate}><Rating value={data.rating}/></span>
             )
           }
         </p>

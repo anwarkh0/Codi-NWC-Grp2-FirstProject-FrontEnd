@@ -29,6 +29,7 @@ const RoomDetails = () => {
   const { roomId } = useParams();
   const { apiCall, loading, error } = UseApi();
   const [roomData, setRoomData] = useState();
+  const [images , setImages] = useState()
   const [otherRoomData , setOtherRoomData] = useState()
   const [openReserve, setOpenReserve] = useState(false);
   const [successReserve, setSuccessReserve] = useState(false);
@@ -57,7 +58,9 @@ const RoomDetails = () => {
             id: roomId,
           },
         });
-        setRoomData(response);
+        setRoomData(response.data);
+        setImages(response.data.RoomImages)
+        console.log(response.data.RoomImages)
       } catch (error) {
         console.log(error);
       }
@@ -72,7 +75,7 @@ const RoomDetails = () => {
             id: roomData.hotelId,
           },
         });
-        setOtherRoomData(response);
+        setOtherRoomData(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -134,7 +137,7 @@ const RoomDetails = () => {
             }
             margin="0"
           >
-            <Carousell />
+            <Carousell images={images && images }/>
           </Box>
           <Typography
             variant="h4"
@@ -153,7 +156,7 @@ const RoomDetails = () => {
             fontFamily="Helvetica Neue"
             mb="4rem"
           >
-            {roomData && roomData.hotel.description}
+            {roomData && roomData.Hotel.description}
           </Typography>
           <Typography
             variant="h4"

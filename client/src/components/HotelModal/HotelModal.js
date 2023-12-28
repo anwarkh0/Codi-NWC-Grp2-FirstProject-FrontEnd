@@ -90,7 +90,7 @@ const HotelModal = ({
       handleClose();
       setTimeout(() => {
         setSuccessAdd(false)
-      }, 60000);
+      }, 30000);
     }
   };
 
@@ -116,7 +116,7 @@ const HotelModal = ({
       handleClose();
       setTimeout(() => {
         setSuccessEdit(false)
-      }, 60000);
+      }, 30000);
     }
   };
 
