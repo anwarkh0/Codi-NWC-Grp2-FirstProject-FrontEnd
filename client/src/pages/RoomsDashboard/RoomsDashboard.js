@@ -10,29 +10,11 @@ import Sidebar from "../../layouts/sidebar/sidebar";
 import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal";
 import toast, { Toaster } from "react-hot-toast";
 import RoomModal from "../../components/RoomModal/RoomModal";
-
-const rooms = [
-    {id : 1 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 2 , Hotel : 'Marimar' , price : 987 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 3 , Hotel : 'Aquarius' , price : 122 , number : 2 , maxpeople : 2 , isBooked : 'false'},
-    {id : 4 , Hotel : 'Aquarius' , price : 265 , number : 3 , maxpeople : 2 , isBooked : 'false'},
-    {id : 5 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 6 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 7 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 8 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 9 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 10 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 11 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 12 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 13 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 14 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-    {id : 15 , Hotel : 'Aquarius' , price : 234 , number : 1 , maxpeople : 2 , isBooked : 'false'},
-]
+import UseApi from "../../hookes/useApi";
 
 const RoomsDashboard = () => {
+    const {apiCall,error, loading} = UseApi()
     const [roomData, setroomData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
     const [networkError, setNetworkError] = useState(false);
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
     const [selectedRowData, setSelectedRowData] = useState(null);
@@ -63,9 +45,36 @@ const RoomsDashboard = () => {
     }, []);
 
     useEffect(()=>{
-        setroomData(rooms)
-    })
-
+        const fetchRooms =async () =>{
+          try {
+            const response = await apiCall({ url: "/room", method: "get" })
+            setroomData(response.data)
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        fetchRooms()
+    },[successDelete])
+    const mapDataToColumns = (roomData, visibleFields) => {
+      return roomData.map((item) => {
+        const newItem = {};
+        visibleFields.forEach((field) => {
+          newItem[field] = item[field];
+        });
+        return newItem;
+      });
+    };
+    const visibleFields = [
+      "id",
+      "hotel",
+      "price",
+      "number",
+      "guestNumber",
+      "isBooked",
+      "description"
+    ];
+    // Usage example
+    const structuredData =roomData? mapDataToColumns(roomData, visibleFields):[];
     return(
         <Box
         sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: "5rem" }}
@@ -195,7 +204,7 @@ const RoomsDashboard = () => {
                 }}>Add Room</Button>
               </span>
             <TableComponent
-              data={roomData !== null && roomData}
+              data={structuredData !== null && structuredData}
               isEdit={true}
               ForWhat={"rooms"}
               handleEditOpen={handleEditOpen}

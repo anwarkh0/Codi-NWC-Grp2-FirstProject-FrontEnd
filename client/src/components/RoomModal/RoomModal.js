@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Modal from "@mui/material/Modal";
 import {
   Box,
@@ -7,7 +7,7 @@ import {
   TextField,
   InputLabel,
   Select,
-  Button ,
+  Button,
   MenuItem,
   Stack,
   Typography,
@@ -20,11 +20,12 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import axios from "axios";
+import UseApi from "../../hookes/useApi";
 import dayjs from "dayjs";
-import LoadingButton from '@mui/lab/LoadingButton'
+import LoadingButton from "@mui/lab/LoadingButton";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-
+import { AuthContext } from "../../context/authContext";
+import axios from "axios";
 dayjs.extend(customParseFormat);
 
 const RoomModal = ({
@@ -36,65 +37,132 @@ const RoomModal = ({
   setSuccessAdd,
   setSuccessEdit,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [number, setnumber] = useState("");
-  const [price, setprice] = useState("");
+  const { user } = useContext(AuthContext);
+  const initialRoomInfo = {
+    userId: user && user.id,
+    number: 0,
+    quality: "High",
+    maxpeople: 0,
+    isBooked: false,
+    hotelId: 0,
+    price: 0,
+    description: "",
+  };
+  const { apiCall, loading, error } = UseApi();
   const [image, setImage] = useState("");
-  const [Hotel, setHotel] = useState("");
-  const [isBooked, setisBooked] = useState("");
-  const [maxpeople, setmaxpeople] = useState("");
-  const [dob, setDob] = useState("");
-  const [error, setError] = useState(false);
+  const [roomInfo, setRoomInfo] = useState(initialRoomInfo);
+  const clearForm = () => {
+    setRoomInfo(initialRoomInfo); // Reset the state to initial values
+  };
   const [errorMessage, setErrorMessage] = useState("");
+  const [hotels, setHotels] = useState([]);
+  const [icon, setIcon] = useState();
 
   useEffect(() => {
     if (type === "edit" && selectedRowData) {
-      setnumber(selectedRowData.number);
-      setprice(selectedRowData.price);
-      setImage(selectedRowData.image);
-      setHotel(selectedRowData.Hotel);
-      setisBooked(selectedRowData.isBooked);
-      setmaxpeople(selectedRowData.maxpeople);
-      const dobValue = dayjs(selectedRowData.dob);
-      setDob(dobValue);
+      const updatedRoomInfo = {
+        userId: user && user.id,
+        number: selectedRowData.number || 0,
+        quality: selectedRowData.quality || "High",
+        guestNumber: selectedRowData.guestNumber || 0,
+        isBooked: selectedRowData.isBooked || false,
+        price: selectedRowData.price || 0,
+        description: selectedRowData.description || "",
+        id: selectedRowData.id,
+      };
+      const { hotelId, ...updatedRoomWithoutHotelId } = roomInfo;
+      setRoomInfo({ ...updatedRoomWithoutHotelId, ...updatedRoomInfo });
     }
-  }, [type, selectedRowData]);
+  }, [type, selectedRowData, user]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "image") {
-      setImage(value);
-    } else if (name === "number") {
-      setnumber(value);
-    } else if (name === "price") {
-      setprice(value);
-    } else if (name === "Hotel") {
-      setHotel(value);
-    } else if (name === "maxpeople") {
-      setmaxpeople(value);
-    } else if (name === "dob") {
-      setDob(value);
-    } else if (name === "isBooked") {
-      setisBooked(value);
-    }
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const response = await apiCall({ url: "/hotel", method: "get" });
+        setHotels(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchHotels();
+  }, []);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setRoomInfo((prevRoomInfo) => ({
+      ...prevRoomInfo,
+      [name]: value,
+    }));
   };
 
   const handleAddRoom = async (e) => {
     e.preventDefault();
+    // const formData = new FormData();
+    // formData.append("image", image);
+    try {
+      const response = await apiCall({
+        url: "/room",
+        method: "post",
+        data: roomInfo,
+      });
+      const addImage = await axios.post(
+        `${process.env.REACT_APP_SQL_API}/room/image/add`,
+        {
+          icon: icon,
+          roomId: response.id,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setSuccessAdd(true);
+    } catch (error) {
+      console.error(error);
+    }finally{
+      handleClose();
+      setTimeout(()=>{
+        setSuccessAdd(false)
+      }, 30000)
+    }
   };
 
   const handleEditRoom = async (e) => {
     e.preventDefault();
+    console.log(roomInfo)
+    try {
+      const response = await apiCall({
+        url: "/room",
+        method: "patch",
+        data: roomInfo,
+      });
+      const editImage = await axios.patch(
+        `${process.env.REACT_APP_SQL_API}/room/image`,
+        {
+          icon: icon,
+          id : 1 ,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setSuccessAdd(true);
+      // const imageresponse = await apiCall({ url: "/room/image/add", method: "post", data:formData})
+    } catch (error) {
+      console.error(error);
+    }finally{
+      handleClose();
+      setTimeout(()=>{
+        setSuccessEdit(false)
+      }, 30000)
+    }
   };
 
   const handleFromClear = () => {
-    setnumber("");
-    setprice("");
-    setmaxpeople("");
-    setImage("");
-    setisBooked("");
-    setHotel("");
-    setnumber("");
+    setRoomInfo(initialRoomInfo); // Reset the state to initial values
   };
 
   const divStyle = {
@@ -163,12 +231,12 @@ const RoomModal = ({
                 mb: "1rem",
               },
               "& .Mui-focused > .MuiOutlinedInput-notchedOutline ": {
-                border: "1.5px solid #088395 !important",
+                border: "2px solid #088395 !important",
                 borderRadius: "4px",
               },
-              '& .Mui-focused > .MuiOutlinedInput-notchedOutline > legend':{
-                color : '#088395 !important'
-              }
+              "& .Mui-focused > .MuiOutlinedInput-notchedOutline > legend": {
+                color: "#088395 !important",
+              },
             }}
             autoComplete="off"
           >
@@ -177,7 +245,7 @@ const RoomModal = ({
                 <Typography
                   variant="h4"
                   component="h4"
-                  color='#088395'
+                  color="#088395"
                   sx={{
                     textAlign: "left",
                     mt: 3,
@@ -200,7 +268,7 @@ const RoomModal = ({
                     ml: "8px",
                     width: "fit-content",
                     fontWeight: "bold",
-                    color: '#088395'
+                    color: "#088395",
                   }}
                 >
                   Edit Room
@@ -225,8 +293,18 @@ const RoomModal = ({
                   placeholder="number"
                   name="number"
                   onChange={handleChange}
-                  value={number}
+                  value={roomInfo.number}
                   type="number"
+                />
+                <TextField
+                  required
+                  id="outlined-required1"
+                  label="description"
+                  placeholder="description"
+                  name="description"
+                  onChange={handleChange}
+                  value={roomInfo.description}
+                  type="text"
                 />
                 <TextField
                   required
@@ -235,7 +313,7 @@ const RoomModal = ({
                   placeholder="price"
                   name="price"
                   onChange={handleChange}
-                  value={price}
+                  value={roomInfo.price}
                   type="number"
                 />
                 <FormControl
@@ -256,7 +334,7 @@ const RoomModal = ({
                   <Select
                     labelId="demo-simple-select-required-label"
                     id="demo-simple-select-required"
-                    value={isBooked}
+                    value={roomInfo.isBooked}
                     name="isBooked"
                     label="isBooked *"
                     onChange={handleChange}
@@ -268,42 +346,120 @@ const RoomModal = ({
                     <MenuItem value={"true"}>Yes</MenuItem>
                   </Select>
                 </FormControl>
+                <FormControl
+                  required
+                  sx={{
+                    m: 1,
+                    "& .MuiSvgIcon-root": {
+                      color: "white",
+                      "& .MuiList-root": {
+                        bgcolor: "transparent",
+                      },
+                    },
+                  }}
+                >
+                  <InputLabel id="demo-simple-select-required-label">
+                    Quality
+                  </InputLabel>
+                  <Select
+                    labelId="demo-simple-select-required-label"
+                    id="demo-simple-select-required"
+                    value={roomInfo.quality}
+                    name="quality"
+                    label="quality *"
+                    onChange={handleChange}
+                  >
+                    <MenuItem disabled>
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={"High"}>High</MenuItem>
+                    <MenuItem value={"Medium"}>Medium</MenuItem>
+                    <MenuItem value={"Low"}>Low</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
                   required
                   id="outlined-required"
-                  label="maxpeople"
-                  placeholder="maxpeople"
-                  name="maxpeople"
+                  label="Gest Number"
+                  placeholder="Guest Number"
+                  name="guestNumber"
                   onChange={handleChange}
-                  value={maxpeople}
+                  value={roomInfo.guestNumber}
                   type="number"
                 />
-                <TextField
-                  required
-                  id="outlined-required12"
-                  label="Hotel"
-                  placeholder="Hotel name"
-                  name="Hotel"
-                  onChange={handleChange}
-                  value={maxpeople}
-                />
-
+                {type === "add" && (
+                  <FormControl
+                    required
+                    sx={{
+                      m: 1,
+                      "& .MuiSvgIcon-root": {
+                        color: "white",
+                        "& .MuiList-root": {
+                          bgcolor: "transparent",
+                        },
+                      },
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-required-label">
+                      Hotel
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-required-label"
+                      id="demo-simple-select-required"
+                      value={roomInfo.hotelId}
+                      name="hotelId"
+                      label="Hotel *"
+                      onChange={handleChange}
+                    >
+                      <MenuItem disabled>
+                        <em>None</em>
+                      </MenuItem>
+                      {hotels && hotels.length > 0 ? (
+                        hotels.map((hotel) => (
+                          <MenuItem
+                            key={hotel.id}
+                            value={hotel.id}
+                            name="hotelId"
+                          >
+                            {hotel.name}
+                          </MenuItem>
+                        ))
+                      ) : (
+                        <MenuItem disabled>No hotels available</MenuItem>
+                      )}
+                    </Select>
+                  </FormControl>
+                )}
+                {type === "edit" && (
+                  <Typography variant="body1" gutterBottom>
+                    Selected Hotel: {selectedRowData && selectedRowData.hotel}
+                  </Typography>
+                )}
+                <label htmlFor="icon">Cover Image</label>
                 <input
+                name="icon"
                   type="file"
-                  name="image"
-                  id="image"
-                  onChange={handleChange}
+                  onChange={(e) => setIcon(e.target.files[0])}
                 />
                 <div style={divStyle}>
                   <span
                     onClick={type === "add" ? handleAddRoom : handleEditRoom}
                   >
                     {loading === true ? (
-                      <LoadingButton variant="contained" size="large" loading >Loading</LoadingButton>
-                    ): (
-                      <Button variant="contained" size="large" type="submit" sx={{
-                        bgcolor: '#088395 !important'
-                      }}>Submit</Button>
+                      <LoadingButton variant="contained" size="large" loading>
+                        Loading
+                      </LoadingButton>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        size="large"
+                        type="submit"
+                        sx={{
+                          bgcolor: "#088395 !important",
+                        }}
+                      >
+                        Submit
+                      </Button>
                     )}
                   </span>
                 </div>

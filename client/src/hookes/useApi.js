@@ -18,6 +18,8 @@ const UseApi = () => {
         try {
             setLoading(true)
             const response = await axiosInstance({ url, method, data })
+            // setData(response.data)
+            setLoading(false)
             return response.data
         } catch (error) {
             setError(true)
@@ -32,6 +34,8 @@ const UseApi = () => {
                     console.log("forbidden access")
                 }
             }
+        } finally {
+            setLoading(false)
         }
     }
     return { apiCall, error, loading }

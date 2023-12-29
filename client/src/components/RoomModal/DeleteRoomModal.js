@@ -5,7 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-
+import UseApi from "../../hookes/useApi";
+import { toast } from "react-toastify";
 const DeleteRoomModal = ({
   openDelete,
   handleClose,
@@ -13,9 +14,7 @@ const DeleteRoomModal = ({
   setSuccessDelete,
   setOpenDelete,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-
+  const {apiCall,loading,error}=UseApi()
   const style = {
     position: "absolute",
     top: "50%",
@@ -45,6 +44,17 @@ const DeleteRoomModal = ({
     color: "white",
     padding: 0,
   };
+  const deleteRoom = async () =>{
+      try {
+        console.log(selectedRowData.id)
+        const response = await apiCall({ url: "/room", method: "delete" ,  data: {id:selectedRowData.id} })
+        setSuccessDelete(true)
+        handleClose()
+        // toast.success("The room is deleted")
+      } catch (error) {
+        console.error(error);
+      }
+  }
 
   return (
     <>
@@ -98,6 +108,7 @@ const DeleteRoomModal = ({
           >
             <Button
               variant="contained"
+              onClick={deleteRoom}
               startIcon={<DeleteIcon />}
               size="large"
               sx={{
