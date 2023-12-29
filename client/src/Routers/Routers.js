@@ -15,6 +15,7 @@ import HotelDetails from "../pages/HotelDetails/HotelDetails.js";
 import Profile from "../pages/Profile/Profile.js";
 import RoomDetails from "../pages/RoomDetails/RoomDetails.js";
 import AboutUs from "../pages/AboutUs/AboutUs.js";
+import SelectedRoomsPage from "../pages/roomss/SelectedRoomsPage.js";
 
 const AppRouter = () => {
   return (
@@ -66,6 +67,14 @@ const AppRouter = () => {
           element={
             <LayoutWithNavbar>
               <RoomsPage />
+            </LayoutWithNavbar>
+          }
+        />
+        <Route
+          path="/selectedrooms"
+          element={
+            <LayoutWithNavbar>
+              <SelectedRoomsPage />
             </LayoutWithNavbar>
           }
         />

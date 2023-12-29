@@ -46,6 +46,13 @@
     margin: auto 0;
 }
 
+.svgIcon{
+    margin: auto 0;
+    width: 29px;
+    height:26px;
+    padding-right: 5px;
+}
+
 
 .section:last-child {
     background-color: var(--main-blue);
