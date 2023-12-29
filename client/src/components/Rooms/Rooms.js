@@ -9,22 +9,22 @@ import loadingImg from "../../assets/images/hotel-loading-gif.gif";
 import UseApi from "../../hookes/useApi.js";
 function Rooms({ idHotel }) {
   const {apiCall,loading,error}=UseApi()
-  const [isLoading, setIsLoading] = useState(false);
+  const [type, setType] = useState('default');
   const [roomData, setRoomData] = useState(null);
-  const [DefaultData, setDefaultData] = useState(false);
+  // const [DefaultData, setDefaultData] = useState(false);
 
   useEffect(()=>{
+    console.log(type)
     const fetchRooms =async () =>{
       try {
-        const response = await apiCall({ url: "/room", method: "get" })
+        const response = await apiCall({ url: "/room/order", method: "post" ,data:{type} })
         setRoomData(response.data)
       } catch (error) {
         console.error(error);
       }
     }
     fetchRooms()
-},[])
-
+},[type])
   const [active, setActive] = useState(false);
   const clickHandler = () => {
     setActive(!active);
@@ -41,18 +41,18 @@ function Rooms({ idHotel }) {
   }
 
   //creating sorting ref
-  const defaultSorting = useRef();
-  const priceSorting = useRef();
-  const rateSorting = useRef();
+  // const defaultSorting = useRef();
+  // const priceSorting = useRef();
+  // const rateSorting = useRef();
 
-  const sorting = (reference) => {
-    if (reference.current.textContent === "Default")
-      setDefaultData(!DefaultData);
-    else if (reference.current.textContent === "Price")
-    setRoomData(roomData.sort((a, b) => a.price - b.price));
-    else if (reference.current.textContent === "Rate")
-    setRoomData(roomData.sort((a, b) => a.Hotel.rate - b.Hotel.rate));
-  };
+  // const sorting = (reference) => {
+  //   if (reference.current.textContent === "Default")
+  //     setDefaultData(!DefaultData);
+  //   else if (reference.current.textContent === "Price")
+  //   setRoomData(roomData.sort((a, b) => a.price - b.price));
+  //   else if (reference.current.textContent === "Rate")
+  //   setRoomData(roomData.sort((a, b) => a.Hotel.rate - b.Hotel.rate));
+  // };
   return (
     <>
       <div className={roomsModule.wrapper}>
@@ -68,34 +68,28 @@ function Rooms({ idHotel }) {
           <div className={ink}>
             <ul className={roomsModule.list}>
               <li className={roomsModule.listItem}>
-                <a
-                  href="#"
+                <span
                   className={roomsModule.menuItem}
-                  ref={defaultSorting}
-                  onClick={() => sorting(defaultSorting)}
+                  onClick={() => setType("quality")}
                 >
-                  Default
-                </a>
+                  Quality
+                </span>
               </li>
               <li className={roomsModule.listItem}>
-                <a
-                  href="#"
+                <span
                   className={roomsModule.menuItem}
-                  ref={priceSorting}
-                  onClick={() => sorting(priceSorting)}
+                  onClick={() => setType('price')}
                 >
                   Price
-                </a>
+                </span>
               </li>
               <li className={roomsModule.listItem}>
-                <a
-                  href="#"
+                <span
                   className={roomsModule.menuItem}
-                  ref={rateSorting}
-                  onClick={() => sorting(rateSorting)}
+                  onClick={() => setType("guestNumber")}
                 >
-                  Rate
-                </a>
+                  Guets
+                </span>
               </li>
             </ul>
           </div>

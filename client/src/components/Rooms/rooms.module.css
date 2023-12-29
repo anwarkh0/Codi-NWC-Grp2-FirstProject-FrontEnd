@@ -41,7 +41,7 @@ body.visible {
     align-items: flex-start;
     border: 1px solid black;
     background-color: whitesmoke;
-    width: 6.2rem;
+    width: 7.5rem;
     justify-content: center;
     flex-shrink: 0;
     border-radius: 15.292px;
@@ -55,7 +55,7 @@ body.visible {
 }
 
 .menuItem {
-    text-decoration: none;
+    cursor: pointer;
 
 }
 
