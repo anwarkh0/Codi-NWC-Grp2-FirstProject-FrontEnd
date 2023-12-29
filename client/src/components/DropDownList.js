@@ -6,49 +6,43 @@ import { MenuItem as BaseMenuItem, menuItemClasses } from '@mui/base/MenuItem';
 import { styled } from '@mui/system';
 import { useNavigate } from 'react-router-dom';
 import { useState,useContext } from 'react';
-import { Typography } from '@mui/material';
+import { Typography,useMediaQuery } from '@mui/material';
 import zIndex from '@mui/material/styles/zIndex';
-import { AuthContext } from '../context/authContext';
-import UseApi from '../hookes/useApi';
 import { Link } from 'react-router-dom';
-export default function MenuSimple() {
-    const navigate = useNavigate();
-    const {apiCall}=UseApi()
+export default function MenuSimple({user,handlelogOut}) {
     const [open, setOpen] = useState(false);
-    const {user,setUser} =useContext(AuthContext)
-    const handlelogOut = async () =>{
-        try {
-           await apiCall({
-           url: "auth/logout",
-           method: "post",
-         });
-         setUser(null)
-        //  toast.success("Logged out Successfully!")
-         navigate('/')
-      
-       } catch (error) {
-         console.log(error);
-       }
-      }
+    const isWideScreen = useMediaQuery('(min-width:750px)');
+
   
     const toggleMenu = () => {
       setOpen((prevOpen) => !prevOpen); // Toggle the open state
     };
 
-  return (
-    <Dropdown>
-      <MenuButton onClick={toggleMenu}>My account</MenuButton>
-      <Menu slots={{ listbox: Listbox }} open={open} onClose={() => setOpen(false)} >
-      <Typography variant="overline">
-          {user&& user.firstName} {user&& user.lastName}
-        </Typography>
-        <Link to='/profile'><MenuItem>Profile</MenuItem></Link>
-        <MenuItem onClick={handlelogOut} sx={{
-            color:"red"
-        }}>Log out</MenuItem>
-      </Menu>
-    </Dropdown>
-  );
+    return (
+      <>
+        {isWideScreen && (
+          <Dropdown>
+            <MenuButton onClick={toggleMenu}>My account</MenuButton>
+            <Menu slots={{ listbox: Listbox }} open={open} onClose={() => setOpen(false)}>
+              <Typography variant="overline">
+                {user && user.firstName} {user && user.lastName}
+              </Typography>
+              <Link to="/profile" style={{textDecoration:"none",color:"black"}}>
+                <MenuItem>Profile</MenuItem>
+              </Link>
+              <MenuItem
+                onClick={handlelogOut}
+                sx={{
+                  color: 'red',
+                }}
+              >
+                Log out
+              </MenuItem>
+            </Menu>
+          </Dropdown>
+        )}
+      </>
+    );
 }
 
 const blue = {
@@ -96,7 +90,6 @@ const Listbox = styled('ul')(
     theme.palette.mode === 'dark' ? 'rgba(0,0,0, 0.50)' : 'rgba(0,0,0, 0.05)'
   };
   z-index: 1;
-  text-decoration:none
   `,
 );
 
@@ -132,6 +125,7 @@ const MenuItem = styled(BaseMenuItem)(
 
 const MenuButton = styled(BaseMenuButton)(
   ({ theme }) => `
+  margin-right:2rem;
   z-index: 10;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 600;
