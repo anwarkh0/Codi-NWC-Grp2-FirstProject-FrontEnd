@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
 import {
   Box,
   IconButton,
-  TextField,
   Button ,
   Stack,
   Typography,
@@ -16,41 +15,60 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 import LoadingButton from '@mui/lab/LoadingButton'
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import UseApi from "../../hookes/useApi";
+import { AuthContext } from "../../context/authContext";
 
 dayjs.extend(customParseFormat);
 
 const ReservationModal = ({
-  selectedRowData,
+  roomId ,
   open,
   handleClose,
+  roomData,
+  setSuccessReserve
 }) => {
-  const [loading , setLoading] = useState(false)
-  const [roomId, setRoomId] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const {user} = useContext(AuthContext)
+  const {loading , error ,apiCall } = UseApi()
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState(""); 
+  const [reservedDates, setReservedDates] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === "firstName") {
-      setFirstName(value);
-    } else if (name === "lastName") {
-      setLastName(value);
-    } else if (name === "email") {
-      setEmail(value);
-  };
-  }
+  useEffect(() => {
+    // Extract reserved dates from roomData and set them to reservedDates state
+    const allReservedDates = roomData?.Reservations?.flatMap((reservation) => {
+      const checkInDate = new Date(reservation.checkInDate);
+      const checkOutDate = new Date(reservation.checkOutDate);
+
+      // Generate an array of dates between check-in and check-out dates
+      const datesBetween = [];
+      while (checkInDate <= checkOutDate) {
+        datesBetween.push(new Date(checkInDate));
+        checkInDate.setDate(checkInDate.getDate() + 1);
+      }
+
+      return datesBetween;
+    });
+
+    setReservedDates(allReservedDates || []);
+  }, [roomData]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
-
-  const handleFromClear = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
+     await apiCall({
+      method: 'post',
+      url: 'reservation', 
+      data : {
+        roomId : roomId ,
+        userId : user.id , 
+        checkInDate : startDate ,
+        checkOutDate : endDate
+      }
+    })
+    setSuccessReserve(true)
+    handleClose()
+    setTimeout(()=>{
+      setSuccessReserve(false)
+    },20000)
   };
 
   const divStyle = {
@@ -150,7 +168,7 @@ const ReservationModal = ({
                 style={spanStyle}
                 onClick={() => {
                   handleClose();
-                  handleFromClear();
+                  
                 }}
               >
                 <CloseIcon />
@@ -158,41 +176,14 @@ const ReservationModal = ({
             </div>
             <form onSubmit={handleSubmit}>
               <Stack>
-                <TextField
-                  required
-                  id="outlined-required1"
-                  label="FirstName"
-                  placeholder="FirstName"
-                  name="firstName"
-                  onChange={handleChange}
-                  value={firstName}
-                />
-                <TextField
-                  required
-                  id="outlined-required2"
-                  label="LastName"
-                  placeholder="LastName"
-                  name="lastName"
-                  onChange={handleChange}
-                  value={lastName}
-                />
-                <TextField
-                  required
-                  id="outlined-required"
-                  label="Email"
-                  placeholder="Email"
-                  name="email"
-                  onChange={handleChange}
-                  value={email}
-                />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="Start Date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+                    <DatePicker label="Start Date" value={startDate} onChange={setStartDate} disablePast={true} shouldDisableDate={(day) => reservedDates &&  reservedDates.some(d => dayjs(d).isSame(day, 'day'))}/>
                   </DemoContainer>
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DemoContainer components={["DatePicker"]}>
-                    <DatePicker label="End Date" value={endDate} onChange={setEndDate} />
+                    <DatePicker label="End Date" value={endDate} onChange={setEndDate}disablePast={true} shouldDisableDate={(day) => reservedDates &&  reservedDates.some(d => dayjs(d).isSame(day, 'day'))}/>
                   </DemoContainer>
                 </LocalizationProvider>
                 <div style={divStyle}>

@@ -1,21 +1,44 @@
-import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Box, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+import UseApi from "../../hookes/useApi";
+import { useNavigate } from "react-router-dom";
 
 const DeleteHotelModal = ({
   openDelete,
   handleClose,
   selectedRowData,
   setSuccessDelete,
-  setOpenDelete,
+  hotelPage 
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const {apiCall , loading , error} = UseApi()
+  const navigate = useNavigate()
 
+  const handleDelete = async () =>{
+    try {
+      await apiCall({
+        url: '/hotel',
+        method: 'delete',
+        data: {
+          id : selectedRowData.id
+        }
+      })
+      if (hotelPage){
+        navigate('/hotel')
+      }
+      setSuccessDelete(true)
+    } catch (error) {
+      console.log(error)
+    } finally{
+      setTimeout(()=>{
+        setSuccessDelete(false)
+      }, 30000)
+      handleClose()
+    }
+  }
   const style = {
     position: "absolute",
     top: "50%",
@@ -103,6 +126,7 @@ const DeleteHotelModal = ({
               sx={{
                 bgcolor: '#088395 !important'
               }}
+              onClick={handleDelete}
             >
               Delete
             </Button>

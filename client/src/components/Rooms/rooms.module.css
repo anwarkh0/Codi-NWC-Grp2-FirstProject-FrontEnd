@@ -84,11 +84,11 @@ body.visible {
     margin-left: 15%;
 }
 .header{
-    margin-top: 10rem;
-
+    margin: 10rem 0 0 0 ;
 }
 .subHeader{
     color: #555555;
+    margin-left: 0;
 }
 
 .gridView {
@@ -98,11 +98,12 @@ body.visible {
     column-gap: 4rem;
     row-gap: 4rem;
     width: 70vw;
-    margin: 5rem auto;
+    margin: 2rem auto;
 }
 
 .wrapper {
-    width: 100%;
+    width: 70%;
+    margin: auto;
     height: auto;
 }
 .loading{

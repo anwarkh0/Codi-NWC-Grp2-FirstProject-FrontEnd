@@ -5,6 +5,7 @@
   top: 0;
   z-index: 5;
   width: 100%;
+  font-family: 'Helvetica Neue';
 }
 .menue{
   z-index: 10;
@@ -22,7 +23,7 @@
   display: flex;
   list-style: none;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   text-align: center;
   width: 25vw;
   min-width: 280px;

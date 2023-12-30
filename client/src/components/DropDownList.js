@@ -22,18 +22,30 @@ export default function MenuSimple({user,handlelogOut}) {
       <>
         {isWideScreen && (
           <Dropdown>
-            <MenuButton onClick={toggleMenu}>My account</MenuButton>
+            <MenuButton onClick={toggleMenu} sx={{
+              bgcolor: '#088395',
+              color: 'white',
+              fontWeight: '600',  
+              fontSize: '1rem',
+              ':hover':{
+                bgcolor: '#066876'
+              },
+              fontFamily: "Helvetica Neue"
+            }}>My account</MenuButton>
             <Menu slots={{ listbox: Listbox }} open={open} onClose={() => setOpen(false)}>
-              <Typography variant="overline">
+              <Typography mb='0.5rem' fontFamily='Helvetica Neue'>
                 {user && user.firstName} {user && user.lastName}
               </Typography>
               <Link to="/profile" style={{textDecoration:"none",color:"black"}}>
-                <MenuItem>Profile</MenuItem>
+                <MenuItem sx={{
+                  fontFamily: 'Helvetica Neue'
+                }}>Profile</MenuItem>
               </Link>
               <MenuItem
                 onClick={handlelogOut}
                 sx={{
                   color: 'red',
+                  fontFamily: 'Helvetica Neue'
                 }}
               >
                 Log out

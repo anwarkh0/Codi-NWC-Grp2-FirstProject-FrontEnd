@@ -10,7 +10,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 export default function OAuth() {
   const {apiCall , loading , error} = UseApi()
-  const {fetchUserData , setUser} = useContext(AuthContext)
+  const {fetchUserData , setUser , user} = useContext(AuthContext)
   const navigate = useNavigate();
   const handleGoogleClick = async () => {
     try {

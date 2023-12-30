@@ -51,17 +51,18 @@ const Login = () => {
       console.log("enter email and password");
     }
     try {
-      await apiCall({
+      const response = await apiCall({
         url: "/auth/login",
         method: "post",
         data: { email, password },
       });
       await fetchUserData();
+      if (response.status === 200 )
+      navigate("/");
       
     } catch (error) {
       console.error(error);
     }finally{
-      navigate("/");
     }
   };
   return (

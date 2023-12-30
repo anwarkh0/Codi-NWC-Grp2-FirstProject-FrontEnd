@@ -1,8 +1,8 @@
 .Container{
-    border: solid 2px #BABABA;
+    background-color: #08829583;
     width: 20rem;
     height: 7rem;
-    border-radius: 5px;
+    border-radius: 10px;
     position: relative;
     padding: 1.2rem 2rem;
     display: flex;

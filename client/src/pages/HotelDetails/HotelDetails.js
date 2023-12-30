@@ -1,6 +1,13 @@
 import { useParams } from "react-router-dom";
 import Carousell from "../../components/Carousel/Carousel";
-import { Box, Button, Grid, Rating, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Rating,
+  Typography,
+} from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import UseApi from "../../hookes/useApi";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
@@ -15,6 +22,8 @@ import HotelModal from "../../components/HotelModal/HotelModal";
 import RulesModal from "../../components/RulesModal/RulesModal";
 import ImagesModel from "../../components/ImagesModal/ImagesModal";
 import RoomModal from "../../components/RoomModal/RoomModal";
+import { Delete, Edit } from "@mui/icons-material";
+import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
 
 const HotelDetails = () => {
   const { hotelId } = useParams();
@@ -28,8 +37,10 @@ const HotelDetails = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openRules, setOpenRules] = useState(false);
   const [openRoom, setOpenRoom] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [successRate, setSuccessRate] = useState(false);
   const [successEdit, setSuccessEdit] = useState(false);
+  const [successDelete, setSuccessDelete] = useState(false);
   const [openImage, setOpenImage] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -42,6 +53,12 @@ const HotelDetails = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const handleDeleteClose = () => {
+    if (openDelete === true) {
+      setOpenDelete(false);
+    }
+  };
 
   const handleClose = () => {
     if (openEdit === true) {
@@ -67,8 +84,16 @@ const HotelDetails = () => {
             id: hotelId,
           },
         });
+        
+        const room = await apiCall({
+          url: 'room/byHotel',
+          method: 'post',
+          data: {
+            hotelId : hotelId
+          },
+        })
         setHotelData(response);
-        setRoomData(response.hotel.Rooms);
+        setRoomData(room);
         setImages(response.hotel.HotelImages);
       } catch (error) {
         console.log(error);
@@ -76,7 +101,7 @@ const HotelDetails = () => {
     };
 
     fetchData();
-  }, [successEdit]);
+  }, [successEdit ]);
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -96,7 +121,7 @@ const HotelDetails = () => {
     fetchRating();
   }, [successRate]);
 
-  const flexButton = screenWidth < 600 ? "column" : "row";
+  const flexButton = screenWidth < 400 ? "column" : "row";
   const flexRate = screenWidth < 400 ? "column" : "row";
   const alignRate = screenWidth < 400 ? "flex-start" : "center";
   const flexAlign = screenWidth < 600 ? "flex-start" : "flex-end";
@@ -148,6 +173,7 @@ const HotelDetails = () => {
               component="h3"
               fontWeight="700"
               fontFamily="Helvetica Neue"
+              mb={screenWidth < 600 ? "1rem" : 0}
             >
               {hotelData && hotelData.hotel.name}
             </Typography>
@@ -196,7 +222,7 @@ const HotelDetails = () => {
           <span
             style={{
               display: "flex",
-              flexDirection: flexButton,
+              flexDirection: flexRate,
               justifyContent: "space-between",
             }}
           >
@@ -210,24 +236,25 @@ const HotelDetails = () => {
               Hotel Info
             </Typography>
             {user && (user.role === "Manager" || user.role === "Admin") ? (
-              <span
-                style={{
-                  width: "fitContent",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-                onClick={() => setOpenEdit(true)}
-              >
-                <Button
-                  variant="contained"
-                  startIcon={<EditIcon />}
-                  sx={{
-                    bgcolor: "#088395 !important",
-                    mb: screenWidth < 600 ? "1.5rem" : 0,
-                  }}
-                >
-                  Edit Hotel
-                </Button>
+              <span>
+                  <IconButton
+                  onClick={() => setOpenEdit(true)}
+                    sx={{
+                      color: "#088395",
+                      mb: screenWidth < 600 ? "1.5rem" : 0,
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
+                  <IconButton
+                  onClick={() => setOpenDelete(true)}
+                    sx={{
+                      color: "#088395",
+                      mb: screenWidth < 600 ? "1.5rem" : 0,
+                    }}
+                  >
+                    <Delete />
+                  </IconButton>
               </span>
             ) : (
               ""
@@ -386,7 +413,7 @@ const HotelDetails = () => {
               display: "flex",
               flexDirection: flexButton,
               justifyContent: "space-between",
-              marginTop: '4rem'
+              marginTop: "4rem",
             }}
           >
             <Typography
@@ -425,10 +452,11 @@ const HotelDetails = () => {
               roomData.map((room, index) => (
                 <RoomCard
                   roomId={room.id}
-                  image={room.image}
+                  image={room.RoomImages[0]}
                   address={room.address}
                   hotel={room.hotel}
                   price={room.price}
+                  quality={room.quality}
                   key={index}
                 />
               ))}
@@ -438,7 +466,7 @@ const HotelDetails = () => {
               display: "flex",
               flexDirection: flexButton,
               justifyContent: "space-between",
-              marginTop: "4rem",
+              marginTop: "2rem",
             }}
           >
             <Typography
@@ -450,24 +478,28 @@ const HotelDetails = () => {
             >
               Ratings
             </Typography>
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-              onClick={() => setOpenRating(true)}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  bgcolor: "#088395 !important",
-                  mb: screenWidth < 600 ? "1.5rem" : 0,
+            {user ? (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
                 }}
-                startIcon={<StarIcon />}
+                onClick={() => setOpenRating(true)}
               >
-                Rate this hotel
-              </Button>
-            </span>
+                <Button
+                  variant="contained"
+                  sx={{
+                    bgcolor: "#088395 !important",
+                    mb: screenWidth < 600 ? "1.5rem" : 0,
+                  }}
+                  startIcon={<StarIcon />}
+                >
+                  Rate this hotel
+                </Button>
+              </span>
+            ) : (
+              ""
+            )}
           </span>
           <Box display="flex" flexDirection="column">
             <div
@@ -515,7 +547,7 @@ const HotelDetails = () => {
             >
               {rateData &&
                 rateData.map((rate, index) => (
-                  <Box borderBottom={"1px solid gray"}>
+                  <Box key={rate.id} borderBottom={"1px solid gray"}>
                     <span
                       style={{
                         display: "flex",
@@ -575,7 +607,20 @@ const HotelDetails = () => {
             setSuccessEdit={setSuccessEdit}
             hotelId={hotelId}
           />
-          <RoomModal type="add" open={openRoom} handleClose={handleClose} hotelId={hotelId}/>
+          <RoomModal
+            type="add"
+            open={openRoom}
+            handleClose={handleClose}
+            hotelId={hotelId}
+            setSuccessAdd={setSuccessEdit}
+          />
+          <DeleteHotelModal
+            openDelete={openDelete}
+            handleClose={handleDeleteClose}
+            selectedRowData={hotelData && hotelData.hotel}
+            hotelPage={true}
+            setSuccessDelete={setSuccessDelete}
+          />
         </>
       )}
     </Box>

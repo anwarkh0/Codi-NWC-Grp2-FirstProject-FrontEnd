@@ -1,31 +1,48 @@
-import React, { useRef } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import roomsModule from "./rooms.module.css";
 import down from "../../assets/images/down.png";
 import up from "../../assets/images/up.png";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { AuthContext } from "../../context/authContext";
+import AddIcon from "@mui/icons-material/Add";
 import RoomCard from "../roomCard/RoomCard.js";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
 import UseApi from "../../hookes/useApi.js";
+import { Button } from "@mui/material";
+import RoomModal from "../RoomModal/RoomModal.js";
+import DeleteRoomModal from "../RoomModal/DeleteRoomModal.js";
 function Rooms({ idHotel }) {
-  const {apiCall,loading,error}=UseApi()
-  const [type, setType] = useState('default');
+  const { apiCall, loading, error } = UseApi();
+  const { user } = useContext(AuthContext);
+  const [type, setType] = useState("default");
   const [roomData, setRoomData] = useState(null);
-  // const [DefaultData, setDefaultData] = useState(false);
+  const [DefaultData, setDefaultData] = useState(false);
+  const [oneRoom, setOneRoom] = useState();
+  const [successAdd, setSuccessAdd] = useState(false);
+  const [successDelete, setSuccessDelete] = useState(false);
+  const [active, setActive] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
 
-  useEffect(()=>{
-    console.log(type)
-    const fetchRooms =async () =>{
+  useEffect(() => {
+    const fetchRooms = async () => {
       try {
-        const response = await apiCall({ url: "/room/order", method: "post" ,data:{type} })
-        setRoomData(response.data)
+        const response = await apiCall({
+          url: "/room/order",
+          method: "post",
+          data: { type },
+        });
+        setRoomData(response.data);
       } catch (error) {
         console.error(error);
       }
-    }
-    fetchRooms()
-},[type])
-  const [active, setActive] = useState(false);
+    };
+    fetchRooms();
+  }, [successAdd, successDelete, type]);
+
+  const handleClose = () => {
+    setOpenAdd(false);
+    setOpenDelete(false);
+  };
   const clickHandler = () => {
     setActive(!active);
   };
@@ -40,19 +57,6 @@ function Rooms({ idHotel }) {
     arr = down;
   }
 
-  //creating sorting ref
-  // const defaultSorting = useRef();
-  // const priceSorting = useRef();
-  // const rateSorting = useRef();
-
-  // const sorting = (reference) => {
-  //   if (reference.current.textContent === "Default")
-  //     setDefaultData(!DefaultData);
-  //   else if (reference.current.textContent === "Price")
-  //   setRoomData(roomData.sort((a, b) => a.price - b.price));
-  //   else if (reference.current.textContent === "Rate")
-  //   setRoomData(roomData.sort((a, b) => a.Hotel.rate - b.Hotel.rate));
-  // };
   return (
     <>
       <div className={roomsModule.wrapper}>
@@ -78,7 +82,7 @@ function Rooms({ idHotel }) {
               <li className={roomsModule.listItem}>
                 <span
                   className={roomsModule.menuItem}
-                  onClick={() => setType('price')}
+                  onClick={() => setType("price")}
                 >
                   Price
                 </span>
@@ -94,9 +98,31 @@ function Rooms({ idHotel }) {
             </ul>
           </div>
         </div>
+        {user && (user.role === "Manager" || user.role === "Admin") ? (
+          <span
+            style={{
+              width: "fitContent",
+            }}
+            onClick={() => setOpenAdd(true)}
+          >
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                bgcolor: "#088395 !important",
+                mt: "1rem",
+                mb: "1rem",
+              }}
+            >
+              Add Room
+            </Button>
+          </span>
+        ) : (
+          ""
+        )}
 
-          {!loading && roomData ? (
-            <div className={roomsModule.gridView}>
+        {!loading && roomData ? (
+          <div className={roomsModule.gridView}>
             {roomData.map((room, index) => {
               return (
                 <RoomCard
@@ -106,23 +132,37 @@ function Rooms({ idHotel }) {
                   hotel={room.hotel}
                   price={room.price}
                   key={index}
+                  setOpenDelete={setOpenDelete}
+                  setOneRoom={setOneRoom}
                 />
-                );
-              })}
-              </div>
-          ) : (
-            <span className={roomsModule.loading}>
-              <img
-                src={loadingImg}
-                style={{
-                  width: "15rem",
-                  height: "15rem",
-                }}
-                alt="loading"
-              />
-            </span>
-          )}
-        </div>
+              );
+            })}
+          </div>
+        ) : (
+          <span className={roomsModule.loading}>
+            <img
+              src={loadingImg}
+              style={{
+                width: "15rem",
+                height: "15rem",
+              }}
+              alt="loading"
+            />
+          </span>
+        )}
+      </div>
+      <RoomModal
+        type="add"
+        open={openAdd}
+        handleClose={handleClose}
+        setSuccessAdd={setSuccessAdd}
+      />
+      <DeleteRoomModal
+        openDelete={openDelete}
+        handleClose={handleClose}
+        setSuccessDelete={setSuccessDelete}
+        selectedRowData={oneRoom}
+      />
     </>
   );
 }
