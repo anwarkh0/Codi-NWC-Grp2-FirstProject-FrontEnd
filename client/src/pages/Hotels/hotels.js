@@ -8,15 +8,19 @@ import { Button, Typography } from "@mui/material";
 import { AuthContext } from "../../context/authContext";
 import AddIcon from "@mui/icons-material/Add";
 import HotelModal from "../../components/HotelModal/HotelModal";
+import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
 
 const Hotels = () => {
   const { apiCall, loading, error } = UseApi();
   const { user } = useContext(AuthContext);
   const [hotelData, setHotelData] = useState(null);
-  const [oneHotelData, setOneHotelData] = useState();
-  const [successAdd , setSuccessAdd] = useState(false)
+  const [successAdd, setSuccessAdd] = useState(false);
   const [openAdd, setOpenAdd] = useState(false);
-  const handleClose = () => setOpenAdd(!openAdd);
+  const handleClose = () => {
+    if (openAdd === true) {
+      setOpenAdd(!openAdd);
+    }
+  };
 
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
@@ -54,7 +58,7 @@ const Hotels = () => {
             display: "flex",
             flexDirection: flexButton,
             justifyContent: "space-between",
-            width :'100%'
+            width: "100%",
           }}
         >
           <span>
@@ -76,6 +80,7 @@ const Hotels = () => {
               color="#585858"
               fontFamily="Helvetica Neue"
               mt="1rem"
+              mb="1rem"
               display="flex"
               justifyContent="flex-start"
               width="100%"
@@ -95,8 +100,8 @@ const Hotels = () => {
                 startIcon={<AddIcon />}
                 sx={{
                   bgcolor: "#088395 !important",
-                  mt: screenWidth < 650 ? '1rem' : "",
-                  mb: screenWidth < 650 ? '1rem' : ""
+                  mt: screenWidth < 650 ? "1rem" : "",
+                  mb: screenWidth < 650 ? "1rem" : "",
                 }}
               >
                 Add Hotel
@@ -106,31 +111,36 @@ const Hotels = () => {
             ""
           )}
         </span>
-        <div className={hotelsStyle.Hotels}>
-          {!loading && hotelData ? (
-            hotelData.map((hotel, index) => {
-              return <RoomCard data={hotel} key={index} />;
-            })
-          ) : (
-            <span className={hotelsStyle.loading}>
-              <img
-                src={loadingImg}
-                style={{
-                  width: "15rem",
-                  height: "15rem",
-                  scale: "1",
-                }}
-                alt="loading"
-              />
-            </span>
-          )}
-        </div>
+        {!loading && hotelData ? (
+          <div className={hotelsStyle.Hotels}>
+            {hotelData.map((hotel, index) => {
+              return (
+                <RoomCard
+                  data={hotel}
+                  key={index}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <span className={hotelsStyle.loading}>
+            <img
+              src={loadingImg}
+              style={{
+                width: "15rem",
+                height: "15rem",
+                scale: "1",
+              }}
+              alt="loading"
+            />
+          </span>
+        )}
+
         <HotelModal
           type="add"
           open={openAdd}
           handleClose={handleClose}
           setSuccessAdd={setSuccessAdd}
-          selectedRowData={oneHotelData && oneHotelData}
         />
       </div>
       <Footer />

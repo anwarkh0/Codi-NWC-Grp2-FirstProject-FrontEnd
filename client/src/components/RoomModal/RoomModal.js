@@ -13,13 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import InputAdornment from "@mui/material/InputAdornment";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import UseApi from "../../hookes/useApi";
 import dayjs from "dayjs";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -40,21 +33,16 @@ const RoomModal = ({
   const { user } = useContext(AuthContext);
   const initialRoomInfo = {
     userId: user && user.id,
-    number: 0,
+    number: "",
     quality: "High",
-    maxpeople: 0,
+    maxpeople: "",
     isBooked: false,
-    hotelId: 0,
-    price: 0,
+    hotelId: "",
+    price: "",
     description: "",
   };
   const { apiCall, loading, error } = UseApi();
-  const [image, setImage] = useState("");
   const [roomInfo, setRoomInfo] = useState(initialRoomInfo);
-  const clearForm = () => {
-    setRoomInfo(initialRoomInfo); // Reset the state to initial values
-  };
-  const [errorMessage, setErrorMessage] = useState("");
   const [hotels, setHotels] = useState([]);
   const [icon, setIcon] = useState();
 
@@ -62,12 +50,12 @@ const RoomModal = ({
     if (type === "edit" && selectedRowData) {
       const updatedRoomInfo = {
         userId: user && user.id,
-        number: selectedRowData.number || 0,
-        quality: selectedRowData.quality || "High",
-        guestNumber: selectedRowData.guestNumber || 0,
-        isBooked: selectedRowData.isBooked || false,
-        price: selectedRowData.price || 0,
-        description: selectedRowData.description || "",
+        number: selectedRowData.number ,
+        quality: selectedRowData.quality ,
+        guestNumber: selectedRowData.guestNumber,
+        isBooked: selectedRowData.isBooked ,
+        price: selectedRowData.price ,
+        description: selectedRowData.description ,
         id: selectedRowData.id,
       };
       const { hotelId, ...updatedRoomWithoutHotelId } = roomInfo;
@@ -97,19 +85,17 @@ const RoomModal = ({
 
   const handleAddRoom = async (e) => {
     e.preventDefault();
-    // const formData = new FormData();
-    // formData.append("image", image);
     try {
       const response = await apiCall({
         url: "/room",
         method: "post",
         data: roomInfo,
       });
-      const addImage = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_SQL_API}/room/image/add`,
         {
           icon: icon,
-          roomId: response.id,
+          roomId: response.data.id,
         },
         {
           headers: {
@@ -132,12 +118,12 @@ const RoomModal = ({
     e.preventDefault();
     console.log(roomInfo)
     try {
-      const response = await apiCall({
+      await apiCall({
         url: "/room",
         method: "patch",
         data: roomInfo,
       });
-      const editImage = await axios.patch(
+      await axios.patch(
         `${process.env.REACT_APP_SQL_API}/room/image`,
         {
           icon: icon,
@@ -150,7 +136,6 @@ const RoomModal = ({
         }
       );
       setSuccessAdd(true);
-      // const imageresponse = await apiCall({ url: "/room/image/add", method: "post", data:formData})
     } catch (error) {
       console.error(error);
     }finally{
@@ -159,10 +144,6 @@ const RoomModal = ({
         setSuccessEdit(false)
       }, 30000)
     }
-  };
-
-  const handleFromClear = () => {
-    setRoomInfo(initialRoomInfo); // Reset the state to initial values
   };
 
   const divStyle = {
@@ -278,7 +259,6 @@ const RoomModal = ({
                 style={spanStyle}
                 onClick={() => {
                   handleClose();
-                  handleFromClear();
                 }}
               >
                 <CloseIcon />

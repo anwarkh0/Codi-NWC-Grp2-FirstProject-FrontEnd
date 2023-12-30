@@ -7,24 +7,17 @@ import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
 import style from "./Profile.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import ProfileActivity from "../../components/ProfileActivity/ProfileActivity";
+import { AuthContext } from "../../context/authContext";
+import UseApi from "../../hookes/useApi";
 
 const Profile = () => {
+  const { user } = useContext(AuthContext);
   const [overview, setOverview] = useState(true);
   const [edit, setEdit] = useState(false);
-  const [userData, setUserData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [userData, setUserData] = useState();
   const [networkError, setNetworkError] = useState(false);
   const [successEdit, setSuccessEdit] = useState(false);
-
-
-const user = {
-  id: 1 ,
-  fullName : 'Wwouroud EL Khaldi',
-  address : 'Bebnine, Akkar',
-  dob : '01-12-2004',
-  email : 'wouroud@gmail.com'
-}
+  const { apiCall, loading, error } = UseApi();
 
   useEffect(() => {
     const handleOffline = () => {
@@ -36,45 +29,41 @@ const user = {
     };
   });
 
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
-    // if (user) {
-    //   console.log(user);
-    //   if (user.id !== null) {
-    //     console.log("start fetching");
-    //     const getUser = async () => {
-    //       setLoading(true);
-    //       setNetworkError(false);
-    //       setError(false);
-    //       try {
-    //         const userFetched = await apiCall({
-    //           url: "api/auth/user",
-    //           method: "post",
-    //           data: { id: user.id },
-    //         });
-    //         if (userFetched) {
-    //           setUserData(userFetched.User);
-    //         }
-    //         setLoading(false);
-    //       } catch (error) {
-    //         setLoading(false);
-    //         if (error.message === "Network Error") {
-    //           setNetworkError(true);
-    //         } else {
-    //           setError(true);
-    //         }
-    //       }
-    //     };
-    //     getUser();
-    //   }
-    // }
-    setUserData(user)
-  }, [successEdit]);
-  
-  useEffect(()=>{
-    if (successEdit){
-      toast.success(`User: ${user.fullName} has been edited successfuly`)
+    const handleResize = () => {
+      const newWid = window.innerWidth;
+      setScreenWidth(newWid);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const response = await apiCall({
+        method: "post",
+        url: "/user/getOne",
+        data: {
+          id: user && user.id,
+        },
+      });
+      setUserData(response);
+    };
+    fetchUser();
+  }, [successEdit, !user]);
+
+  useEffect(() => {
+    if (successEdit) {
+      toast.success(
+        `User: ${
+          userData && userData.firstName + " " + userData.lastName
+        } has been edited successfuly`
+      );
     }
-  },[successEdit])
+  }, [successEdit]);
 
   const handleOverview = () => {
     setOverview(true);
@@ -86,25 +75,29 @@ const user = {
     setOverview(false);
   };
 
+  const flex = screenWidth < 600 ? "column" : "row";
+  const leftSpanWidth = screenWidth < 600 ? '100%' : '55%'
+  const rightSpanWidth = screenWidth < 600 ? '100%' : '40%'
+
   return (
     <div
       style={{
         marginLeft: "4rem",
-        marginRight: '0.3rem',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center'
+        marginRight: "0.3rem",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Sidebar />
-      <Toaster/>
+      <Toaster />
       <>
         <span
           style={{
             marginTop: "7rem",
             display: "flex",
-            justifyContent: 'center',
-            width: '90%'
+            justifyContent: "center",
+            width: "90%",
           }}
         >
           <ProfileCard
@@ -115,23 +108,47 @@ const user = {
             userData={userData && userData}
           />
         </span>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          boxShadow: '1px 1px 5px 5px #BABABA',
-          width : '90%',
-          borderRadius: '10px'
-        }}>
-          {overview && <ProfileActivity userData={userData && userData} />}
-
-          {overview && <ProfileDetails userData={userData && userData} />}
+        {overview && 
+        <div
+          style={{
+            width: "90%",
+            display: "flex",
+            flexDirection: flex,
+            columnGap: '10%'
+          }}
+        >
+          <span
+            style={{
+              display: "flex",
+              boxShadow: "1px 1px 5px 5px #BABABA",
+              width: leftSpanWidth,
+              borderRadius: "10px",
+              marginBottom : '2rem',
+            }}
+          >
+            <ProfileActivity userData={userData && userData} />
+          </span>
+          <span
+            style={{
+              display: "flex",
+              boxShadow: "1px 1px 5px 5px #BABABA",
+              width: rightSpanWidth,
+              borderRadius: "10px",
+              height: '19rem'
+            }}
+          >
+            <ProfileDetails userData={userData && userData} />
+          </span>
         </div>
+        }
         {edit && (
-          <span style={{
-            display: 'flex',
-            justifyContent: 'center',
-            width : '90%'
-          }}>
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              width: "90%",
+            }}
+          >
             <EditProfile
               userData={userData && userData}
               setSuccessEdit={setSuccessEdit}

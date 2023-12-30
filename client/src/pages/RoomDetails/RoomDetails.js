@@ -1,38 +1,38 @@
 import ReservationModal from "../../components/Booking/BookingDetails";
-
-//   return (
-//     <div style={{
-//       marginTop: '10rem'
-//     }}>
-//       <button
-//         onClick={handleOpen}
-//       >
-//         Reserve
-//       </button>
-//       {open && <ReservationModal open={open} handleClose={handleClose} />}
-//     </div> 
-//   );
-// };
-
-// export default RoomDetails
 import { useParams } from "react-router-dom";
 import Carousell from "../../components/Carousel/Carousel";
-import { Box, Button, Grid, Rating, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import {
+  Box,
+  Button,
+  IconButton,
+  Typography,
+} from "@mui/material";
+import { useContext, useEffect, useState } from "react";
 import UseApi from "../../hookes/useApi";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
 import RoomCard from "../../components/roomCard/RoomCard";
+import ImagesModel from "../../components/ImagesModal/ImagesModal";
 import styles from "./RoomDetails.module.css";
-import RatingModal from "../../components/RatingModal/RatingModal";
+import { AuthContext } from "../../context/authContext";
+import AddIcon from "@mui/icons-material/Add";
+import { Delete, Edit } from "@mui/icons-material";
+import RoomModal from "../../components/RoomModal/RoomModal";
+import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal";
 
 const RoomDetails = () => {
   const { roomId } = useParams();
+  const { user } = useContext(AuthContext);
   const { apiCall, loading, error } = UseApi();
   const [roomData, setRoomData] = useState();
-  const [images , setImages] = useState()
-  const [otherRoomData , setOtherRoomData] = useState()
+  const [images, setImages] = useState();
+  const [otherRoomData, setOtherRoomData] = useState();
   const [openReserve, setOpenReserve] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [successReserve, setSuccessReserve] = useState(false);
+  const [successEdit, setSuccessEdit] = useState(false);
+  const [successDelete, setSuccessDelete] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   useEffect(() => {
     const handleResize = () => {
@@ -45,8 +45,17 @@ const RoomDetails = () => {
     };
   }, []);
 
-  const handleOpenReserve = () => setOpenReserve(true);
-  const handleCloseReserve = () => setOpenReserve(false);
+  const handleClose = () => {
+    if (openDelete) {
+      setOpenDelete(false);
+    } else if (openReserve) {
+      setOpenReserve(false);
+    } else if (openImage) {
+      setOpenImage(false);
+    } else if (openEdit) {
+      setOpenEdit(false);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,32 +67,26 @@ const RoomDetails = () => {
             id: roomId,
           },
         });
-        setRoomData(response.data);
-        setImages(response.data.RoomImages)
-        console.log(response.data.RoomImages)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const fetchOtherRooms = async () => {
-      try {
-        const response = await apiCall({
+        const otherRooms = await apiCall({
           url: "/room/byHotel",
           method: "post",
           data: {
-            id: roomData.hotelId,
+            hotelId: response.data.hotelId,
           },
         });
-        setOtherRoomData(response.data);
+        setOtherRoomData(otherRooms);
+        setRoomData(response.data);
+        setImages(response.data.RoomImages);
       } catch (error) {
         console.log(error);
       }
     };
 
-    fetchOtherRooms()
     fetchData();
-  }, []);
+  }, [successEdit, successReserve]);
+
+  const flexButton = screenWidth < 300 ? "column" : "row";
+  const flexRate = screenWidth < 400 ? "column" : "row";
 
   return (
     <Box
@@ -121,6 +124,61 @@ const RoomDetails = () => {
         </div>
       ) : (
         <>
+          <span
+            style={{
+              display: "flex",
+              flexDirection: flexButton,
+              justifyContent: "space-between",
+            }}
+          >
+            <Typography
+              variant="h3"
+              component="h3"
+              fontWeight="700"
+              fontFamily="Helvetica Neue"
+              mb={screenWidth < 600 ? "1rem" : 0}
+            >
+              Room Numer {roomData && roomData.number}
+            </Typography>
+            {user && (user.role === "Manager" || user.role === "Admin") ? (
+              <IconButton
+                onClick={() => setOpenDelete(true)}
+                sx={{
+                  color: "#088395",
+                  mb: screenWidth < 600 ? "1.5rem" : 0,
+                  
+                }}
+              >
+                <Delete />
+              </IconButton>
+            ) : (
+              ""
+            )}
+          </span>
+          {user && (user.role === "Admin" || user.role === "Manager") ? (
+            <span
+              style={{
+                width: "fitContent",
+                display: "flex",
+                alignItems: "center",
+                marginTop: '1rem'
+              }}
+              onClick={() => setOpenImage(true)}
+            >
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                sx={{
+                  bgcolor: "#088395 !important",
+                  mb: screenWidth < 600 ? "1.5rem" : 0,
+                }}
+              >
+                Add Images
+              </Button>
+            </span>
+          ) : (
+            ""
+          )}
           <Box
             display="flex"
             justifyContent="center"
@@ -137,16 +195,57 @@ const RoomDetails = () => {
             }
             margin="0"
           >
-            <Carousell images={images && images }/>
+            <Carousell images={images && images} />
           </Box>
-          <Typography
-            variant="h4"
-            component="h4"
-            fontWeight="700"
-            fontFamily="Helvetica Neue"
-            mb="1rem"
+          <span
+            style={{
+              display: "flex",
+              flexDirection: flexRate,
+              justifyContent: "space-between",
+            }}
           >
-            Room Description
+            <Typography
+              variant="h4"
+              component="h4"
+              fontWeight="700"
+              fontFamily="Helvetica Neue"
+              mb="1rem"
+            >
+              Room Info
+            </Typography>
+            {user && (user.role === "Manager" || user.role === "Admin") ? (
+              <span>
+                <IconButton
+                  onClick={() => setOpenEdit(true)}
+                  sx={{
+                    color: "#088395",
+                    mb: screenWidth < 600 ? "1.5rem" : 0,
+                  }}
+                >
+                  <Edit />
+                </IconButton>
+              </span>
+            ) : (
+              ""
+            )}
+          </span>
+          <Typography
+            variant="p"
+            component="p"
+            fontSize="1rem"
+            color="#585858"
+            fontFamily="Helvetica Neue"
+            mb="1.2rem"
+          >
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Price :{" "}
+            </span>{" "}
+            {roomData && roomData.price} $
           </Typography>
           <Typography
             variant="p"
@@ -154,10 +253,103 @@ const RoomDetails = () => {
             fontSize="1rem"
             color="#585858"
             fontFamily="Helvetica Neue"
-            mb="4rem"
+            mb="1.2rem"
           >
-            {roomData && roomData.Hotel.description}
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Guest Numeber :{" "}
+            </span>{" "}
+            {roomData && roomData.guestNumber}
           </Typography>
+          <Typography
+            variant="p"
+            component="p"
+            fontSize="1rem"
+            color="#585858"
+            fontFamily="Helvetica Neue"
+            mb="1.2rem"
+          >
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Hotel :{" "}
+            </span>{" "}
+            {roomData && roomData.Hotel.name}
+          </Typography>
+          <Typography
+            variant="p"
+            component="p"
+            fontSize="1rem"
+            color="#585858"
+            fontFamily="Helvetica Neue"
+            mb="1.2rem"
+          >
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Quality :{" "}
+            </span>{" "}
+            {roomData && roomData.quality}
+          </Typography>
+          <Typography
+            variant="p"
+            component="p"
+            fontSize="1rem"
+            color="#585858"
+            fontFamily="Helvetica Neue"
+            mb="1.2rem"
+          >
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Description :{" "}
+            </span>{" "}
+            {roomData && roomData.description}
+          </Typography>
+          {user && user.role === 'Customer'}
+          <Typography
+            variant="h4"
+            component="h4"
+            fontWeight="700"
+            fontFamily="Helvetica Neue"
+            mb="1rem"
+            mt="4rem"
+          >
+            Reserve This Room 
+          </Typography>
+          <span
+              style={{
+                width: "fitContent",
+                display: "flex",
+                alignItems: "center",
+                marginTop: '1rem'
+              }}
+              onClick={() => setOpenReserve(true)}
+            >
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                sx={{
+                  bgcolor: "#088395 !important",
+                  mb: screenWidth < 600 ? "1.5rem" : 0,
+                }}
+              >
+                Reserve this room
+              </Button>
+            </span>
           <Typography
             variant="h4"
             component="h4"
@@ -169,24 +361,47 @@ const RoomDetails = () => {
             Other Rooms
           </Typography>
           <div className={styles.gridView}>
-            {roomData &&
-              otherRoomData &&
-              otherRoomData.map((room, index) => (
-                <RoomCard
-                  roomId={room.id}
-                  image={room.image}
-                  address={room.address}
-                  hotel={room.hotel}
-                  price={room.price}
-                  key={index}
-                />
-              ))}
+            {otherRoomData &&
+              otherRoomData
+                .filter((room) => room.id !== roomData.id)
+                .map((room, index) => (
+                  <RoomCard
+                    roomId={room.id}
+                    image={room.RoomImages[0]}
+                    address={room.address}
+                    hotel={room.hotel}
+                    price={room.price}
+                    quality={room.quality}
+                    key={index}
+                  />
+                ))}
           </div>
           <ReservationModal
             setSuccessReserve={setSuccessReserve}
-            handleCloseReserve={handleCloseReserve}
-            openReserve={openReserve}
+            handleClose={handleClose}
+            open={openReserve}
             roomId={roomId}
+            roomData={roomData && roomData}
+          />
+          <ImagesModel
+            open={openImage}
+            handleClose={handleClose}
+            setSuccessEdit={setSuccessEdit}
+            roomId={roomId}
+          />
+          <RoomModal
+            type="edit"
+            setSuccessEdit={setSuccessEdit}
+            open={openEdit}
+            handleClose={handleClose}
+            selectedRowData={roomData && roomData}
+          />
+          <DeleteRoomModal
+            openDelete={openDelete}
+            handleClose={handleClose}
+            roomPage={true}
+            selectedRowData={roomData && roomData}
+            setSuccessDelete={setSuccessDelete}
           />
         </>
       )}
@@ -194,4 +409,3 @@ const RoomDetails = () => {
   );
 };
 export default RoomDetails;
-

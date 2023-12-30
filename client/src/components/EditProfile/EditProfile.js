@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Box,
   Stack,
@@ -12,24 +12,22 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 import axios from "axios";
-import dayjs from "dayjs";
-import LoadingButton from '@mui/lab/LoadingButton'
+import LoadingButton from "@mui/lab/LoadingButton";
+import { AuthContext } from "../../context/authContext";
 
-const EditProfile = ({ userData, setSuccessEdit }) => {
-  const [fullName, setfullName] = useState("");
-  const [image, setImage] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [dob, setDob] = useState("");
+const EditProfile = ({ setSuccessEdit, userData }) => {
+  const { setUserserUpdated } = useContext(AuthContext);
+  const [firstName, setFirstName] = useState(userData && userData.firstName);
+  const [lastName, setLastName] = useState(userData && userData.lastName);
+  const [image, setImage] = useState(userData && userData.image);
+  const [password, setPassword] = useState(null);
+  const [role, setRole] = useState(userData && userData.role);
+  const [email, setEmail] = useState(userData && userData.email);
+  const [oldPassword, setOldPassword] = useState();
   const [showPassword, setShowPassword] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [display, setDisplay] = useState(screenWidth < 900 ? "column" : "row");
@@ -50,29 +48,31 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
   }, []);
 
   useEffect(() => {
-    setfullName(userData.fullName);
-    setImage(userData.image);
-    setPassword(userData.password);
-    setRole(userData.role);
-    setEmail(userData.email);
-    const dobValue = dayjs(userData.dob);
-    setDob(dobValue);
+    setFirstName(userData && userData.firstName);
+    setLastName(userData && userData.lastName);
+    setImage(userData && userData.image);
+    setRole(userData && userData.role);
+    setEmail(userData && userData.email);
   }, [userData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "image") {
       setImage(value);
-    } else if (name === "fullName") {
-      setfullName(value);
+    } else if (name === "firstName") {
+      setFirstName(value);
     } else if (name === "password") {
       setPassword(value);
     } else if (name === "email") {
       setEmail(value);
-    } else if (name === "dob") {
-      setDob(value);
+    } else if (name === "lastName") {
+      setLastName(value);
     } else if (name === "role") {
       setRole(value);
+    } else if (name === "oldPassword") {
+      setOldPassword(value);
+    } else if (name === "password") {
+      setPassword(value);
     }
   };
 
@@ -81,41 +81,62 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const conditionPassword = password !== null ? password : null;
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      setLoading(true);
+      const response = await axios.patch(
+        `${process.env.REACT_APP_SQL_API}/user/update`,
+        {
+          firstName: firstName,
+          lastName: lastName,
+          image: image,
+          password: conditionPassword,
+          email: email,
+          id: userData && userData.id,
+          oldPassword: oldPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.status === 200) {
+        setSuccessEdit(true);
+        setUserserUpdated(true);
+      }
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+      setTimeout(() => {
+        setSuccessEdit(false);
+        setUserserUpdated(true);
+      }, 30000);
+    }
   };
 
   return (
     <Box
       sx={{
         bgcolor: "white",
-        width: '100%',
-        padding: screenWidth < 380 ? '10px' : "2rem",
+        width: "100%",
+        padding: screenWidth < 380 ? "10px" : "2rem",
         mb: "5rem",
         borderRadius: "10px",
-        boxShadow: '1px 1px 5px 5px #BABABA' ,
+        boxShadow: "1px 1px 5px 5px #BABABA",
+        fontFamily: "Helvetica Neue",
         "& .MuiFormControl-root": {
           mt: 2,
           mb: 2,
           ml: 0,
           mr: 0,
-          width:screenWidth < 380 ? "10rem" :  screenWidth < 550 ? "15rem" : "20rem",
-        },
-        "& .MuiInputBase-root": {
-          color: "black",
-        },
-        "& .MuiFormLabel-root ": {
-          color: "black",
-        },
-        "& .MuiOutlinedInput-root": {
-          border: "black !important",
-        },
-        "& .MuiBox-root css-3b5rqz": {
-          margin: "2rem !important",
-        },
-        "& .MuiSvgIcon-root": {
-          color: "white",
+          width:
+            screenWidth < 380 ? "10rem" : screenWidth < 550 ? "15rem" : "20rem",
+          fontFamily: "Helvetica Neue",
         },
         "& .MuiButton-containedPrimary": {
           bgcolor: "#088395 !important",
@@ -124,44 +145,65 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
           mb: 2,
           height: "3.5rem",
           width: screenWidth < 550 ? "15rem" : "20rem",
+          fontFamily: "Helvetica Neue",
         },
         "& .MuiButton-containedPrimary:hover": {
           bgcolor: "#035e6b !important",
+          fontFamily: "Helvetica Neue",
         },
         "& .MuiStack-root": {
           padding: 0,
           margin: 0,
+          fontFamily: "Helvetica Neue",
         },
         "& .MuiButtonBase-root": {
           borderRadius: 0,
           bgcolor: "#088395",
           padding: "15px",
+          fontFamily: "Helvetica Neue",
         },
         "& .MuiButtonBase-root:hover": {
           bgcolor: "#17456E",
         },
         "& .MuiOutlinedInput-notchedOutline ": {
-          border: "1.5px solid #088395 !important",
+          border: "1.5px solid  gray !important",
           borderRadius: "4px",
+          fontFamily: "Helvetica Neue",
         },
         "& .Mui-focused > .MuiOutlinedInput-notchedOutline ": {
-          border: "1.5px solid #088395 !important",
+          border: "2px solid #088395 !important",
           borderRadius: "4px",
+          fontFamily: "Helvetica Neue",
         },
-        '& .Mui-focused > .MuiOutlinedInput-notchedOutline > fieldset > legend':{
-          color : '#088395 !important'
+        "& .MuiStack-root ": {
+          width:
+            screenWidth < 380 ? "10rem" : screenWidth < 500 ? "15rem" : "20rem",
+          margin:
+            screenWidth < 900 ? 0 : screenWidth < 1100 ? "0 3rem" : "0 5rem",
+          alignItems: screenWidth < 550 ? "center" : "",
+          fontFamily: "Helvetica Neue",
         },
-        '& .MuiStack-root ':{
-          width : screenWidth < 380 ? '10rem' : screenWidth < 500 ? '15rem' : '20rem',
-          margin : screenWidth < 900 ? 0 : screenWidth < 1100 ?'0 3rem' : '0 5rem' ,
-          alignItems: screenWidth < 550 ? 'center' : ''
+        "& .MuiFormControl-root , & .MuiTextField-root , & .MuiInputBase-root":
+          {
+            width:
+              screenWidth < 380
+                ? "10rem"
+                : screenWidth < 500
+                ? "15rem"
+                : "20rem",
+            minWidth: "0 !important",
+            fontFamily: "Helvetica Neue",
+          },
+        "& .Mui-focused.MuiFormLabel-root ": {
+          color: "#088395 !important",
+          fontFamily: "Helvetica Neue",
         },
-        '& .MuiFormControl-root , & .MuiTextField-root , & .MuiInputBase-root' :{
-          width : screenWidth < 380 ? '10rem' : screenWidth < 500 ? '15rem' : '20rem',
-          minWidth: '0 !important'
-        }
+        ".MuiFormLabel-root": {
+          fontFamily: "Helvetica Neue",
+          fontSize: "1.1rem",
+        },
       }}
-      autoComplete="off"
+      autoComplete="on"
     >
       {loading ? (
         <div
@@ -174,10 +216,12 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
           <Typography variant="h5">Loading...</Typography>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} style={{
-          display: 'flex',
-          justifyContent: 'center'
-        }}>
+        <form
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Stack
             flexDirection={display}
             sx={{
@@ -192,11 +236,22 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
               <TextField
                 required
                 id="outlined-required1"
-                label="FullName"
-                placeholder="FullName"
-                name="fullName"
+                label="FirstName"
+                placeholder="FirstName"
+                name="firstName"
                 onChange={handleChange}
-                value={fullName}
+                value={firstName}
+                autoComplete="on"
+              />
+              <TextField
+                required
+                id="outlined-required2"
+                label="LastName"
+                placeholder="LastName"
+                name="lastName"
+                onChange={handleChange}
+                value={lastName}
+                autoComplete="on"
               />
               <TextField
                 required
@@ -206,7 +261,41 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                 name="email"
                 onChange={handleChange}
                 value={email}
+                autoComplete="on"
               />
+              {screenWidth > 900 ? (
+                <>
+                  <span
+                    style={{
+                      marginTop: "1rem",
+                      marginBottom: "1rem",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent:
+                        screenWidth > 900 ? "flex-start" : "center",
+                    }}
+                  >
+                    <Button
+                      onClick={handleSubmit}
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      type="submit"
+                      startIcon={<EditIcon />}
+                    >
+                      Submit
+                    </Button>
+                  </span>
+                </>
+              ) : (
+                ""
+              )}
+            </Stack>
+            <Stack
+              sx={{
+                alignItems: "center",
+              }}
+            >
               <FormControl
                 required
                 disabled
@@ -220,11 +309,10 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                   },
                 }}
               >
-                <InputLabel id="demo-simple-select-required-label">
+                <InputLabel htmlFor="demo-simple-select-required">
                   Role
                 </InputLabel>
                 <Select
-                  labelId="demo-simple-select-required-label"
                   id="demo-simple-select-required"
                   value={role}
                   label="Role *"
@@ -239,43 +327,9 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                   <MenuItem value={"Acountant"}>User</MenuItem>
                 </Select>
               </FormControl>
-              {screenWidth > 900 ? (
-                <>
-                  <span
-                    style={{
-                      marginTop: "1rem",
-                      marginBottom: "1rem",
-                      width: "100%",
-                      display: "flex",
-                      justifyContent:
-                        screenWidth > 900 ? "flex-start" : "center",
-                    }}
-                  >
-                    <Button variant="contained" color="primary" size="large" type="submit" startIcon={<EditIcon/>} >Submit</Button>
-                  </span>
-                </>
-              ) : (
-                ""
-              )}
-            </Stack>
-            <Stack
-              sx={{
-                alignItems: "center",
-              }}
-            >
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    label="Date"
-                    value={dob}
-                    name="dob"
-                    onChange={setDob}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
               <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Password*
+                <InputLabel htmlFor="outlined-adornment-password1">
+                  Old Password*
                 </InputLabel>
                 <OutlinedInput
                   id="outlined-adornment-password1"
@@ -293,18 +347,17 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                       </IconButton>
                     </InputAdornment>
                   }
-                  label="Password"
-                  name="password"
-                  value={password}
-                  disabled
+                  label="Old Password"
+                  name="oldPassword"
+                  onChange={handleChange}
                 />
               </FormControl>
               <FormControl sx={{ m: 1, width: "20ch" }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                  confirm*
+                <InputLabel htmlFor="outlined-adornment-password2">
+                  New Password*
                 </InputLabel>
                 <OutlinedInput
-                  id="outlined-adornment-password"
+                  id="outlined-adornment-password2"
                   type={showPassword ? "text" : "password"}
                   endAdornment={
                     <InputAdornment position="end">
@@ -322,19 +375,23 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                   label="Password"
                   name="password"
                   onChange={handleChange}
-                  value={password}
                 />
               </FormControl>
               <FormControl>
-              <input
-                type="file"
-                name="image"
-                id="image"
-                onChange={handleChange}
-                style={{
-                  width: screenWidth < 380 ? '10rem' : screenWidth < 550 ? '15rem' : '20rem',
-                }}
-              />
+                <input
+                  type="file"
+                  name="image"
+                  id="image"
+                  onChange={handleChange}
+                  style={{
+                    width:
+                      screenWidth < 380
+                        ? "10rem"
+                        : screenWidth < 550
+                        ? "15rem"
+                        : "20rem",
+                  }}
+                />
               </FormControl>
             </Stack>
             {screenWidth < 900 ? (
@@ -347,13 +404,21 @@ const EditProfile = ({ userData, setSuccessEdit }) => {
                     display: "flex",
                     justifyContent: screenWidth > 900 ? "flex-start" : "center",
                   }}
-                >{
-                  loading ? (
-                    <LoadingButton loading variant="contained"/>
-                  ):(
-                    <Button variant="contained" type="submit" color="primary" size="large" startIcon={<EditIcon/>}>Submit</Button>
-                  )
-                }
+                >
+                  {loading ? (
+                    <LoadingButton loading variant="contained" />
+                  ) : (
+                    <Button
+                      onClick={handleSubmit}
+                      variant="contained"
+                      type="submit"
+                      color="primary"
+                      size="large"
+                      startIcon={<EditIcon />}
+                    >
+                      Submit
+                    </Button>
+                  )}
                 </span>
               </>
             ) : (
