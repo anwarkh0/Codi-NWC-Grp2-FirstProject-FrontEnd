@@ -1,18 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBarStyle from "../SearchBar/SearchBar.module.css";
-import calendar from "../../assets/images/calendar.png";
 import person from "../../assets/images/person.png";
 import position from "../../assets/images/position.png";
 import star from "../../assets/images/star.svg";
 import priceIcon from "../../assets/images/price.svg";
 import search from "../../assets/images/search.png";
-import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
-import SelectPerson from "../Guests/SelectPerson";
 
 function SearchBar() {
-  const [isClicked, setIsClicked] = useState(false);
   const [formData, setFormData] = useState({
     city: "Beirut",
     guestNumber: 1,
@@ -30,27 +26,6 @@ function SearchBar() {
           : value,
     });
   };
-  // const selectPeople = () => {
-  //   setIsClicked(!isClicked);
-  //   setIsDoneParent(true);
-  // };
-
-  // let date1 = useRef(null);
-  // let date2 = useRef(null);
-
-  // const CreateCalendar = (date) => {
-  //   useEffect(() => {
-  //     flatpickr(date.current, {
-  //       allowInput: true,
-  //       altFormat: "F j, Y",
-  //       dateFormat: "d M Y",
-  //       defaultDate: new Date(),
-  //       clickOpens: true,
-  //     });
-  //   }, []);
-  // };
-  // CreateCalendar(date1);
-  // CreateCalendar(date2);
 
   return (
     <section className={`${SearchBarStyle.container}`}>
@@ -71,15 +46,9 @@ function SearchBar() {
       </section>
 
       <section className={SearchBarStyle.section}>
-        {/* <img src={calendar} className={SearchBarStyle.icons} alt="calendar" />
-        <p className={SearchBarStyle.text}>Check in</p>
-        <input
-          ref={date1}
-          className={`${SearchBarStyle.Description} ${SearchBarStyle.calendar}`}
-        /> */}
 
         <img src={person} className={SearchBarStyle.icons} alt="person" />
-        <label className={SearchBarStyle.text}>Guests Number</label>
+        <label className={SearchBarStyle.text}>Guests</label>
         <select
         onChange={handleInputChange}
           id="guestNumber"
@@ -95,18 +64,12 @@ function SearchBar() {
       </section>
 
       <section className={`${SearchBarStyle.section}`}>
-        {/* <img src={calendar} className={SearchBarStyle.icons} alt="calendar" />
-        <p className={SearchBarStyle.text}>Check out</p>
-        <input
-          ref={date2}
-          className={`${SearchBarStyle.Description} ${SearchBarStyle.calendar}`}
-        /> */}
         <img
           src={priceIcon}
           className={SearchBarStyle.svgIcon}
           alt="price"
         />
-        <label className={SearchBarStyle.text}>Price Per Night</label>
+        <label className={SearchBarStyle.text}>Price/night</label>
         <select
         onChange={handleInputChange}
           id="price"
@@ -134,28 +97,6 @@ function SearchBar() {
           <option value="Medium">Medium</option>
           <option value="Low">Low</option>
         </select>
-        {/* <img
-          src={person}
-          className={SearchBarStyle.icons}
-          alt="person"
-          onClick={selectPeople}
-        />
-        <p className={SearchBarStyle.text}>Rooms for</p>
-        <span className={SearchBarStyle.Description} onClick={selectPeople}>
-          {roomsParent} room, {guestsParent}guest{" "}
-        </span> */}
-        {/* {isClicked && isDoneParent ? (
-          <SelectPerson
-            setGuestsParent={setGuestsParent}
-            setRoomsParent={setRoomsParent}
-            setIsDoneParent={setIsDoneParent}
-            setIsCliked={setIsClicked}
-            roomsParent={roomsParent}
-            guestsParent={guestsParent}
-          />
-        ) : (
-          ""
-        )} */}
       </section>
 
       <Link to="/selectedrooms" className={`${SearchBarStyle.section}`} state={{ select: formData }}>

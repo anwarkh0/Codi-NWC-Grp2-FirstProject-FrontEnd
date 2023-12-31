@@ -1,11 +1,16 @@
 import React from "react";
 import serviceCardModule from "./serviceCard.module.css";
 
-function ServiceCard(props) {
-  const { icon, text } = props;
+function ServiceCard({icon , text}) {
   return (
     <div className={serviceCardModule.card}>
-      <img className="serviceIcon" src={icon} alt="service icon" />
+      {
+        text === 'VIP treatment'? (
+          <img className="serviceIcon" src={icon} alt="service icon"/>
+        ) : (
+          icon
+        )
+      }
       <p className="iconDesc">{text}</p>
     </div>
   );

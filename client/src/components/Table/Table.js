@@ -45,97 +45,98 @@ const TableComponent = ({
   useEffect(() => {
     try {
       if (ForWhat === "rooms") {
-         visibleFields = [
+        visibleFields = [
           "id",
           "hotel",
           "price",
           "number",
           "guestNumber",
           "isBooked",
-          "description"
+          "description",
         ];
       } else if (ForWhat === "users") {
         visibleFields = ["id", "firstName", "lastName", "role", "dob"];
       } else if (ForWhat === "hotels") {
-        visibleFields = ["id", "name", "city", "address", "rating", "roomNumber"];
+        visibleFields = [
+          "id",
+          "name",
+          "city",
+          "address",
+          "rating",
+          "roomNumber",
+        ];
+      } else if (ForWhat === "hotelImages") {
+        visibleFields = ["id", "hotelId", "icon"];
+      } else if (ForWhat === "hotelRules") {
+        visibleFields = ["id", "description", "hotelId", "icon"];
+      } else if (ForWhat === "ratings") {
+        visibleFields = ["id", "rate", "feedback", "userId", "hotelId"];
+      } else if (ForWhat === "roomImages") {
+        visibleFields = ["id", "roomId", "icon"];
+      } else if (ForWhat === "reservations") {
+        visibleFields = ["id", "checkInDate", "checkOutDate", "userId", "roomId"];
       } else {
         visibleFields = Object.keys(data[0]);
       }
-      if (buton === false) {
-        setColumns(
-          visibleFields.map((field) => ({
-            field,
-            headerName: field,
-            flex: 1,
-          }))
-        );
-      } else {
-        const updatedColumns = [
-          ...visibleFields.map((field) => ({
-            field,
-            headerName: field,
-            editable: true,
-            flex: 1,
-          })),
-          {
-            field: "Edit",
-            headerName: "Edit",
-            renderCell: (params) => (
-              <Grid
-                container
-                md={12}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <IconButton onClick={(e) => handleEdit(e, params.row)}>
-                  <EditIcon
-                    sx={{
-                      ":hover": {
-                        color: "#035e6b !important",
-                      },
-                    }}
-                  />
-                </IconButton>
-              </Grid>
-            ),
-          },
-          {
-            field: "Delete",
-            headerName: "Delete",
-            renderCell: (params) => (
-              <Grid
-                container
-                md={12}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                }}
-              >
-                <span>
-                  <IconButton onClick={(e) => handleDelete(e, params.row)}>
-                    <DeleteIcon
-                      sx={{
-                        ":hover": {
-                          color: "#035e6b !important",
-                        },
-                      }}
-                    />
-                  </IconButton>
-                </span>
-              </Grid>
-            ),
-          },
-        ];
-        setColumns(updatedColumns);
+
+      const updatedColumns = visibleFields.map((field) => ({
+        field,
+        headerName: field,
+        flex: screenWidth < 800 ? 0 : 1,
+        renderCell: (params) => {
+          // If the field is "icon" and has a value, display a small image
+          if (field === "icon" && params.row.icon) {
+            return (
+              <img
+                src={params.row.icon} // Assuming the "icon" field contains the image URL
+                alt="Icon"
+                style={{ width: "24px", height: "24px", borderRadius: "50%" }}
+              />
+            );
+          }
+
+          // Default rendering for other fields
+          return params.value;
+        },
+      }));
+
+      // Add "Edit" and "Delete" columns if needed
+      if (buton === true) {
+        updatedColumns.push({
+          field: "actions",
+          headerName: "Actions",
+          renderCell: (params) => (
+            <Grid container md={12} sx={{ display: "flex", justifyContent: "center" }}>
+              <IconButton onClick={(e) => handleEdit(e, params.row)}>
+                <EditIcon
+                  sx={{
+                    ":hover": {
+                      color: "#035e6b !important",
+                    },
+                  }}
+                />
+              </IconButton>
+              <IconButton onClick={(e) => handleDelete(e, params.row)}>
+                <DeleteIcon
+                  sx={{
+                    ":hover": {
+                      color: "#035e6b !important",
+                    },
+                  }}
+                />
+              </IconButton>
+            </Grid>
+          ),
+        });
       }
+
+      setColumns(updatedColumns);
       setError(false);
     } catch (error) {
       setError(true);
       console.error(error);
     }
-  }, []);
+  }, [ForWhat, buton, data, screenWidth]);
 
   return (
     <>

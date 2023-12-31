@@ -133,6 +133,10 @@
         align-items: center;
     }
 
+    .section:last-child{
+        margin: 15px 0;
+    }
+
     .section:last-child {
         border-radius: 5px;
 
@@ -147,16 +151,20 @@
         border: 1px solid black;
     }
 
+    .icons,
+    .text {
+    margin: 0;
+}
 
 }
 
-@media only Screen and (width<580px) {
+@media only Screen and (width<800px) {
 
     .container {
         margin: 0;
         width: 90%;
         position: absolute;
-        top: 30%;
+        top: 40%;
         left: 5%;
     }
 
@@ -168,8 +176,24 @@
 
 
 }
-@media(max-width:400px){
+
+@media(width < 600px){
+    .container{
+       top: 45%;
+    }
+}
+
+@media(width <400px){
     .calendar{
         scale: 0.9;
+    }
+    .container{
+        top: 50%;
+    }
+}
+
+@media(width < 300px){
+    .container{
+       top: 55%;
     }
 }

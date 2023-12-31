@@ -9,6 +9,7 @@ import { useState,useContext } from 'react';
 import { Typography,useMediaQuery } from '@mui/material';
 import zIndex from '@mui/material/styles/zIndex';
 import { Link } from 'react-router-dom';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 export default function MenuSimple({user,handlelogOut}) {
     const [open, setOpen] = useState(false);
     const isWideScreen = useMediaQuery('(min-width:750px)');
@@ -30,8 +31,12 @@ export default function MenuSimple({user,handlelogOut}) {
               ':hover':{
                 bgcolor: '#066876'
               },
-              fontFamily: "Helvetica Neue"
-            }}>My account</MenuButton>
+              fontFamily: "Helvetica Neue",
+              display: 'flex',
+              alignItems: 'center'
+            }}>My account <ArrowDropDownIcon sx={{
+              color :"white"
+            }}/></MenuButton>
             <Menu slots={{ listbox: Listbox }} open={open} onClose={() => setOpen(false)}>
               <Typography mb='0.5rem' fontFamily='Helvetica Neue'>
                 {user && user.firstName} {user && user.lastName}

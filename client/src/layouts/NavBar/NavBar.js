@@ -120,24 +120,90 @@ const Navbar = () => {
         )}
         <ul className={toggleClasses}>
           <li>
-            <Link to="/">Home</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/"
+            >
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/room">Rooms</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/room"
+            >
+              Rooms
+            </Link>
           </li>
           <li>
-            <Link to="/hotel">Hotels</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/hotel"
+            >
+              Hotels
+            </Link>
           </li>
           <li>
-            <Link to="/info">About Us</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/info"
+            >
+              About Us
+            </Link>
           </li>
           {!user ? (
             <>
               <li>
-                <Link to="/signUp">Sign Up</Link>
+                <Link
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "100%",
+                    alignItems: "center",
+                  }}
+                  to="/signUp"
+                >
+                  Sign Up
+                </Link>
               </li>
               <li>
-                <Link to="/logIn">Log In</Link>
+                <Link
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "100%",
+                    alignItems: "center",
+                  }}
+                  to="/logIn"
+                >
+                  Log In
+                </Link>
               </li>
             </>
           ) : (
