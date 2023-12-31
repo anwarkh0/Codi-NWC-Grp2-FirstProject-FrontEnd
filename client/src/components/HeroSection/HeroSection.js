@@ -1,9 +1,8 @@
 import React from "react";
-import NavBar from "../../layouts/NavBar/NavBar";
 import HotelXpress from "../../assets/images/Home.jpg";
-import style from "../../components/HeroSection/HeroSection.module.css";
+import style from "./HeroSection.module.css";
 import SearchBar from "../SearchBar/SearchBar";
-function HeroSection() {
+const  HeroSection = () => {
   return (
     <div className={style.heroSection}>
       <img className={style.heroImg} src={HotelXpress} alt="Our Hotel" />

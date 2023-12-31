@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
-const ImagesModel = ({ open, handleClose, setSuccessEdit, hotelId }) => {
+const ImagesModel = ({ open, handleClose, setSuccessEdit, hotelId , roomId}) => {
   const [icon, setIcon] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -41,11 +41,11 @@ const ImagesModel = ({ open, handleClose, setSuccessEdit, hotelId }) => {
     padding: 0,
   };
 
-  const SubmitRule = (e) => {
+  const SubmitHotelImage = (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = axios.post(
+      axios.post(
         `${process.env.REACT_APP_SQL_API}/hotel/image/add`,
         {
           icon: icon,
@@ -66,9 +66,37 @@ const ImagesModel = ({ open, handleClose, setSuccessEdit, hotelId }) => {
       handleClose();
       setTimeout(() => {
         setSuccessEdit(false)
-      }, 60000);
+      }, 20000);
     }
   };
+
+  const SubmitRoomImage = (e) => {
+    try {
+      setLoading(true);
+       axios.post(
+        `${process.env.REACT_APP_SQL_API}/room/image/add`,
+        {
+          icon: icon,
+          roomId: roomId,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setSuccessEdit(true);
+    } catch (error) {
+      console.error(error);
+      setError(true);
+    } finally {
+      setLoading(false);
+      handleClose();
+      setTimeout(() => {
+        setSuccessEdit(false)
+      }, 20000);
+    }
+  }
 
   return (
     <>
@@ -120,7 +148,7 @@ const ImagesModel = ({ open, handleClose, setSuccessEdit, hotelId }) => {
             style={{
               width: "100%",
             }}
-            onSubmit={(e) => SubmitRule(e)}
+            onSubmit={(e) => hotelId ? SubmitHotelImage(e) :SubmitRoomImage(e) }
           >
             <input type="file" onChange={(e) => setIcon(e.target.files[0])} />
             <span
@@ -135,6 +163,7 @@ const ImagesModel = ({ open, handleClose, setSuccessEdit, hotelId }) => {
                 size="large"
                 sx={{
                   bgcolor: "#088395 !important",
+                  mt: '1.5rem'
                 }}
                 type="submit"
               >

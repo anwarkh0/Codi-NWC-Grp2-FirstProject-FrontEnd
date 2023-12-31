@@ -1,11 +1,29 @@
 import Styles from "../NavBar/NavBar.module.css";
-import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useEffect, useState, useContext } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
-
+import { AuthContext } from "../../context/authContext";
+import UseApi from "../../hookes/useApi";
+import MenuSimple from "../../components/DropDownList";
+import { Button } from "@mui/material";
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { apiCall } = UseApi();
   const [collapesed, setCollapsed] = useState(false);
-
+  const { user, setUser } = useContext(AuthContext);
+  const handlelogOut = async () => {
+    try {
+      await apiCall({
+        url: "auth/logout",
+        method: "post",
+      });
+      setUser(null);
+      //  toast.success("Logged out Successfully!")
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     function updateSize() {
       if (window.innerWidth > 600) {
@@ -62,37 +80,145 @@ const Navbar = () => {
             </NavLink>
           </li>
         </ul>
-        <ul className={Styles.right}>
-          <Link to="signUp" className={Styles.link}>
-            <li className={Styles.logSignButton}>
-              Sign Up
-            </li>
-          </Link>
-          <Link to="logIn" className={Styles.link}>
-            <li className={Styles.logSignButton}>
-              Log In
-            </li>
-          </Link>
-        </ul>
+        {!user ? (
+          <ul className={Styles.right}>
+            <Link to="/signUp" className={Styles.link}>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#088395",
+                  ":hover": {
+                    bgcolor: "#066876",
+                  },
+                }}
+              >
+                Sign up
+              </Button>
+            </Link>
+            <Link to="/logIn" className={Styles.link}>
+              <Button
+                variant="contained"
+                sx={{
+                  bgcolor: "#088395",
+                  ":hover": {
+                    bgcolor: "#066876",
+                  },
+                }}
+              >
+                Login
+              </Button>
+            </Link>
+          </ul>
+        ) : (
+          <>
+            <MenuSimple
+              handlelogOut={handlelogOut}
+              user={user}
+              className={Styles.menue}
+            />
+          </>
+        )}
         <ul className={toggleClasses}>
           <li>
-            <Link to="/">Home</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/"
+            >
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/room">Rooms</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/room"
+            >
+              Rooms
+            </Link>
           </li>
           <li>
-            <Link to="/hotel">Hotels</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/hotel"
+            >
+              Hotels
+            </Link>
           </li>
           <li>
-            <Link to="/info">About Us</Link>
+            <Link
+              style={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                height: "100%",
+                alignItems: "center",
+              }}
+              to="/info"
+            >
+              About Us
+            </Link>
           </li>
-          <li>
-            <Link to="/signUp">Sign Up</Link>
-          </li>
-          <li>
-            <Link to="/logIn">Log In</Link>
-          </li>
+          {!user ? (
+            <>
+              <li>
+                <Link
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "100%",
+                    alignItems: "center",
+                  }}
+                  to="/signUp"
+                >
+                  Sign Up
+                </Link>
+              </li>
+              <li>
+                <Link
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    height: "100%",
+                    alignItems: "center",
+                  }}
+                  to="/logIn"
+                >
+                  Log In
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+              <li
+                onClick={handlelogOut}
+                style={{ color: "red", fontWeight: "bold" }}
+              >
+                Log out
+              </li>
+            </>
+          )}
         </ul>
 
         <div

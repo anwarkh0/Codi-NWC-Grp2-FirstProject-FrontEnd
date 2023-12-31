@@ -6,48 +6,19 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import Style from "./ProfileActivity.module.css";
 import Pagination from "@mui/material/Pagination";
-
-const mockData = [
-  { id: "1", type: "Transaction", content: "Transaction 1 Details" },
-  { id: "2", type: "Transaction", content: "Transaction 2 Details" },
-  { id: "3", type: "Goal", content: "Goal 1 Details" },
-  { id: "4", type: "Goal", content: "Goal 2 Details" },
-  { id: "5", type: "Transaction", content: "Transaction 3 Details" },
-  { id: "6", type: "Transaction", content: "Transaction 4 Details" },
-  { id: "7", type: "Goal", content: "Goal 3 Details" },
-  { id: "8", type: "Goal", content: "Goal 4 Details" },
-  { id: "9", type: "Transaction", content: "Transaction 5 Details" },
-  { id: "10", type: "Transaction", content: "Transaction 6 Details" },
-  { id: "11", type: "Goal", content: "Goal 5 Details" },
-  { id: "12", type: "Goal", content: "Goal 6 Details" },
-  { id: "13", type: "Goal", content: "Goal 4 Details" },
-  { id: "14", type: "Transaction", content: "Transaction 5 Details" },
-  { id: "15", type: "Transaction", content: "Transaction 6 Details" },
-  { id: "16", type: "Goal", content: "Goal 5 Details" },
-  { id: "17", type: "Goal", content: "Goal 6 Details" },
-  { id: "18", type: "Goal", content: "Goal 4 Details" },
-  { id: "19", type: "Transaction", content: "Transaction 5 Details" },
-  { id: "20", type: "Transaction", content: "Transaction 6 Details" },
-  { id: "21", type: "Goal", content: "Goal 5 Details" },
-  { id: "22", type: "Goal", content: "Goal 6 Details" },
-];
+import { Tabs } from "@mui/material";
+import ActivityCard from "./ActivityCard";
 
 const itemsPerPage = 5;
 
-const  ProfileActivity = ({ userData}) => {
-  const [value, setValue] = React.useState("Transaction");
+const ProfileActivity = ({ userData }) => {
+  const defaultab = userData && userData.role === "Customer" ? "2" : "0";
+  const [value, setValue] = React.useState(defaultab);
   const [page, setPage] = React.useState(1);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    setPage(1); 
   };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const filteredData = mockData.filter((item) => item.type === value);
 
   return (
     <Box
@@ -55,6 +26,7 @@ const  ProfileActivity = ({ userData}) => {
         width: "100%",
         borderRadius: "10px",
         typography: "body1",
+        fontFamily: "Helvetica Neue",
         "& .MuiBox-root ": {
           width: "100%",
           height: "fit-content",
@@ -72,44 +44,151 @@ const  ProfileActivity = ({ userData}) => {
         "& .  MuiTabs-indicator ": {
           marginLeft: "40px",
         },
+        "& .MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary.Mui-selected":
+          {
+            color: "#088395",
+          },
+          ".MuiButtonBase-root.MuiTab-root.MuiTab-textColorPrimary": {
+          fontFamily:"Helvetica Neue",
+          fontSize: "0.95rem !important",
+        },
+        "& .MuiTabs-indicator ": {
+          bgcolor: "#088395",
+        },
+        ".MuiPagination-ul": {
+          marginTop: "1.5rem",
+        },
         marginTop: "2rem",
       }}
     >
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList
-            onChange={(e, newValue) => setValue(newValue)}
-            aria-label="lab API tabs example"
-          >
-            <Tab label="Transaction" value="Transaction" />
-            <Tab label="Goal" value="Goal" />
-          </TabList>
+        <Box
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            marginTop: 0,
+            fontFamily: "Helvetica Neue",
+          }}
+        >
+          {userData &&
+          (userData.role === "Admin" || userData.role === "Manager") ? (
+            <TabList
+              onChange={(e, newValue) => setValue(newValue)}
+              aria-label="lab API tabs example"
+            >
+              <Tab label="Hotels" value="0" />
+              <Tab label="Rooms" value="1" />
+            </TabList>
+          ) : (
+            <TabList
+              onChange={(e, newValue) => setValue(newValue)}
+              aria-label="lab API tabs example"
+            >
+              <Tab label="Reservations" value="2" />
+              <Tab label="Ratings" value="3" />
+            </TabList>
+          )}
         </Box>
+        {userData &&
+        (userData.role === "Admin" || userData.role === "Manager") ? (
+          <Box>
+            <TabPanel key={value} value={value}>
+              {value === "0" ? (
+                <>
+                  {userData &&
+                    userData.Hotels.slice(
+                      (page - 1) * itemsPerPage,
+                      page * itemsPerPage
+                    ).map((hotel, index) => (
+                      <ActivityCard key={hotel.id} hotel={hotel}/>
+                    ))}
+                  <Pagination
+                    count={Math.ceil(
+                      userData && userData.Hotels.length / itemsPerPage
+                    )}
+                    variant="outlined"
+                    color="primary"
+                    page={page}
+                    onChange={(e, newPage) => setPage(newPage)}
+                  />
+                </>
+              ) : value === "1" ? (
+                <>
+                  {userData &&
+                    userData.Rooms.slice(
+                      (page - 1) * itemsPerPage,
+                      page * itemsPerPage
+                    ).map((room, index) => (
+                      <ActivityCard key={room.id} room={room}/>
 
-        <TabPanel key={value} value={value}>
-          <h1 style={{ fontWeight: "bold", textAlign: "center" }}>
-            {value === "Transaction" ? "History Transaction" : "History Goal"}
-          </h1>
-          {filteredData
-            .slice((page - 1) * itemsPerPage, page * itemsPerPage)
-            .map((item) => (
-              <div key={item?.id}>
+                    ))}
+                  <Pagination
+                    count={Math.ceil(
+                      userData && userData.Rooms.length / itemsPerPage
+                    )}
+                    variant="outlined"
+                    color="primary"
+                    page={page}
+                    onChange={(e, newPage) => setPage(newPage)}
+                  />
+                </>
+              ) : (
+                ""
+              )}
+            </TabPanel>
+          </Box>
+        ) : (
+          <Box>
+            <TabPanel key={value} value={value}>
+              {value === "2" ? (
+                <>
+                  {userData &&
+                    userData.Reservations.slice(
+                      (page - 1) * itemsPerPage,
+                      page * itemsPerPage
+                    ).map((reservation, index) => (
+                      <ActivityCard key={reservation.id} reservation={reservation}/>
 
-              </div>
-            ))}
-          <div className={Style.paginationn}>
-            <Pagination
-              count={Math.ceil(filteredData.length / itemsPerPage)}
-              variant="outlined"
-              color="primary"
-              page={page}
-              onChange={(e, newPage) => setPage(newPage)}
-            />
-          </div>
-        </TabPanel>
+                    ))}
+                  <Pagination
+                    count={Math.ceil(
+                      userData && userData.Reservations.length / itemsPerPage
+                    )}
+                    variant="outlined"
+                    color="primary"
+                    page={page}
+                    onChange={(e, newPage) => setPage(newPage)}
+                  />
+                </>
+              ) : value === "3" ? (
+                <>
+                  {userData &&
+                    userData.Ratings.slice(
+                      (page - 1) * itemsPerPage,
+                      page * itemsPerPage
+                    ).map((rating, index) => (
+                      <ActivityCard key={rating.id} rating={rating}/>
+
+                    ))}
+                  <Pagination
+                    count={Math.ceil(
+                      userData && userData.Ratings.length / itemsPerPage
+                    )}
+                    variant="outlined"
+                    color="primary"
+                    page={page}
+                    onChange={(e, newPage) => setPage(newPage)}
+                  />
+                </>
+              ) : (
+                ""
+              )}
+            </TabPanel>
+          </Box>
+        )}
       </TabContext>
     </Box>
   );
-}
+};
 
-export default ProfileActivity
+export default ProfileActivity;

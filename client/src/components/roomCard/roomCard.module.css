@@ -30,18 +30,6 @@ body > .visible {
   border-top-right-radius: 10px;
 }
 
-.rate {
-  color: #ffd700;
-  font-size: larger;
-  font-weight: 800;
-  cursor: default;
-}
-
-.priceAndRate {
-  display: flex;
-  justify-content: space-between;
-}
-
 .address {
   color: var(--main-blue);
   display: flex;

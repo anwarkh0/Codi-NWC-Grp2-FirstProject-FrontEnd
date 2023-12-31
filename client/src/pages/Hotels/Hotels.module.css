@@ -6,15 +6,18 @@
 
 .container>h1 {
     margin-bottom: 0;
+    margin: auto;
 }
 
 .Hotels {
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    /* overflow-x: auto; */
-
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-rows: 0.25fr 0.25fr;
+    column-gap: 4rem;
+    row-gap: 4rem;
+    width: 70vw;
+    margin: 2rem auto;
 }
 
 .slogan {
@@ -42,16 +45,12 @@
         align-items: center;
 
     }
-
-    .Hotels {
-        display: flex;
-        flex-direction: column;
-    }
 }
 
-@media screen and (max-width : 1222px) {
-    .Hotels{
-        justify-content: center;
+@media (max-width:800px) {
+    .Hotels {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
     }
-    
+
 }

@@ -41,7 +41,7 @@ body.visible {
     align-items: flex-start;
     border: 1px solid black;
     background-color: whitesmoke;
-    width: 6.2rem;
+    width: 7.5rem;
     justify-content: center;
     flex-shrink: 0;
     border-radius: 15.292px;
@@ -55,7 +55,7 @@ body.visible {
 }
 
 .menuItem {
-    text-decoration: none;
+    cursor: pointer;
 
 }
 
@@ -84,11 +84,11 @@ body.visible {
     margin-left: 15%;
 }
 .header{
-    margin-top: 10rem;
-
+    margin: 10rem 0 0 0 ;
 }
 .subHeader{
     color: #555555;
+    margin-left: 0;
 }
 
 .gridView {
@@ -98,11 +98,12 @@ body.visible {
     column-gap: 4rem;
     row-gap: 4rem;
     width: 70vw;
-    margin: 5rem auto;
+    margin: 2rem auto;
 }
 
 .wrapper {
-    width: 100%;
+    width: 70%;
+    margin: auto;
     height: auto;
 }
 .loading{

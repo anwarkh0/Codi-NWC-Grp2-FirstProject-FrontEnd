@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Modal from "@mui/material/Modal";
 import { Box, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -6,14 +5,16 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import UseApi from "../../hookes/useApi";
-import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const DeleteRoomModal = ({
   openDelete,
   handleClose,
   selectedRowData,
   setSuccessDelete,
   setOpenDelete,
+  roomPage
 }) => {
+  const navigate = useNavigate()
   const {apiCall,loading,error}=UseApi()
   const style = {
     position: "absolute",
@@ -47,12 +48,19 @@ const DeleteRoomModal = ({
   const deleteRoom = async () =>{
       try {
         console.log(selectedRowData.id)
-        const response = await apiCall({ url: "/room", method: "delete" ,  data: {id:selectedRowData.id} })
+        await apiCall({ url: "/room", method: "delete" ,  data: {id:selectedRowData.id} })
         setSuccessDelete(true)
         handleClose()
+        if(roomPage){
+          navigate('/room')
+        }
         // toast.success("The room is deleted")
       } catch (error) {
         console.error(error);
+      }finally{
+        setTimeout(()=>{
+          setSuccessDelete(false)
+        }, 20000)
       }
   }
 
@@ -105,10 +113,10 @@ const DeleteRoomModal = ({
               display: "flex",
               justifyContent: "center",
             }}
+            onClick={deleteRoom}
           >
             <Button
               variant="contained"
-              onClick={deleteRoom}
               startIcon={<DeleteIcon />}
               size="large"
               sx={{

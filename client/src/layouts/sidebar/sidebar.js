@@ -7,12 +7,16 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import KingBedIcon from '@mui/icons-material/KingBed';
-import ApartmentIcon from '@mui/icons-material/Apartment';
+import KingBedIcon from "@mui/icons-material/KingBed";
+import ApartmentIcon from "@mui/icons-material/Apartment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useNavigate } from "react-router-dom";
+import UseApi from "../../hookes/useApi";
+import { AuthContext } from "../../context/authContext";
 
 const Sidebar = () => {
+  const { apiCall } = UseApi();
+  const { user, setUser } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -32,6 +36,12 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
+      await apiCall({
+        url: "auth/logout",
+        method: "post",
+      });
+      setUser(null);
+      //  toast.success("Logged out Successfully!")
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -47,10 +57,13 @@ const Sidebar = () => {
             className={`${styles["sidebar-burger"]} ${styles.button} `}
             onClick={() => setIsOpen(!isOpen)}
           >
-            <span className={styles["material-symbols-outlined"]} style={{
-                display : 'flex'
-            }}>
-              {isOpen ? <CloseIcon /> : <MenuIcon />}
+            <span
+              className={styles["material-symbols-outlined"]}
+              style={{
+                display: "flex",
+              }}
+            >
+              {isOpen ? <CloseIcon sx={{color: 'white'}}/> : <MenuIcon sx={{color: 'white'}}/>}
             </span>
           </button>
         </header>
@@ -61,6 +74,7 @@ const Sidebar = () => {
             flexDirection: "column",
             justifyContent: "space-between",
             height: "90vh",
+            color: "white",
           }}
         >
           <span>
@@ -79,11 +93,18 @@ const Sidebar = () => {
                     tabIndex="0"
                     onClick={() => handleItemClick(item)}
                   >
-                    <span>{item.icon}</span>
+                    <span
+                      style={{
+                        color: "white",
+                      }}
+                    >
+                      {item.icon}
+                    </span>
                     <p
                       style={{
                         fontSize: "1.2rem",
                         fontWeight: 600,
+                        color: "white",
                       }}
                     >
                       {item.item}
@@ -99,13 +120,18 @@ const Sidebar = () => {
               onClick={() => handleLogout()}
             >
               <span>
-                <LogoutIcon />
+                <LogoutIcon
+                  sx={{
+                    color: "white",
+                  }}
+                />
               </span>
               <p
                 style={{
                   fontFamily: "outfit",
                   fontSize: "1.2rem",
                   fontWeight: 600,
+                  color: "white",
                 }}
               >
                 Logout
