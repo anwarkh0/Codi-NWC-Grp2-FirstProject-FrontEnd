@@ -1,0 +1,8 @@
+.section{
+display: flex;
+flex-wrap: wrap;
+margin: 20px 80px;
+}
+.title{
+margin:50px 80px;
+}

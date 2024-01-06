@@ -8,6 +8,7 @@ import Login from "../pages/log-in/Login.js";
 import SignUp from "../pages/sign-up/SignUp.js";
 import LayoutWithNavbar from "./LayoutWithNavbar.js";
 import Dashboard from "../pages/Dashboard/Dashboard.js";
+import OverviewDashboard from "../pages/OverviewDashboard/OverviewDashboard.js";
 import UsersDashboard from "../pages/UsersDashboard/Users.js";
 import HotelsDashboard from "../pages/HotelsDashboard/HotelsDashboard.js";
 import RoomsDashboard from "../pages/RoomsDashboard/RoomsDashboard.js";
@@ -89,7 +90,7 @@ const AppRouter = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/logIn" element={<Login />} />
         <Route path="/signUp" element={<SignUp />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/overview" element={<OverviewDashboard />} />
         <Route path="/dashboard/users" element={<UsersDashboard />} />
         <Route path="/dashboard/rooms" element={<RoomsDashboard />} />
         <Route path="/dashboard/hotels" element={<HotelsDashboard />} />
