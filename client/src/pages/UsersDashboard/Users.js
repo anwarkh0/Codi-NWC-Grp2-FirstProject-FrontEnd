@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteUserModal from "../../components/UserModal/DeleteUserModal";
 import toast, { Toaster } from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 
 const users = [
@@ -236,6 +237,23 @@ const UsersDashboard = () => {
     <Box
       sx={{ flexGrow: 1, display: "flex", flexDirection: "column" , ml: '5rem'}}
     >
+       <Helmet>
+        <title>All Users Overview</title>
+        <meta
+          name="description"
+          content="View a comprehensive overview of all users within Hotel Xpress's network. 
+          Access detailed information, performance metrics, and manage settings across 
+          multiple users properties in one convenient dashboard."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="All Users Overview" />
+        <meta
+          property="og:description"
+          content="View a comprehensive overview of all users within Hotel Xpress's network. 
+          Access detailed information, performance metrics, and manage settings across 
+          multiple users properties in one convenient dashboard."
+        />
+      </Helmet>
       <Sidebar />
       <Toaster />
       <Typography

@@ -1,12 +1,7 @@
 import ReservationModal from "../../components/Booking/BookingDetails";
 import { useParams } from "react-router-dom";
 import Carousell from "../../components/Carousel/Carousel";
-import {
-  Box,
-  Button,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import UseApi from "../../hookes/useApi";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
@@ -18,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Delete, Edit } from "@mui/icons-material";
 import RoomModal from "../../components/RoomModal/RoomModal";
 import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal";
+import { Helmet } from "react-helmet-async";
 
 const RoomDetails = () => {
   const { roomId } = useParams();
@@ -83,7 +79,7 @@ const RoomDetails = () => {
     };
 
     fetchData();
-  }, [successEdit, successReserve , roomId]);
+  }, [successEdit, successReserve, roomId]);
 
   const flexButton = screenWidth < 300 ? "column" : "row";
   const flexRate = screenWidth < 400 ? "column" : "row";
@@ -102,6 +98,30 @@ const RoomDetails = () => {
         },
       }}
     >
+      {roomData && (
+        <Helmet>
+          <title>{` Room ${roomData.number} - Details`}</title>
+          <meta
+            name="description"
+            content={`Explore detailed information about Room ${roomData.number}. 
+            Discover amenities, pricing, and availability for this room within the hotel.`}
+          />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta
+            property="og:title"
+            content={`Room ${roomData.number} - Details`}
+          />
+          <meta
+            property="og:description"
+            content={`Explore detailed information about Room ${roomData.number}. 
+          Discover amenities, pricing, and availability for this room within the hotel.`}
+          />
+        </Helmet>
+      )}
+
       {loading ? (
         <div
           style={{
@@ -146,7 +166,6 @@ const RoomDetails = () => {
                 sx={{
                   color: "#088395",
                   mb: screenWidth < 600 ? "1.5rem" : 0,
-                  
                 }}
               >
                 <Delete />
@@ -161,7 +180,7 @@ const RoomDetails = () => {
                 width: "fitContent",
                 display: "flex",
                 alignItems: "center",
-                marginTop: '1rem'
+                marginTop: "1rem",
               }}
               onClick={() => setOpenImage(true)}
             >
@@ -319,7 +338,7 @@ const RoomDetails = () => {
             </span>{" "}
             {roomData && roomData.description}
           </Typography>
-          {user && user.role === 'Customer'}
+          {user && user.role === "Customer"}
           <Typography
             variant="h4"
             component="h4"
@@ -328,28 +347,28 @@ const RoomDetails = () => {
             mb="1rem"
             mt="4rem"
           >
-            Reserve This Room 
+            Reserve This Room
           </Typography>
           <span
-              style={{
-                width: "fitContent",
-                display: "flex",
-                alignItems: "center",
-                marginTop: '1rem'
+            style={{
+              width: "fitContent",
+              display: "flex",
+              alignItems: "center",
+              marginTop: "1rem",
+            }}
+            onClick={() => setOpenReserve(true)}
+          >
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                bgcolor: "#088395 !important",
+                mb: screenWidth < 600 ? "1.5rem" : 0,
               }}
-              onClick={() => setOpenReserve(true)}
             >
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                sx={{
-                  bgcolor: "#088395 !important",
-                  mb: screenWidth < 600 ? "1.5rem" : 0,
-                }}
-              >
-                Reserve this room
-              </Button>
-            </span>
+              Reserve this room
+            </Button>
+          </span>
           <Typography
             variant="h4"
             component="h4"

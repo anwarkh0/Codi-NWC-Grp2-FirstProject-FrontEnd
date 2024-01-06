@@ -11,6 +11,7 @@ import UseApi from "../../hookes/useApi.js";
 import { Button } from "@mui/material";
 import RoomModal from "../../components/RoomModal/RoomModal.js";
 import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal.js";
+import { Helmet } from "react-helmet-async";
 
 const RoomsPage = () => {
   const { apiCall, loading, error } = UseApi();
@@ -60,6 +61,19 @@ const RoomsPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Hotel Xpress - All Rooms</title>
+        <meta
+          name="description"
+          content="Explore all the luxurious rooms available at Hotel Xpress."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="Hotel Xpress - All Rooms" />
+        <meta
+          property="og:description"
+          content="Explore all the luxurious rooms available at Hotel Xpress."
+        />
+      </Helmet>
       <>
         <div className={roomsModule.wrapper}>
           <h1 className={roomsModule.header}>All Rooms Section</h1>

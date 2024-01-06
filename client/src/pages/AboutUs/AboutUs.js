@@ -3,6 +3,7 @@ import Footer from "../../layouts/footer/Footer";
 import React, { useEffect, useState } from "react";
 import Aboutus from "../../assets/images/HotelAboutUs2.jpg";
 import { Box, Typography } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 
 const AboutUs = () => {
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
@@ -18,6 +19,19 @@ const AboutUs = () => {
   }, []);
   return (
     <>
+    <Helmet>
+        <title>About Hotel Xpress</title>
+        <meta
+          name="description"
+          content="Learn about hotel express and out commitment."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="About Hotel Xpress" />
+        <meta
+          property="og:description"
+          content="Learn about hotel express and out commitment."
+        />
+      </Helmet>
       <Box
         style={{
           width: "70vw",

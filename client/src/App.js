@@ -1,10 +1,13 @@
 import "./App.css";
-import AppRouter from './Routers/Routers'
+import AppRouter from "./Routers/Routers";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   return (
     <div className="App">
-      <AppRouter />
+      <HelmetProvider>
+        <AppRouter />
+      </HelmetProvider>
     </div>
   );
 }

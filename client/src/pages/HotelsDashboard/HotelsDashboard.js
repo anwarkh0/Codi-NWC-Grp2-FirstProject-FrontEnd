@@ -11,6 +11,7 @@ import toast, { Toaster } from "react-hot-toast";
 import HotelModal from "../../components/HotelModal/HotelModal";
 import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
 import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 const HotelsDashboard = () => {
   const [hotelData, sethotelData] = useState(null);
@@ -81,6 +82,23 @@ const HotelsDashboard = () => {
     <Box
       sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: "5rem" }}
     >
+      <Helmet>
+        <title>All Hotels Overview</title>
+        <meta
+          name="description"
+          content="View a comprehensive overview of all hotels within Hotel Xpress's network. 
+          Access detailed information, performance metrics, and manage settings across 
+          multiple hotel properties in one convenient dashboard."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="All Hotels Overview" />
+        <meta
+          property="og:description"
+          content="View a comprehensive overview of all hotels within Hotel Xpress's network. 
+          Access detailed information, performance metrics, and manage settings across 
+          multiple hotel properties in one convenient dashboard."
+        />
+      </Helmet>
       <Sidebar />
       <Toaster />
       <Typography

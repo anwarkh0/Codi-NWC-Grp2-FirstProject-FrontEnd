@@ -11,6 +11,7 @@ import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal";
 import toast, { Toaster } from "react-hot-toast";
 import RoomModal from "../../components/RoomModal/RoomModal";
 import UseApi from "../../hookes/useApi";
+import { Helmet } from "react-helmet-async";
 
 const RoomsDashboard = () => {
     const {apiCall,error, loading} = UseApi()
@@ -79,6 +80,23 @@ const RoomsDashboard = () => {
         <Box
         sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: "5rem" }}
       >
+        <Helmet>
+        <title>All Rooms Overview</title>
+        <meta
+          name="description"
+          content="View a comprehensive overview of all rooms within Hotel Xpress's network. 
+          Access detailed information, performance metrics, and manage settings across 
+          multiple rooms properties in one convenient dashboard."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="All Rooms Overview" />
+        <meta
+          property="og:description"
+          content="View a comprehensive overview of all rooms within Hotel Xpress's network. 
+          Access detailed information, performance metrics, and manage settings across 
+          multiple rooms properties in one convenient dashboard."
+        />
+      </Helmet>
         <Sidebar />
         <Toaster />
         <Typography

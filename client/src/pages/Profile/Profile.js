@@ -9,6 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import ProfileActivity from "../../components/ProfileActivity/ProfileActivity";
 import { AuthContext } from "../../context/authContext";
 import UseApi from "../../hookes/useApi";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
@@ -89,6 +90,21 @@ const Profile = () => {
         alignItems: "center",
       }}
     >
+      <Helmet>
+        <title>Profile Settings</title>
+        <meta
+          name="description"
+          content="Manage your profile settings and preferences within Hotel Xpress's dashboard.
+           Update personal information, security settings, and customize your user experience."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="All Rooms Overview" />
+        <meta
+          property="og:description"
+          content="VManage your profile settings and preferences within Hotel Xpress's dashboard.
+          Update personal information, security settings, and customize your user experience."
+        />
+      </Helmet>
       <Sidebar />
       <Toaster />
       <>

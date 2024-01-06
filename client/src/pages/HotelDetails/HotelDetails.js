@@ -8,6 +8,7 @@ import {
   Rating,
   Typography,
 } from "@mui/material";
+import { Helmet } from "react-helmet-async";
 import { useContext, useEffect, useState } from "react";
 import UseApi from "../../hookes/useApi";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
@@ -139,6 +140,29 @@ const HotelDetails = () => {
         },
       }}
     >
+      {hotelData && (
+        <Helmet>
+          <title>{` Room ${hotelData.name} - Details`}</title>
+          <meta
+            name="description"
+            content={`Explore comprehensive details and amenities offered by ${hotelData}. 
+            Get insights into room availability, facilities, and services provided by this hotel.`}
+          />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          <meta
+            property="og:title"
+            content={`Room ${hotelData.name} - Details`}
+          />
+          <meta
+            property="og:description"
+            content={`Explore comprehensive details and amenities offered by ${hotelData}. 
+            Get insights into room availability, facilities, and services provided by this hotel.`}
+          />
+        </Helmet>
+      )}
       {loading ? (
         <div
           style={{

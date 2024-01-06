@@ -9,6 +9,7 @@ import { AuthContext } from "../../context/authContext";
 import AddIcon from "@mui/icons-material/Add";
 import HotelModal from "../../components/HotelModal/HotelModal";
 import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
+import { Helmet } from "react-helmet-async";
 
 const Hotels = () => {
   const { apiCall, loading, error } = UseApi();
@@ -52,6 +53,19 @@ const Hotels = () => {
   const flexButton = screenWidth < 650 ? "column" : "row";
   return (
     <>
+      <Helmet>
+        <title>Hotel Xpress - All Hotels</title>
+        <meta
+          name="description"
+          content="Explore all hotels available at Hotel Xpress."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="Hotel Xpress - All Hotels" />
+        <meta
+          property="og:description"
+          content="Explore all hotels available at Hotel Xpress."
+        />
+      </Helmet>
       <div className={hotelsStyle.container}>
         <span
           style={{
@@ -114,12 +128,7 @@ const Hotels = () => {
         {!loading && hotelData ? (
           <div className={hotelsStyle.Hotels}>
             {hotelData.map((hotel, index) => {
-              return (
-                <RoomCard
-                  data={hotel}
-                  key={index}
-                />
-              );
+              return <RoomCard data={hotel} key={index} />;
             })}
           </div>
         ) : (

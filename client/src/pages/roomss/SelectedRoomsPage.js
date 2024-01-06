@@ -7,6 +7,7 @@ import RoomCard from "../../components/roomCard/RoomCard.js";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
 import nodata from "../../assets/images/nodata.jpg";
 import UseApi from "../../hookes/useApi.js";
+import { Helmet } from "react-helmet-async";
 
 const SelectedRoomsPage = () => {
   const location = useLocation();
@@ -31,6 +32,19 @@ const SelectedRoomsPage = () => {
   }, [select]);
   return (
     <>
+      <Helmet>
+        <title>Hotel Xpress - Selected Rooms</title>
+        <meta
+          name="description"
+          content="Explore all the luxurious rooms available at Hotel Xpress."
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta property="og:title" content="Hotel Xpress - Selected Rooms" />
+        <meta
+          property="og:description"
+          content="Explore the details of our selected rooms at Hotel Xpress."
+        />
+      </Helmet>
       <div className={roomsModule.wrapper}>
         <h1 className={roomsModule.header}>Selected Rooms Section</h1>
         <p className={roomsModule.subHeader}>
