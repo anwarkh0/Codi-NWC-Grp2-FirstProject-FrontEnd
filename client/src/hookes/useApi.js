@@ -6,13 +6,10 @@ import { useNavigate } from "react-router-dom";
 const UseApi = () => {
 
     const [loading, setLoading] = useState(false)
-
     const [error, setError] = useState(false)
-
+    // const [data, setData] = useState(null)
     const { setUser } = useContext(AuthContext)
-
     const navigate = useNavigate()
-
     const apiCall = async ({ url, method, data = null }) => {
 
         try {
@@ -34,7 +31,7 @@ const UseApi = () => {
                     console.log("forbidden access")
                 }
             }
-        } finally {
+        } finally{
             setLoading(false)
         }
     }
