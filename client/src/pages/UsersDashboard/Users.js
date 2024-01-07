@@ -12,192 +12,12 @@ import DeleteUserModal from "../../components/UserModal/DeleteUserModal";
 import toast, { Toaster } from "react-hot-toast";
 import { Helmet } from "react-helmet-async";
 
+import UseApi from "../../hookes/useApi";
+import axios from "axios";
 
-const users = [
-  {
-    id : 1 ,
-    firstName: "John",
-    lastName: "Doe",
-    image: "https://example.com/avatar1.jpg",
-    password: "password123",
-    role: "user",
-    email: "john.doe@example.com",
-    dob: "1990-01-01",
-    createdAt: "2023-01-01T12:00:00Z",
-    updatedAt: "2023-01-02T15:30:00Z",
-  },
-  {
-    id : 2,
-    firstName: "Alice",
-    lastName: "Smith",
-    image: "https://example.com/avatar2.jpg",
-    password: "securepass",
-    role: "admin",
-    email: "alice.smith@example.com",
-    dob: "1985-05-15",
-    createdAt: "2023-02-05T08:30:00Z",
-    updatedAt: "2023-02-10T18:45:00Z",
-  },
-  {
-    id : 3 ,
-    firstName: "Bob",
-    lastName: "Johnson",
-    image: "https://example.com/avatar3.jpg",
-    password: "pass123",
-    role: "user",
-    email: "bob.johnson@example.com",
-    dob: "1988-09-20",
-    createdAt: "2023-03-10T10:15:00Z",
-    updatedAt: "2023-03-15T14:20:00Z",
-  },
-  {
-    id : 4 ,
-    firstName: "Eva",
-    lastName: "Anderson",
-    image: "https://example.com/avatar4.jpg",
-    password: "evaPass",
-    role: "admin",
-    email: "eva.anderson@example.com",
-    dob: "1992-04-05",
-    createdAt: "2023-04-01T09:45:00Z",
-    updatedAt: "2023-04-06T16:00:00Z",
-  },
-  {
-    id: 5 ,
-    firstName: "Sam",
-    lastName: "Williams",
-    image: "https://example.com/avatar5.jpg",
-    password: "samPass123",
-    role: "user",
-    email: "sam.williams@example.com",
-    dob: "1987-12-12",
-    createdAt: "2023-05-12T11:30:00Z",
-    updatedAt: "2023-05-18T17:10:00Z",
-  },
-  {
-    id: 6 ,
-    firstName: "Emma",
-    lastName: "Davis",
-    image: "https://example.com/avatar6.jpg",
-    password: "emmaPass",
-    role: "admin",
-    email: "emma.davis@example.com",
-    dob: "1995-08-22",
-    createdAt: "2023-06-20T14:45:00Z",
-    updatedAt: "2023-06-25T19:30:00Z",
-  },
-  {
-    id: 7 ,
-    firstName: "Chris",
-    lastName: "Miller",
-    image: "https://example.com/avatar7.jpg",
-    password: "chrisPass",
-    role: "user",
-    email: "chris.miller@example.com",
-    dob: "1983-03-03",
-    createdAt: "2023-07-15T16:20:00Z",
-    updatedAt: "2023-07-20T20:50:00Z",
-  },
-  {
-    id: 8 ,
-    firstName: "Olivia",
-    lastName: "Brown",
-    image: "https://example.com/avatar8.jpg",
-    password: "oliviaPass",
-    role: "admin",
-    email: "olivia.brown@example.com",
-    dob: "1991-11-10",
-    createdAt: "2023-08-10T18:00:00Z",
-    updatedAt: "2023-08-15T22:15:00Z",
-  },
-  {
-    id: 9,
-    firstName: "Daniel",
-    lastName: "Wilson",
-    image: "https://example.com/avatar9.jpg",
-    password: "danielPass",
-    role: "user",
-    email: "daniel.wilson@example.com",
-    dob: "1989-06-18",
-    createdAt: "2023-09-05T19:30:00Z",
-    updatedAt: "2023-09-10T23:45:00Z",
-  },
-  {
-    id: 10 ,
-    firstName: "Sophia",
-    lastName: "White",
-    image: "https://example.com/avatar10.jpg",
-    password: "sophiaPass",
-    role: "admin",
-    email: "sophia.white@example.com",
-    dob: "1993-02-28",
-    createdAt: "2023-10-01T21:15:00Z",
-    updatedAt: "2023-10-07T01:30:00Z",
-  },
-  {
-    id: 11 ,
-    firstName: "Matthew",
-    lastName: "Clark",
-    image: "https://example.com/avatar11.jpg",
-    password: "matthewPass",
-    role: "user",
-    email: "matthew.clark@example.com",
-    dob: "1986-07-07",
-    createdAt: "2023-11-10T22:45:00Z",
-    updatedAt: "2023-11-16T03:00:00Z",
-  },
-  {
-    id: 12 ,
-    firstName: "Ava",
-    lastName: "Taylor",
-    image: "https://example.com/avatar12.jpg",
-    password: "avaPass",
-    role: "admin",
-    email: "ava.taylor@example.com",
-    dob: "1994-09-14",
-    createdAt: "2023-12-05T00:00:00Z",
-    updatedAt: "2023-12-10T04:15:00Z",
-  },
-  {
-    id: 13 ,
-    firstName: "William",
-    lastName: "Harris",
-    image: "https://example.com/avatar13.jpg",
-    password: "williamPass",
-    role: "user",
-    email: "william.harris@example.com",
-    dob: "1984-04-24",
-    createdAt: "2024-01-01T02:30:00Z",
-    updatedAt: "2024-01-06T06:45:00Z",
-  },
-  {
-    id: 14 ,
-    firstName: "Mia",
-    lastName: "Roberts",
-    image: "https://example.com/avatar14.jpg",
-    password: "miaPass",
-    role: "admin",
-    email: "mia.roberts@example.com",
-    dob: "1996-01-09",
-    createdAt: "2024-02-15T04:00:00Z",
-    updatedAt: "2024-02-20T08:15:00Z",
-  },
-  {
-    id: 15, 
-    firstName: "Liam",
-    lastName: "Jones",
-    image: "https://example.com/avatar15.jpg",
-    password: "liamPass",
-    role: "user",
-    email: "liam.jones@example.com",
-    dob: "1982-08-31",
-    createdAt: "2024-03-10T05:30:00Z",
-    updatedAt: "2024-03-15T09:45:00Z",
-  },
-];
 
 const UsersDashboard = () => {
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [networkError, setNetworkError] = useState(false);
@@ -216,7 +36,8 @@ const UsersDashboard = () => {
     setOpen(false);
     setOpenEdit(false);
     setOpenDelete(false);
-  };  
+  };
+  const { apiCall } = UseApi()
 
   useEffect(() => {
     const handleResize = () => {
@@ -228,14 +49,43 @@ const UsersDashboard = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await /* axios.get("http://localhost:4000/user/getAll") */apiCall({ url: "/user/getAll", method: "get" })
+        setUserData(response.data)
+      } catch (error) {
+        console.log("error fetching", error);
+      }
+    }
+    fetchUser()
 
-  useEffect(()=>{
-    setUserData(users)
-  })
+  }, [])
 
+  const countAdmin = () => {
+    let count = 0
+    for (let i = 0; i < userData.length; i++) {
+      if (userData[i].role === "admin") {
+        count++
+      }
+    }
+    return ((!count || count === 1) && count+" admin") ||count+" admins"
+  } 
+  const countManager = () => {
+    let count = 0
+    for (let i = 0; i < userData.length; i++) {
+      if (userData[i].role === "manager") {
+        count++
+      }
+    }
+    return ((!count || count === 1) && count+" manager") ||count+" managers"
+  }
+
+  console.log("firstsss", userData)
   return (
+
     <Box
-      sx={{ flexGrow: 1, display: "flex", flexDirection: "column" , ml: '5rem'}}
+      sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: '5rem' }}
     >
        <Helmet>
         <title>All Users Overview</title>
@@ -339,7 +189,7 @@ const UsersDashboard = () => {
               >
                 <InfoCard
                   title={"Total Users"}
-                  number={`18 Users`}
+                  number={`${userData.length} users`}
                 />
               </Grid>
               <Grid
@@ -351,7 +201,7 @@ const UsersDashboard = () => {
               >
                 <InfoCard
                   title={"Total Admins"}
-                  number={`2 Admins`}
+                  number={countAdmin()}
                 />
               </Grid>
               <Grid
@@ -363,23 +213,23 @@ const UsersDashboard = () => {
               >
                 <InfoCard
                   title={"Total Managers"}
-                  number={`16 Customer`}
+                  number={countManager()}
                 />
               </Grid>
             </Grid>
           </Grid>
-            <span
-              style={{
-                width: "fit-content",
-              }}
-              onClick={handleOpen}
-            >
-              <Button variant="contained" color='primary' size='large'startIcon={<AddIcon/>} sx={{
-                bgcolor: '#088395 !important'
-              }}>Add User</Button>
-            </span>
+          <span
+            style={{
+              width: "fit-content",
+            }}
+            onClick={handleOpen}
+          >
+            <Button variant="contained" color='primary' size='large' startIcon={<AddIcon />} sx={{
+              bgcolor: '#088395 !important'
+            }}>Add User</Button>
+          </span>
           <TableComponent
-            data={userData !== null && userData}
+            data={userData}
             isEdit={true}
             ForWhat={"users"}
             handleEditOpen={handleEditOpen}

@@ -45,9 +45,9 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log(userData);
     if (!email || !password) {
       console.log("enter email and password");
     }
