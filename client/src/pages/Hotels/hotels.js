@@ -1,14 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, lazy, Suspense } from "react";
 import Footer from "../../layouts/footer/Footer";
 import hotelsStyle from "./Hotels.module.css";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
-import RoomCard from "../../components/roomCard/RoomCard";
 import UseApi from "../../hookes/useApi";
 import { Button, Typography } from "@mui/material";
 import { AuthContext } from "../../context/authContext";
 import AddIcon from "@mui/icons-material/Add";
 import HotelModal from "../../components/HotelModal/HotelModal";
-import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
+
+const LazyHotelCard = lazy(() => import("../../components/roomCard/RoomCard"));
 
 const Hotels = () => {
   const { apiCall, loading, error } = UseApi();
@@ -115,10 +115,9 @@ const Hotels = () => {
           <div className={hotelsStyle.Hotels}>
             {hotelData.map((hotel, index) => {
               return (
-                <RoomCard
-                  data={hotel}
-                  key={index}
-                />
+                <Suspense key={index} fallback={<div>Loading...</div>}>
+                  <LazyHotelCard data={hotel} />
+                </Suspense>
               );
             })}
           </div>
@@ -132,6 +131,7 @@ const Hotels = () => {
                 scale: "1",
               }}
               alt="loading"
+              loading="lazy"
             />
           </span>
         )}

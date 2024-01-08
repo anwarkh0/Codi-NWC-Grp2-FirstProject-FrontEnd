@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import Carousell from "../../components/Carousel/Carousel";
 import {
+  Avatar,
   Box,
   Button,
   Grid,
@@ -24,6 +25,7 @@ import ImagesModel from "../../components/ImagesModal/ImagesModal";
 import RoomModal from "../../components/RoomModal/RoomModal";
 import { Delete, Edit } from "@mui/icons-material";
 import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
+import Footer from "../../layouts/footer/Footer";
 
 const HotelDetails = () => {
   const { hotelId } = useParams();
@@ -84,14 +86,14 @@ const HotelDetails = () => {
             id: hotelId,
           },
         });
-        
+
         const room = await apiCall({
-          url: 'room/byHotel',
-          method: 'post',
+          url: "room/byHotel",
+          method: "post",
           data: {
-            hotelId : hotelId
+            hotelId: hotelId,
           },
-        })
+        });
         setHotelData(response);
         setRoomData(room);
         setImages(response.hotel.HotelImages);
@@ -101,7 +103,7 @@ const HotelDetails = () => {
     };
 
     fetchData();
-  }, [successEdit ]);
+  }, [successEdit]);
 
   useEffect(() => {
     const fetchRating = async () => {
@@ -126,6 +128,7 @@ const HotelDetails = () => {
   const alignRate = screenWidth < 400 ? "flex-start" : "center";
   const flexAlign = screenWidth < 600 ? "flex-start" : "flex-end";
   return (
+    <>
     <Box
       sx={{
         margin: "10rem auto",
@@ -178,28 +181,39 @@ const HotelDetails = () => {
               {hotelData && hotelData.hotel.name}
             </Typography>
             {user && (user.role === "Manager" || user.role === "Admin") ? (
-              <span
-                style={{
-                  width: "fitContent",
-                  display: "flex",
-                  alignItems: "center",
+              <IconButton
+                onClick={() => setOpenDelete(true)}
+                sx={{
+                  color: "#088395",
+                  width: 'fit-content',
+                  padding: screenWidth > 400 ? '1rem' : 0
                 }}
-                onClick={() => setOpenImage(true)}
               >
-                <Button
-                  variant="contained"
-                  startIcon={<AddIcon />}
-                  sx={{
-                    bgcolor: "#088395 !important",
-                    mb: screenWidth < 600 ? "1.5rem" : 0,
-                  }}
-                >
-                  Add Images
-                </Button>
-              </span>
+                <Delete />
+              </IconButton>
             ) : (
               ""
             )}
+          </span>
+          <span
+            style={{
+              width: "fitContent",
+              display: "flex",
+              alignItems: "center",
+              marginTop: '1rem'
+            }}
+            onClick={() => setOpenImage(true)}
+          >
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                bgcolor: "#088395 !important",
+                mb: screenWidth < 600 ? "1.5rem" : 0,
+              }}
+            >
+              Add Images
+            </Button>
           </span>
           <Box
             display="flex"
@@ -237,24 +251,15 @@ const HotelDetails = () => {
             </Typography>
             {user && (user.role === "Manager" || user.role === "Admin") ? (
               <span>
-                  <IconButton
+                <IconButton
                   onClick={() => setOpenEdit(true)}
-                    sx={{
-                      color: "#088395",
-                      mb: screenWidth < 600 ? "1.5rem" : 0,
-                    }}
-                  >
-                    <Edit />
-                  </IconButton>
-                  <IconButton
-                  onClick={() => setOpenDelete(true)}
-                    sx={{
-                      color: "#088395",
-                      mb: screenWidth < 600 ? "1.5rem" : 0,
-                    }}
-                  >
-                    <Delete />
-                  </IconButton>
+                  sx={{
+                    color: "#088395",
+                    mb: screenWidth < 600 ? "1.5rem" : 0,
+                  }}
+                >
+                  <Edit />
+                </IconButton>
               </span>
             ) : (
               ""
@@ -556,6 +561,12 @@ const HotelDetails = () => {
                         justifyContent: "space-between",
                       }}
                     >
+                      <span style={{
+                        display: 'flex',
+                        alignItems:'center',
+                        columnGap: '0.8rem'
+                      }}>
+                      <Avatar src={`${process.env.REACT_APP_SQL_API}/${rate.User.image}`}/>
                       <p
                         style={{
                           color: "#088395",
@@ -568,6 +579,7 @@ const HotelDetails = () => {
                           " " +
                           rate.User.lastName.toLowerCase()}
                       </p>
+                      </span>
                       <Rating precision={0.5} value={rate.rate} />
                     </span>
                     <p
@@ -624,6 +636,8 @@ const HotelDetails = () => {
         </>
       )}
     </Box>
+    <Footer/>
+    </>
   );
 };
 export default HotelDetails;

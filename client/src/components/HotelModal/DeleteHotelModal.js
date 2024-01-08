@@ -8,37 +8,99 @@ import UseApi from "../../hookes/useApi";
 import { useNavigate } from "react-router-dom";
 
 const DeleteHotelModal = ({
-  openDelete,
+  open,
   handleClose,
   selectedRowData,
   setSuccessDelete,
-  hotelPage 
+  hotelPage,
+  forWhat,
 }) => {
-  const {apiCall , loading , error} = UseApi()
-  const navigate = useNavigate()
+  const { apiCall, loading, error } = UseApi();
+  const navigate = useNavigate();
 
-  const handleDelete = async () =>{
+  const handleDelete = async (e) => {
+    e.preventDefault();
     try {
       await apiCall({
-        url: '/hotel',
-        method: 'delete',
+        url: "/hotel",
+        method: "delete",
         data: {
-          id : selectedRowData.id
-        }
-      })
-      if (hotelPage){
-        navigate('/hotel')
+          id: selectedRowData && selectedRowData.id,
+        },
+      });
+      if (hotelPage) {
+        navigate("/hotel");
       }
-      setSuccessDelete(true)
+      setSuccessDelete(true);
     } catch (error) {
-      console.log(error)
-    } finally{
-      setTimeout(()=>{
-        setSuccessDelete(false)
-      }, 30000)
-      handleClose()
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setSuccessDelete(false);
+      }, 20000);
+      handleClose();
     }
-  }
+  };
+
+  const handleDeleteImage = async () => {
+    await apiCall({
+      url: "/hotel/image",
+      method: "delete",
+      data: {
+        id: selectedRowData && selectedRowData.id,
+      },
+    });
+    setSuccessDelete(true);
+    setTimeout(() => {
+      setSuccessDelete(false);
+    }, 20000);
+    handleClose();
+  };
+
+  const handleDeleteRule = async (e) => {
+    e.preventDefault();
+    await apiCall({
+      url: "/rule",
+      method: "delete",
+      data: {
+        id: selectedRowData && selectedRowData.id,
+      },
+    });
+    setSuccessDelete(true);
+    setTimeout(() => {
+      setSuccessDelete(false);
+    }, 20000);
+    handleClose();
+  };
+
+  const handleDeleteRate = async (e) => {
+    e.preventDefault();
+    await apiCall({
+      url: "/rating",
+      method: "delete",
+      data: {
+        id: selectedRowData && selectedRowData.id,
+      },
+    });
+    setSuccessDelete(true);
+    setTimeout(() => {
+      setSuccessDelete(false);
+    }, 20000);
+    handleClose();
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (forWhat === "hotel") {
+      handleDelete(e);
+    } else if (forWhat === "hotelImage") {
+      handleDeleteImage(e);
+    } else if (forWhat === "rule") {
+      handleDeleteRule(e);
+    } else if (forWhat === "rate") {
+      handleDeleteRate(e);
+    }
+  };
   const style = {
     position: "absolute",
     top: "50%",
@@ -52,7 +114,7 @@ const DeleteHotelModal = ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "left",
   };
 
   const divStyle = {
@@ -72,7 +134,7 @@ const DeleteHotelModal = ({
   return (
     <>
       <Modal
-        open={openDelete}
+        open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
@@ -83,7 +145,7 @@ const DeleteHotelModal = ({
               variant="h5"
               component="h5"
               sx={{
-                color: '#088395 !important',
+                color: "#088395 !important",
                 fontSize: "1.5rem",
                 fontWeight: "bold",
               }}
@@ -96,37 +158,58 @@ const DeleteHotelModal = ({
                 handleClose();
               }}
             >
-              <CloseIcon sx={{
-                color:"#088395"
-              }}/>
+              <CloseIcon
+                sx={{
+                  color: "#088395",
+                }}
+              />
             </IconButton>
           </div>
-          <Typography 
+          <Typography
             variant="p"
-            component='p'
-            fontSize='1.3rem'
+            component="p"
+            fontSize="1.3rem"
             sx={{
-              mb: '2rem',
-              mt: '1.5rem'
+              mb: "2rem",
+              mt: "1.5rem",
             }}
           >
-            Are you sure you want to delete this hotel ?
+            {forWhat === "hotel"
+              ? "Are you sure you want to delete this hotel?"
+              : forWhat === "hotelImage"
+              ? "Are you sure you want to delete this image?"
+              : forWhat === "rule"
+              ? "Are you sure you want to delete this Rule?"
+              : forWhat === "rate"
+              ? "Are you sure you want to delete this Rate?"
+              : ""}
           </Typography>
+          {forWhat === "hotelImage" ? (
+            <img
+              src={`${process.env.REACT_APP_SQL_API}/${
+                selectedRowData && selectedRowData.icon
+              }`}
+              alt="previousImage"
+              width="100%"
+            />
+          ) : (
+            ""
+          )}
           <span
             style={{
-              width: "50%",
               display: "flex",
-              justifyContent: "center",
+              marginTop: "2rem",
             }}
+            onClick={(e) => handleSubmit(e)}
           >
             <Button
               variant="contained"
               startIcon={<DeleteIcon />}
               size="large"
               sx={{
-                bgcolor: '#088395 !important'
+                bgcolor: "#088395 !important",
               }}
-              onClick={handleDelete}
+              onClick={(e) => handleSubmit(e)}
             >
               Delete
             </Button>

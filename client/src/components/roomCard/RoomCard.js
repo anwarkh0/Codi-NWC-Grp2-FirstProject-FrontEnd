@@ -1,8 +1,7 @@
-import { React, useContext, useEffect, useState } from "react";
+import { React, useContext} from "react";
 import roomCardModule from "./roomCard.module.css";
 import { useNavigate } from "react-router-dom";
-import { IconButton, Rating } from "@mui/material";
-import { Delete } from "@mui/icons-material";
+import { Rating } from "@mui/material";
 import { AuthContext } from "../../context/authContext";
 
 const RoomCard = ({
@@ -34,6 +33,7 @@ const RoomCard = ({
               ? data.HotelImages[0].icon
               : image && image.icon
           }`}
+          loading="lazy"
         />
         <div
           style={{

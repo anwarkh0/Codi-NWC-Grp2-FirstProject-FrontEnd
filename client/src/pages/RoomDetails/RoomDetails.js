@@ -1,12 +1,7 @@
 import ReservationModal from "../../components/Booking/BookingDetails";
 import { useParams } from "react-router-dom";
 import Carousell from "../../components/Carousel/Carousel";
-import {
-  Box,
-  Button,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Box, Button, IconButton, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import UseApi from "../../hookes/useApi";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
@@ -18,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Delete, Edit } from "@mui/icons-material";
 import RoomModal from "../../components/RoomModal/RoomModal";
 import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal";
+import NoteModal from "../../components/Note/Note";
 
 const RoomDetails = () => {
   const { roomId } = useParams();
@@ -30,6 +26,7 @@ const RoomDetails = () => {
   const [openImage, setOpenImage] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
   const [successReserve, setSuccessReserve] = useState(false);
   const [successEdit, setSuccessEdit] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
@@ -54,6 +51,8 @@ const RoomDetails = () => {
       setOpenImage(false);
     } else if (openEdit) {
       setOpenEdit(false);
+    } else if (openNote){
+      setOpenNote(false)
     }
   };
 
@@ -83,7 +82,15 @@ const RoomDetails = () => {
     };
 
     fetchData();
-  }, [successEdit, successReserve , roomId]);
+  }, [successEdit, successReserve, roomId]);
+
+  const handleReserve = () => {
+    if (!user) {
+      setOpenNote(true);
+    } else {
+      setOpenReserve(true);
+    }
+  };
 
   const flexButton = screenWidth < 300 ? "column" : "row";
   const flexRate = screenWidth < 400 ? "column" : "row";
@@ -146,7 +153,6 @@ const RoomDetails = () => {
                 sx={{
                   color: "#088395",
                   mb: screenWidth < 600 ? "1.5rem" : 0,
-                  
                 }}
               >
                 <Delete />
@@ -161,7 +167,7 @@ const RoomDetails = () => {
                 width: "fitContent",
                 display: "flex",
                 alignItems: "center",
-                marginTop: '1rem'
+                marginTop: "2rem",
               }}
               onClick={() => setOpenImage(true)}
             >
@@ -245,7 +251,7 @@ const RoomDetails = () => {
             >
               Price :{" "}
             </span>{" "}
-            {roomData && roomData.price} $
+            {roomData && roomData.price}$ /night
           </Typography>
           <Typography
             variant="p"
@@ -263,7 +269,7 @@ const RoomDetails = () => {
             >
               Guest Numeber :{" "}
             </span>{" "}
-            {roomData && roomData.guestNumber}
+            {roomData && roomData.guestNumber} {roomData && roomData.guestNumber === 1 ? ('guest') :( 'guests')}
           </Typography>
           <Typography
             variant="p"
@@ -279,9 +285,27 @@ const RoomDetails = () => {
                 fontSize: "1.2rem",
               }}
             >
-              Hotel :{" "}
+              Hotel Name:{" "}
             </span>{" "}
             {roomData && roomData.Hotel.name}
+          </Typography>
+          <Typography
+            variant="p"
+            component="p"
+            fontSize="1rem"
+            color="#585858"
+            fontFamily="Helvetica Neue"
+            mb="1.2rem"
+          >
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Hotel Manager :{" "}
+            </span>{" "}
+            {roomData && roomData.Hotel.User.firstName + " " +roomData.Hotel.User.lastName }
           </Typography>
           <Typography
             variant="p"
@@ -319,7 +343,7 @@ const RoomDetails = () => {
             </span>{" "}
             {roomData && roomData.description}
           </Typography>
-          {user && user.role === 'Customer'}
+          {user && user.role === "Customer"}
           <Typography
             variant="h4"
             component="h4"
@@ -328,28 +352,28 @@ const RoomDetails = () => {
             mb="1rem"
             mt="4rem"
           >
-            Reserve This Room 
+            Reserve This Room
           </Typography>
           <span
-              style={{
-                width: "fitContent",
-                display: "flex",
-                alignItems: "center",
-                marginTop: '1rem'
+            style={{
+              width: "fitContent",
+              display: "flex",
+              alignItems: "center",
+              marginTop: "1rem",
+            }}
+            onClick={(e) => handleReserve(e)}
+          >
+            <Button
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                bgcolor: "#088395 !important",
+                mb: screenWidth < 600 ? "1.5rem" : 0,
               }}
-              onClick={() => setOpenReserve(true)}
             >
-              <Button
-                variant="contained"
-                startIcon={<AddIcon />}
-                sx={{
-                  bgcolor: "#088395 !important",
-                  mb: screenWidth < 600 ? "1.5rem" : 0,
-                }}
-              >
-                Reserve this room
-              </Button>
-            </span>
+              Reserve 
+            </Button>
+          </span>
           <Typography
             variant="h4"
             component="h4"
@@ -403,6 +427,7 @@ const RoomDetails = () => {
             selectedRowData={roomData && roomData}
             setSuccessDelete={setSuccessDelete}
           />
+          <NoteModal openNote={openNote} handleClose={handleClose} />
         </>
       )}
     </Box>

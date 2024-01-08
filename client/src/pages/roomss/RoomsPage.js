@@ -1,16 +1,17 @@
 import Footer from "../../layouts/footer/Footer";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState , Suspense , lazy } from "react";
 import roomsModule from "./rooms.module.css";
 import down from "../../assets/images/down.png";
 import up from "../../assets/images/up.png";
 import { AuthContext } from "../../context/authContext";
 import AddIcon from "@mui/icons-material/Add";
-import RoomCard from "../../components/roomCard/RoomCard.js";
 import loadingImg from "../../assets/images/hotel-loading-gif.gif";
 import UseApi from "../../hookes/useApi.js";
 import { Button } from "@mui/material";
 import RoomModal from "../../components/RoomModal/RoomModal.js";
 import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal.js";
+
+const LazyRoomCard = lazy(() => import("../../components/roomCard/RoomCard"));
 
 const RoomsPage = () => {
   const { apiCall, loading, error } = UseApi();
@@ -131,16 +132,18 @@ const RoomsPage = () => {
             <div className={roomsModule.gridView}>
               {roomData.map((room, index) => {
                 return (
-                  <RoomCard
-                    roomId={room.id}
-                    image={room.RoomImages[0]}
-                    quality={room.quality}
-                    hotel={room.hotel}
-                    price={room.price}
-                    key={index}
-                    setOpenDelete={setOpenDelete}
-                    setOneRoom={setOneRoom}
-                  />
+                  <Suspense key={index}>
+                    <LazyRoomCard
+                      roomId={room.id}
+                      image={room.RoomImages[0]}
+                      quality={room.quality}
+                      hotel={room.hotel}
+                      price={room.price}
+                      key={index}
+                      setOpenDelete={setOpenDelete}
+                      setOneRoom={setOneRoom}
+                    />
+                  </Suspense>
                 );
               })}
             </div>
@@ -153,6 +156,7 @@ const RoomsPage = () => {
                   height: "15rem",
                 }}
                 alt="loading"
+                loading="lazy"
               />
             </span>
           )}

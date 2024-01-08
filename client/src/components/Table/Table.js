@@ -48,10 +48,10 @@ const TableComponent = ({
         visibleFields = [
           "id",
           "hotel",
+          'cover' ,
           "price",
           "number",
           "guestNumber",
-          "isBooked",
           "description",
         ];
       } else if (ForWhat === "users") {
@@ -60,21 +60,28 @@ const TableComponent = ({
         visibleFields = [
           "id",
           "name",
+          'cover',
           "city",
           "address",
           "rating",
           "roomNumber",
         ];
       } else if (ForWhat === "hotelImages") {
-        visibleFields = ["id", "hotelId", "icon"];
+        visibleFields = ["id", "hotelName", "icon"];
       } else if (ForWhat === "hotelRules") {
         visibleFields = ["id", "description", "hotelId", "icon"];
       } else if (ForWhat === "ratings") {
-        visibleFields = ["id", "rate", "feedback", "userId", "hotelId"];
+        visibleFields = ["id", "rate", "feedback", "hotelName", "UserName"];
       } else if (ForWhat === "roomImages") {
         visibleFields = ["id", "roomId", "icon"];
       } else if (ForWhat === "reservations") {
-        visibleFields = ["id", "checkInDate", "checkOutDate", "userId", "roomId"];
+        visibleFields = [
+          "id",
+          "checkInDate",
+          "checkOutDate",
+          "userId",
+          "roomId",
+        ];
       } else {
         visibleFields = Object.keys(data[0]);
       }
@@ -85,16 +92,15 @@ const TableComponent = ({
         flex: screenWidth < 800 ? 0 : 1,
         renderCell: (params) => {
           // If the field is "icon" and has a value, display a small image
-          if (field === "icon" && params.row.icon) {
+          if ((field === "icon" && params.row.icon) || (field === "cover" && params.row.cover) ) {
             return (
               <img
-                src={params.row.icon} // Assuming the "icon" field contains the image URL
+                src={`${process.env.REACT_APP_SQL_API}/${params.row.icon ? params.row.icon : params.row.cover}`} // Assuming the "icon" field contains the image URL
                 alt="Icon"
-                style={{ width: "24px", height: "24px", borderRadius: "50%" }}
+                style={{ width: "70px", height: "50px" }}
               />
             );
-          }
-
+          } 
           // Default rendering for other fields
           return params.value;
         },
@@ -106,7 +112,11 @@ const TableComponent = ({
           field: "actions",
           headerName: "Actions",
           renderCell: (params) => (
-            <Grid container md={12} sx={{ display: "flex", justifyContent: "center" }}>
+            <Grid
+              container
+              md={12}
+              sx={{ display: "flex", justifyContent: "center" }}
+            >
               <IconButton onClick={(e) => handleEdit(e, params.row)}>
                 <EditIcon
                   sx={{
@@ -140,10 +150,9 @@ const TableComponent = ({
 
   return (
     <>
-      <Box sx={{ height: 707, mt: "3rem", mb: "3rem" }}>
+      <Box sx={{ height: 707, mt: "3rem", mb: "3rem" , fontFamily:"Helvetica Neue" }}>
         <DataGrid
-          isCellEditable={false}
-          isRowSelectable={false}
+          isCellEditable={(GridCellParams) => false}
           columns={columns}
           rows={data}
           getRowId={(row) => row.id}
@@ -162,6 +171,7 @@ const TableComponent = ({
             },
           }}
           sx={{
+            fontFamily:"Helvetica Neue",
             marginBottom: "4rem",
             width: "98%",
             border: "solid 1px #BABABA",

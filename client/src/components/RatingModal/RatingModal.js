@@ -1,16 +1,35 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "@mui/material/Modal";
-import { Box, IconButton, Rating, Stack, TextField } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Rating,
+  Select,
+  Stack,
+  TextField,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
 import UseApi from "../../hookes/useApi";
 import { AuthContext } from "../../context/authContext";
 
-const RatingModal = ({ openRating, handleClose, setSuccessRate , hotelId}) => {
+const RatingModal = ({
+  openRating,
+  handleClose,
+  setSuccessRate,
+  hotelId,
+  selectedRowData,
+  type,
+}) => {
   const { user } = useContext(AuthContext);
   const [rate, setRate] = useState(0.0);
   const [feedback, setFeedback] = useState();
+  const [hotelID, setHotelID] = useState();
+  const [hotels, setHotels] = useState();
   const { apiCall, loading, error } = UseApi();
   const style = {
     position: "absolute",
@@ -42,19 +61,62 @@ const RatingModal = ({ openRating, handleClose, setSuccessRate , hotelId}) => {
     padding: 0,
   };
 
-  const SubmitRate = async () => {
+  useEffect(() => {
+    const fetchHotels = async () => {
+      try {
+        const response = await apiCall({ url: "/hotel", method: "get" });
+        setHotels(response);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchHotels();
+  }, []);
+
+  const AddRate = async () => {
     try {
       const response = await apiCall({
         url: "/rating",
         method: "post",
-        data: { feedback: feedback, rate: rate, userId: user.id , hotelId: hotelId},
+        data: {
+          feedback: feedback,
+          rate: rate,
+          userId: user.id,
+          hotelId: hotelId ? hotelId : hotelID,
+        },
       });
       setSuccessRate(true);
-      if (response)
-      handleClose();
+      if (response) handleClose();
     } catch (error) {
       console.error(error);
-    } finally {
+    }
+  };
+
+  const EditRate = async () => {
+    try {
+      const response = await apiCall({
+        url: "/rating",
+        method: "patch",
+        data: {
+          id: selectedRowData && selectedRowData.id,
+          feedback: feedback,
+          rate: rate,
+          userId: user.id,
+        },
+      });
+      setSuccessRate(true);
+      if (response) handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (type === "add") {
+      AddRate(e);
+    } else if (type === "edit") {
+      EditRate(e);
     }
   };
 
@@ -104,7 +166,49 @@ const RatingModal = ({ openRating, handleClose, setSuccessRate , hotelId}) => {
               />
             </IconButton>
           </div>
-          <Stack mt="1rem" mb="1rem" width="100%">
+          <Stack mt="1rem" mb="1rem" width="100%" rowGap='1rem'>
+            {type === "add" ? (
+              <FormControl
+                required
+                sx={{
+                  "& .MuiSvgIcon-root": {
+                    color: "white",
+                    "& .MuiList-root": {
+                      bgcolor: "transparent",
+                    },
+                  },
+                }}
+              >
+                <InputLabel id="demo-simple-select-required-label">
+                  Hotel
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-required-label"
+                  id="demo-simple-select-required"
+                  value={selectedRowData && selectedRowData.Hotel.id}
+                  name="hotelId"
+                  label="Hotel *"
+                  onChange={(e) => setHotelID(e.target.value)}
+                >
+                  <MenuItem disabled>
+                    <em>None</em>
+                  </MenuItem>
+                  {hotels && hotels.length > 0 ? (
+                    hotels
+                    .filter((hotel) => hotel.userId === user.id)
+                    .map((hotel) => (
+                      <MenuItem key={hotel.id} value={hotel.id} name="hotelId">
+                        {hotel.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem disabled>No hotels available</MenuItem>
+                  )}
+                </Select>
+              </FormControl>
+            ) : (
+              <></>
+            )}
             <TextField
               required
               id="outlined-required1"
@@ -143,7 +247,7 @@ const RatingModal = ({ openRating, handleClose, setSuccessRate , hotelId}) => {
           >
             <Button
               variant="contained"
-              onClick={SubmitRate}
+              onClick={(e) => handleSubmit(e)}
               size="large"
               sx={{
                 bgcolor: "#088395 !important",

@@ -11,28 +11,73 @@ import toast, { Toaster } from "react-hot-toast";
 import HotelModal from "../../components/HotelModal/HotelModal";
 import DeleteHotelModal from "../../components/HotelModal/DeleteHotelModal";
 import axios from "axios";
+import UseApi from "../../hookes/useApi";
+import ImagesModel from "../../components/ImagesModal/ImagesModal";
+import styles from "./HotelsDashboard.module.css";
+import RulesModal from "../../components/RulesModal/RulesModal";
+import RatingModal from "../../components/RatingModal/RatingModal";
+import { AuthContext } from "../../context/authContext";
 
 const HotelsDashboard = () => {
+  const {user} = useContext(AuthContext)
   const [hotelData, sethotelData] = useState(null);
+  const [ImagesData, setImagesData] = useState(null);
+  const [rateData, setRateData] = useState();
+  const [rulesData, setRulesData] = useState();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [tabValue, setTabValue] = useState(1);
   const [networkError, setNetworkError] = useState(false);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [selectedRowData, setSelectedRowData] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [openDelete, setOpenDelete] = useState(false);
+  const [openHotel, setOpenHotel] = useState(false);
+  const [openEditHotel, setOpenEditHotel] = useState(false);
+  const [openDeleteHotel, setOpenDeleteHotel] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
+  const [openEditImage, setOpenEditImage] = useState(false);
+  const [openDeleteImage, setOpenDeleteImage] = useState(false);
+  const [openRate, setOpenRate] = useState(false);
+  const [openEditRate, setOpenEditRate] = useState(false);
+  const [openDeleteRate, setOpenDeleteRate] = useState(false);
+  const [openRule, setOpenRule] = useState(false);
+  const [openEditRule, setOpenEditRule] = useState(false);
+  const [openDeleteRule, setOpenDeleteRule] = useState(false);
   const [successAdd, setSuccessAdd] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
   const [successEdit, setSuccessEdit] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleEditOpen = () => setOpenEdit(true);
-  const handleOpenDelete = () => setOpenDelete(true);
+  const [activeLi, setActiveLi] = useState({
+    hotel: true,
+    images: false,
+    rule: false,
+    rating: false,
+  });
+  const handleOpenHotel = () => setOpenHotel(true);
+  const handleEditOpenHotel = () => setOpenEditHotel(true);
+  const handleOpenDeleteHotel = () => setOpenDeleteHotel(true);
+  const handleOpenImage = () => setOpenImage(true);
+  const handleEditOpenImage = () => setOpenEditImage(true);
+  const handleOpenDeleteImage = () => setOpenDeleteImage(true);
+  const handleOpenRate = () => setOpenRate(true);
+  const handleEditOpenRate = () => setOpenEditRate(true);
+  const handleOpenDeleteRate = () => setOpenDeleteRate(true);
+  const handleOpenRule = () => setOpenRule(true);
+  const handleEditOpenRule = () => setOpenEditRule(true);
+  const handleOpenDeleteRule = () => setOpenDeleteRule(true);
   const handleClose = () => {
-    setOpen(false);
-    setOpenEdit(false);
-    setOpenDelete(false);
+    setOpenHotel(false);
+    setOpenEditHotel(false);
+    setOpenDeleteHotel(false);
+    setOpenImage(false);
+    setOpenEditImage(false);
+    setOpenDeleteImage(false);
+    setOpenRate(false);
+    setOpenEditRate(false);
+    setOpenDeleteRate(false);
+    setOpenRule(false);
+    setOpenEditRule(false);
+    setOpenDeleteRule(false);
   };
+  const { apiCall } = UseApi();
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,7 +91,7 @@ const HotelsDashboard = () => {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchHotelData = async () => {
       setLoading(true);
       try {
         const response = await axios.get(
@@ -62,21 +107,62 @@ const HotelsDashboard = () => {
       }
     };
 
-    const fetchRoomNum = async () => {
+    const fetchImageData = async () => {
       try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_SQL_API}/room/number` , {
-            
-          }
-        )
+        const response = await apiCall({
+          url: "/hotel/image",
+          method: "get",
+        });
+        setImagesData(response.data);
       } catch (error) {
-        setError(true)
+        console.log(error);
       }
+    };
+
+    const fetchRulesData = async () => {
+      try {
+        const response = await apiCall({
+          url: "/rule",
+          method: "get",
+        });
+        setRulesData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const fetchRatingsData = async () => {
+      try {
+        const response = await apiCall({
+          url: "/rating",
+          method: "get",
+        });
+        setRateData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchRulesData();
+    fetchImageData();
+    fetchHotelData();
+    fetchRatingsData();
+  }, [successAdd, successDelete, successEdit]);
+
+
+  const filterData = (data , forWhat) =>{
+    if (user.role === 'Hotel Manager'){
+      if (forWhat === 'hotel' || forWhat === 'rate') {
+        const filteredData = data.filter((item) => item.userId === user.id )
+        return filteredData;
+      }else  if (forWhat === 'rule' || forWhat === 'image' ){
+        const filteredData = data.filter((item) =>item.Hotel.userId === user.id)
+        return filteredData;
+      }
+    } else {
+      return data
     }
-
-    fetchData();
-  }, [successAdd , successDelete , successEdit]);
-
+  }
   return (
     <Box
       sx={{ flexGrow: 1, display: "flex", flexDirection: "column", ml: "5rem" }}
@@ -86,6 +172,7 @@ const HotelsDashboard = () => {
       <Typography
         variant="h3"
         component="h3"
+        fontFamily="Helvetica Neue"
         sx={{
           textAlign: "left",
           mb: 5,
@@ -103,7 +190,7 @@ const HotelsDashboard = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5" color="error">
+          <Typography variant="h5" color="error" fontFamily="Helvetica Neue">
             Network Issue
           </Typography>
         </div>
@@ -115,7 +202,9 @@ const HotelsDashboard = () => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">Loading...</Typography>
+          <Typography variant="h5" fontFamily="Helvetica Neue">
+            Loading...
+          </Typography>
         </div>
       ) : error ? (
         <div
@@ -186,56 +275,306 @@ const HotelsDashboard = () => {
               </Grid>
             </Grid>
           </Grid>
-          <span
-            style={{
-              width: "fit-content",
-            }}
-            onClick={handleOpen}
-          >
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<AddIcon />}
-              sx={{
-                ":hover":{
-                  bgcolor: '#035e6b !important'
-                } ,
-                bgcolor: "#088395 !important",
-              }}
-            >
-              Add Hotel
-            </Button>
-          </span>
-          <TableComponent
-            data={hotelData !== null && hotelData}
-            isEdit={true}
-            ForWhat={"hotels"}
-            handleEditOpen={handleEditOpen}
-            setSelectedRowData={setSelectedRowData}
-            handleOpenDelete={handleOpenDelete}
-          />
-          <HotelModal
-            open={open}
-            handleClose={handleClose}
-            type="add"
-            setSuccessAdd={setSuccessAdd}
-          />
-          <HotelModal
-            type="edit"
-            open={openEdit}
-            handleClose={handleClose}
-            selectedRowData={selectedRowData && selectedRowData}
-            setSuccessAdd={setSuccessAdd}
-            setSuccessEdit={setSuccessEdit}
-          />
-          <DeleteHotelModal
-            selectedRowData={selectedRowData && selectedRowData}
-            handleOpenDelete={handleOpenDelete}
-            openDelete={openDelete}
-            handleClose={handleClose}
-            setSuccessDelete={setSuccessDelete}
-            setOpenDelete={setOpenDelete}
-          />
+          <Box sx={{
+            border: 'solid 1px #b3b3b3',
+            padding: '0.5rem'
+          }}>
+            <div>
+              <ul
+                style={{
+                  display: "flex",
+                  listStyle: "none",
+                  margin: "1rem 0 2rem 0",
+                  padding: 0,
+                  flexWrap: "wrap",
+                }}
+              >
+                <li
+                  onClick={() => {
+                    setTabValue(1);
+                    setActiveLi({
+                      hotel: true,
+                      images: false,
+                      rule: false,
+                      rating: false,
+                    });
+                  }}
+                  className={`${styles.li} ${
+                    activeLi.hotel === true ? styles.active : ""
+                  }`}
+                >
+                  Hotels
+                </li>
+                <li
+                  onClick={() => {
+                    setTabValue(2);
+                    setActiveLi({
+                      hotel: false,
+                      images: true,
+                      rule: false,
+                      rating: false,
+                    });
+                  }}
+                  className={`${styles.li} ${
+                    activeLi.images === true ? styles.active : ""
+                  }`}
+                >
+                  Images
+                </li>
+                <li
+                  onClick={() => {
+                    setTabValue(3);
+                    setActiveLi({
+                      hotel: false,
+                      images: false,
+                      rule: true,
+                      rating: false,
+                    });
+                  }}
+                  className={`${styles.li} ${
+                    activeLi.rule === true ? styles.active : ""
+                  }`}
+                >
+                  Rules
+                </li>
+                <li
+                  onClick={() => {
+                    setTabValue(4);
+                    setActiveLi({
+                      hotel: false,
+                      images: false,
+                      rule: false,
+                      rating: true,
+                    });
+                  }}
+                  className={`${styles.li} ${
+                    activeLi.rating === true ? styles.active : ""
+                  }`}
+                >
+                  Ratings
+                </li>
+              </ul>
+            </div>
+            {tabValue === 1 ? (
+              <>
+                <span
+                  style={{
+                    width: "fit-content",
+                  }}
+                  onClick={handleOpenHotel}
+                >
+                  <Button
+                    variant="contained"
+                    size="large"
+                    startIcon={<AddIcon />}
+                    sx={{
+                      ":hover": {
+                        bgcolor: "#035e6b !important",
+                      },
+                      bgcolor: "#088395 !important",
+                      fontFamily: "Helvetica Neue",
+                    }}
+                  >
+                    Add Hotel
+                  </Button>
+                </span>
+                <TableComponent
+                  data={hotelData !== null && filterData(hotelData , 'hotel')}
+                  isEdit={true}
+                  ForWhat={"hotels"}
+                  handleEditOpen={handleEditOpenHotel}
+                  setSelectedRowData={setSelectedRowData}
+                  handleOpenDelete={handleOpenDeleteHotel}
+                />
+                <HotelModal
+                  open={openHotel}
+                  handleClose={handleClose}
+                  type="add"
+                  setSuccessAdd={setSuccessAdd}
+                />
+                <HotelModal
+                  type="edit"
+                  open={openEditHotel}
+                  handleClose={handleClose}
+                  selectedRowData={selectedRowData && selectedRowData}
+                  setSuccessAdd={setSuccessAdd}
+                  setSuccessEdit={setSuccessEdit}
+                />
+                <DeleteHotelModal
+                  selectedRowData={selectedRowData && selectedRowData}
+                  handleOpenDeleteHotel={handleOpenDeleteHotel}
+                  open={openDeleteHotel}
+                  handleClose={handleClose}
+                  setSuccessDelete={setSuccessDelete}
+                  forWhat="hotel"
+                />
+              </>
+            ) : tabValue === 2 ? (
+              <>
+                <span
+                  style={{
+                    width: "fit-content",
+                  }}
+                  onClick={handleOpenImage}
+                >
+                  <Button
+                    variant="contained"
+                    size="large"
+                    startIcon={<AddIcon />}
+                    sx={{
+                      ":hover": {
+                        bgcolor: "#035e6b !important",
+                      },
+                      bgcolor: "#088395 !important",
+                      fontFamily: "Helvetica Neue",
+                    }}
+                  >
+                    Add Image
+                  </Button>
+                </span>
+                <TableComponent
+                  data={ImagesData !== null && filterData(ImagesData , 'image')}
+                  isEdit={true}
+                  ForWhat={"hotelImages"}
+                  handleEditOpen={handleEditOpenImage}
+                  setSelectedRowData={setSelectedRowData}
+                  handleOpenDelete={handleOpenDeleteImage}
+                />
+                <ImagesModel
+                  open={openImage}
+                  handleClose={handleClose}
+                  type="add"
+                  setSuccessEdit={setSuccessEdit}
+                  location={"dashboard"}
+                />
+                <ImagesModel
+                  hotelId={true}
+                  type="edit"
+                  open={openEditImage}
+                  handleClose={handleClose}
+                  selectedRowData={selectedRowData && selectedRowData}
+                  setSuccessEdit={setSuccessEdit}
+                  location={"dashboard"}
+                />
+                <DeleteHotelModal
+                  selectedRowData={selectedRowData && selectedRowData}
+                  open={openDeleteImage}
+                  handleClose={handleClose}
+                  setSuccessDelete={setSuccessDelete}
+                  forWhat="hotelImage"
+                />
+              </>
+            ) : tabValue === 4 ? (
+              <>
+              { user && user.role === 'Customer' ? (
+                <span
+                  style={{
+                    width: "fit-content",
+                  }}
+                  onClick={handleOpenRate}
+                >
+                  <Button
+                    variant="contained"
+                    size="large"
+                    startIcon={<AddIcon />}
+                    sx={{
+                      ":hover": {
+                        bgcolor: "#035e6b !important",
+                      },
+                      bgcolor: "#088395 !important",
+                      fontFamily: "Helvetica Neue",
+                    }}
+                  >
+                    Add Rate
+                  </Button>
+                </span>
+              ): ""}
+                <TableComponent
+                  data={rateData !== null && filterData(rateData , 'rate')}
+                  isEdit={true}
+                  ForWhat={"ratings"}
+                  handleEditOpen={handleEditOpenRate}
+                  setSelectedRowData={setSelectedRowData}
+                  handleOpenDelete={handleOpenDeleteRate}
+                />
+                <RatingModal
+                  type="add"
+                  openRating={openRate}
+                  handleClose={handleClose}
+                  setSuccessRate={setSuccessAdd}
+                />
+                <RatingModal
+                  type="edit"
+                  openRating={openEditRate}
+                  handleClose={handleClose}
+                  setSuccessRate={setSuccessEdit}
+                  selectedRowData={selectedRowData && selectedRowData}
+                />
+                <DeleteHotelModal
+                  selectedRowData={selectedRowData && selectedRowData}
+                  open={openDeleteRate}
+                  handleClose={handleClose}
+                  setSuccessDelete={setSuccessDelete}
+                  forWhat="rate"
+                />
+              </>
+            ) : tabValue === 3 ? (
+              <>
+                <span
+                  style={{
+                    width: "fit-content",
+                  }}
+                  onClick={handleOpenRule}
+                >
+                  <Button
+                    variant="contained"
+                    size="large"
+                    startIcon={<AddIcon />}
+                    sx={{
+                      ":hover": {
+                        bgcolor: "#035e6b !important",
+                      },
+                      bgcolor: "#088395 !important",
+                      fontFamily: "Helvetica Neue",
+                    }}
+                  >
+                    Add Rule
+                  </Button>
+                </span>
+                <TableComponent
+                  data={(rulesData !== null)&& filterData(rulesData , 'rule')}
+                  isEdit={true}
+                  ForWhat={"hotelRules"}
+                  handleEditOpen={handleEditOpenRule}
+                  setSelectedRowData={setSelectedRowData}
+                  handleOpenDelete={handleOpenDeleteRule}
+                />
+                <RulesModal
+                  openRules={openRule}
+                  type="add"
+                  handleClose={handleClose}
+                  setSuccessEdit={setSuccessEdit}
+                  selectedRowData={selectedRowData && selectedRowData}
+                />
+                <RulesModal
+                  openRules={openEditRule}
+                  type="edit"
+                  handleClose={handleClose}
+                  setSuccessEdit={setSuccessEdit}
+                  selectedRowData={selectedRowData && selectedRowData}
+                />
+                <DeleteHotelModal
+                  selectedRowData={selectedRowData && selectedRowData}
+                  open={openDeleteRule}
+                  handleClose={handleClose}
+                  setSuccessDelete={setSuccessDelete}
+                  forWhat="rule"
+                />
+              </>
+            ) : (
+              ""
+            )}
+          </Box>
         </>
       )}
     </Box>
