@@ -57,9 +57,7 @@ const EditProfile = ({ setSuccessEdit, userData }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "image") {
-      setImage(value);
-    } else if (name === "firstName") {
+    if (name === "firstName") {
       setFirstName(value);
     } else if (name === "password") {
       setPassword(value);
@@ -91,7 +89,7 @@ const EditProfile = ({ setSuccessEdit, userData }) => {
         {
           firstName: firstName,
           lastName: lastName,
-          image: image,
+          icon: image,
           password: conditionPassword,
           email: email,
           id: userData && userData.id,
@@ -382,7 +380,7 @@ const EditProfile = ({ setSuccessEdit, userData }) => {
                   type="file"
                   name="image"
                   id="image"
-                  onChange={handleChange}
+                  onChange={(e)=> setImage(e.target.files[0])}
                   style={{
                     width:
                       screenWidth < 380

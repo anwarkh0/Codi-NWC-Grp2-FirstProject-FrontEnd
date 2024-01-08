@@ -6,3 +6,10 @@ margin: 20px 80px;
 .title{
 margin:50px 80px;
 }
+
+@media screen and (max-width : 400px) {
+    .section{
+        margin-left: 4rem;
+        margin-right: 1rem;
+    }
+}

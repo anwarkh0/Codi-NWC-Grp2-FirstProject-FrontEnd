@@ -1,103 +1,167 @@
-.footer{
-    display: grid;
-    grid-template-columns: 0.2fr 0.25fr 0.25fr 0.25fr;
-    width: 70vw;
-    margin: 2rem auto;
-    padding: 1rem;
+.logo {
+  height: 50px;
+  margin: 0 0 50px;
+  margin-left: -30px;
 }
-.desc{
+
+.footer {
+  position: relative;
+  margin: 0 auto;
+  color: rgba(0, 0, 0, 0.5);
+  width: 70%;
+}
+
+.top {
+  display: grid;
+  border-bottom: 2px solid rgb(255 255 255 / 20%);
+  padding-bottom: 20px;
+  width: 100%;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0;
+  text-align: center;
+  width: 100%;
+  border-top: 1px gray solid;
+}
+
+.links {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 30px;
+}
+
+.linksColumn {
+  display: flex;
+  gap: 10px;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer .h2 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--main-blue);
+}
+
+.p {
+  margin: 0;
+  width: 70%;
+}
+
+.copyright {
+  font-size: 13px;
+}
+
+.socials {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translate(-50%, 0);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 56px;
+}
+
+.socials > a {
+  font-size: 24px;
+}
+
+.socialIcon {
+  color: var(--main-blue);
+}
+
+.socialIcon :is(h2, p) {
+  display: none;
+}
+
+.link {
+  color: rgba(0, 0, 0, 0.5) !important;
+  text-decoration: none;
+}
+
+/* Media queries */
+@media (min-width: 400px) {
+  .linksColumn {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .top .links {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .links {
+    margin-bottom: 30px;
+  }
+
+  .bottom {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    width: 20vw;
-}
-.text{
-    color: var(--gray1, #555);
-    font-family: Open Sans;
-    font-size: 0.85rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1rem;
-}
-.logos{
-    display: flex;
-    justify-content: space-between;
-}
-.logo{
-    padding:0.4rem;
-}
-.home, .help, .app{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-}
-.helpHeader, .homeHeader, .appHeader{
-    color: var(--dark-gray, #222);
-    font-family: Open Sans;
-    font-size: 1.1rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 0.8rem; 
-    }
-.homelist, .helplist, .applist{
-    list-style: none;
-    padding-left:0px;
-}
-.helpitems, .homeitems, .appitems{
-    color: var(--dark-gray, #222);
-    font-family: Open Sans;
-    font-size: 0.85rem;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 0.8rem;
-    padding: 5px 0;
-    text-decoration: none;
-}
-.copyrights{
-    border-top:1px solid #555555b1;
-    text-align: center;
-    font-size: 0.6rem;
-    padding-top: 1rem;
-    margin:1rem auto;
-    width: 70vw;
+    flex-direction: row;
+    gap: 20px;
+    text-align: left;
+  }
+
+  .top .socials {
+    left: 0;
+    bottom: 4rem;
+    transform: translate(0);
+  }
+
+  .top {
+    margin: 0;
+  }
 }
 
-@media(max-width:760px){
-    .helpitems, .homeitems, .appitems{
-        font-size: 0.7rem;
-    }
-    .text{
-        font-size: 0.7rem;
-    }
-    .helpHeader, .homeHeader, .appHeader{
-        font-size: 0.85rem; 
-        }
-    
+@media (min-width: 640px) {
+  .links {
+    margin-bottom: 0;
+  }
+  .linksColumn {
+    text-align: left;
+  }
+  .footer {
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .top .links {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .top .socials {
+    position: static;
+  }
+
+  .socialIcon :is(h2, p) {
+    display: block;
+  }
 }
 
+@media screen and (width <400px) {
+  .logo {
+    height: 40px;
+    margin: 0 auto 30px;
+  }
 
-@media(max-width:400px){
-    .helpHeader, .homeHeader, .appHeader{
-        font-size: 0.78rem; 
-        }
-    .footer{
-        column-gap: 1.5rem;
-        width: 80vw;
-    }
-    .logo{
-        scale: 0.8;
-        padding: 8px;
-    }
-    .footer{
-        margin: 0 auto;
-        padding: 1rem;
-    }
-    .copyrights{
-        margin:0;
-        width: 90vw;
-    }
-    
+  .links {
+    margin-bottom: 50px;
+  }
+
+  .top .socials {
+    bottom: 5rem;
+  }
+  .bottom {
+    flex-direction: column-reverse;
+  }
 }
-

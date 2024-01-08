@@ -1,0 +1,12 @@
+.li{
+    padding: 1rem 1.5rem ;
+    border-bottom: 1.5px solid #b3b3b3
+}
+
+.li:hover{
+    cursor: pointer;
+}
+
+.active{
+    border-bottom: 3px solid var(--main-blue);
+}

@@ -4,7 +4,6 @@ import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import Navbar from "../../layouts/NavBar/NavBar";
 import Sidebar from "../../layouts/sidebar/sidebar";
 import ProfileDetails from "../../components/ProfileDetails/ProfileDetails";
-import style from "./Profile.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import ProfileActivity from "../../components/ProfileActivity/ProfileActivity";
 import { AuthContext } from "../../context/authContext";
@@ -77,14 +76,16 @@ const Profile = () => {
   };
 
   const flex = screenWidth < 600 ? "column" : "row";
-  const leftSpanWidth = screenWidth < 600 ? '100%' : '55%'
-  const rightSpanWidth = screenWidth < 600 ? '100%' : '40%'
+  const leftSpanWidth = screenWidth < 600 ? "100%" : "55%";
+  const rightSpanWidth = screenWidth < 600 ? "100%" : "40%";
+  const marginLeft = user && user.role !== "Customer" ? "4rem" : "0";
+  const marginRight = user && user.role !== "Customer" ? "0.3rem" : "0";
 
   return (
     <div
       style={{
-        marginLeft: "4rem",
-        marginRight: "0.3rem",
+        marginLeft: marginLeft,
+        marginRight: marginRight,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -105,7 +106,7 @@ const Profile = () => {
           Update personal information, security settings, and customize your user experience."
         />
       </Helmet>
-      <Sidebar />
+      {user && user.role !== "Customer" ? <Sidebar /> : <Navbar />}
       <Toaster />
       <>
         <span
@@ -124,39 +125,39 @@ const Profile = () => {
             userData={userData && userData}
           />
         </span>
-        {overview && 
-        <div
-          style={{
-            width: "90%",
-            display: "flex",
-            flexDirection: flex,
-            columnGap: '10%'
-          }}
-        >
-          <span
+        {overview && (
+          <div
             style={{
+              width: "90%",
               display: "flex",
-              boxShadow: "1px 1px 5px 5px #BABABA",
-              width: leftSpanWidth,
-              borderRadius: "10px",
-              marginBottom : '2rem',
+              flexDirection: flex,
+              columnGap: "10%",
             }}
           >
-            <ProfileActivity userData={userData && userData} />
-          </span>
-          <span
-            style={{
-              display: "flex",
-              boxShadow: "1px 1px 5px 5px #BABABA",
-              width: rightSpanWidth,
-              borderRadius: "10px",
-              height: '19rem'
-            }}
-          >
-            <ProfileDetails userData={userData && userData} />
-          </span>
-        </div>
-        }
+            <span
+              style={{
+                display: "flex",
+                boxShadow: "1px 1px 5px 5px #BABABA",
+                width: leftSpanWidth,
+                borderRadius: "10px",
+                marginBottom: "2rem",
+              }}
+            >
+              <ProfileActivity userData={userData && userData} />
+            </span>
+            <span
+              style={{
+                display: "flex",
+                boxShadow: "1px 1px 5px 5px #BABABA",
+                width: rightSpanWidth,
+                borderRadius: "10px",
+                height: "19rem",
+              }}
+            >
+              <ProfileDetails userData={userData && userData} />
+            </span>
+          </div>
+        )}
         {edit && (
           <span
             style={{

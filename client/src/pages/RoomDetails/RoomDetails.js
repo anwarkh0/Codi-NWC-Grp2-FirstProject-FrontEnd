@@ -13,6 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Delete, Edit } from "@mui/icons-material";
 import RoomModal from "../../components/RoomModal/RoomModal";
 import DeleteRoomModal from "../../components/RoomModal/DeleteRoomModal";
+import NoteModal from "../../components/Note/Note";
 import { Helmet } from "react-helmet-async";
 
 const RoomDetails = () => {
@@ -26,6 +27,7 @@ const RoomDetails = () => {
   const [openImage, setOpenImage] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openNote, setOpenNote] = useState(false);
   const [successReserve, setSuccessReserve] = useState(false);
   const [successEdit, setSuccessEdit] = useState(false);
   const [successDelete, setSuccessDelete] = useState(false);
@@ -50,6 +52,8 @@ const RoomDetails = () => {
       setOpenImage(false);
     } else if (openEdit) {
       setOpenEdit(false);
+    } else if (openNote){
+      setOpenNote(false)
     }
   };
 
@@ -79,8 +83,15 @@ const RoomDetails = () => {
     };
 
     fetchData();
-  }, [successEdit, successReserve, roomId]);
+  }, [successEdit, successReserve , roomId]);
 
+  const handleReserve = () => {
+    if (!user) {
+      setOpenNote(true);
+    } else {
+      setOpenReserve(true);
+    }
+  };
   const flexButton = screenWidth < 300 ? "column" : "row";
   const flexRate = screenWidth < 400 ? "column" : "row";
 
@@ -180,7 +191,7 @@ const RoomDetails = () => {
                 width: "fitContent",
                 display: "flex",
                 alignItems: "center",
-                marginTop: "1rem",
+                marginTop: '2rem'
               }}
               onClick={() => setOpenImage(true)}
             >
@@ -264,7 +275,7 @@ const RoomDetails = () => {
             >
               Price :{" "}
             </span>{" "}
-            {roomData && roomData.price} $
+            {roomData && roomData.price}$ /night
           </Typography>
           <Typography
             variant="p"
@@ -282,7 +293,7 @@ const RoomDetails = () => {
             >
               Guest Numeber :{" "}
             </span>{" "}
-            {roomData && roomData.guestNumber}
+            {roomData && roomData.guestNumber} {roomData && roomData.guestNumber === 1 ? ('guest') :( 'guests')}
           </Typography>
           <Typography
             variant="p"
@@ -298,9 +309,27 @@ const RoomDetails = () => {
                 fontSize: "1.2rem",
               }}
             >
-              Hotel :{" "}
+              Hotel Name:{" "}
             </span>{" "}
             {roomData && roomData.Hotel.name}
+          </Typography>
+          <Typography
+            variant="p"
+            component="p"
+            fontSize="1rem"
+            color="#585858"
+            fontFamily="Helvetica Neue"
+            mb="1.2rem"
+          >
+            <span
+              style={{
+                fontWeight: "600",
+                fontSize: "1.2rem",
+              }}
+            >
+              Hotel Manager :{" "}
+            </span>{" "}
+            {roomData && roomData.Hotel.User.firstName + " " +roomData.Hotel.User.lastName }
           </Typography>
           <Typography
             variant="p"
@@ -350,25 +379,25 @@ const RoomDetails = () => {
             Reserve This Room
           </Typography>
           <span
-            style={{
-              width: "fitContent",
-              display: "flex",
-              alignItems: "center",
-              marginTop: "1rem",
-            }}
-            onClick={() => setOpenReserve(true)}
-          >
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{
-                bgcolor: "#088395 !important",
-                mb: screenWidth < 600 ? "1.5rem" : 0,
+              style={{
+                width: "fitContent",
+                display: "flex",
+                alignItems: "center",
+                marginTop: '1rem'
               }}
+              onClick={(e) => handleReserve(e)}
             >
-              Reserve this room
-            </Button>
-          </span>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon />}
+                sx={{
+                  bgcolor: "#088395 !important",
+                  mb: screenWidth < 600 ? "1.5rem" : 0,
+                }}
+              >
+                Reserve
+              </Button>
+            </span>
           <Typography
             variant="h4"
             component="h4"
@@ -422,6 +451,7 @@ const RoomDetails = () => {
             selectedRowData={roomData && roomData}
             setSuccessDelete={setSuccessDelete}
           />
+          <NoteModal openNote={openNote} handleClose={handleClose} />
         </>
       )}
     </Box>

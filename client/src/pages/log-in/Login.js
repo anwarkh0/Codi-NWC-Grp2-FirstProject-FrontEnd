@@ -22,7 +22,7 @@ import OAuth from "../../components/OAuth/OAuth";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [screenWidth, setScreenWidth] = useState();
+  const [screenWidth , setScreenWidth] = useState(window.innerWidth)
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -34,6 +34,7 @@ const Login = () => {
       const newWid = window.innerWidth;
       setScreenWidth(newWid);
     };
+    handleResize()
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

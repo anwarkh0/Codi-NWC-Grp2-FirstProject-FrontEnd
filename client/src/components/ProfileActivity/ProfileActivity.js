@@ -4,9 +4,7 @@ import Tab from "@mui/material/Tab";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
-import Style from "./ProfileActivity.module.css";
 import Pagination from "@mui/material/Pagination";
-import { Tabs } from "@mui/material";
 import ActivityCard from "./ActivityCard";
 
 const itemsPerPage = 5;
@@ -84,8 +82,8 @@ const ProfileActivity = ({ userData }) => {
               onChange={(e, newValue) => setValue(newValue)}
               aria-label="lab API tabs example"
             >
-              <Tab label="Reservations" value="2" />
-              <Tab label="Ratings" value="3" />
+              <Tab label="Reservations" value="0" />
+              <Tab label="Ratings" value="1" />
             </TabList>
           )}
         </Box>
@@ -140,7 +138,7 @@ const ProfileActivity = ({ userData }) => {
         ) : (
           <Box>
             <TabPanel key={value} value={value}>
-              {value === "2" ? (
+              {value === "0" ? (
                 <>
                   {userData &&
                     userData.Reservations.slice(
@@ -160,7 +158,7 @@ const ProfileActivity = ({ userData }) => {
                     onChange={(e, newPage) => setPage(newPage)}
                   />
                 </>
-              ) : value === "3" ? (
+              ) : value === "1" ? (
                 <>
                   {userData &&
                     userData.Ratings.slice(

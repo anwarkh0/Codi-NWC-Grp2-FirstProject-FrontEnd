@@ -1,283 +1,319 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Links from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { React, useContext, useEffect, useState } from "react";
+import {
+  InputAdornment,
+  OutlinedInput,
+  InputLabel,
+  FormControl,
+  Button,
+  Stack,
+  TextField,
+  Typography,
+  IconButton,
+  Box,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import googleG from "../../assets/images/G.png";
-import hidden from "../../assets/images/hidden.png";
-import { Helmet } from "react-helmet-async";
-import signupModule from "./signup.module.css";
-import { useState } from "react";
 import UseApi from "../../hookes/useApi";
+import { AuthContext } from "../../context/authContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { LoadingButton } from "@mui/lab";
+import video from "../../assets/Login.mp4";
+import OAuth from "../../components/OAuth/OAuth";
+import axios from "axios";
 
+const SignUp = () => {
+  const [showPassword, setShowPassword] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-
-
-
-
-const defaultTheme = createTheme();
-
-export default function SignUp() {
-  const { apiCall } = UseApi()
-  const navigate = useNavigate()
-
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    role: "",
-    // image: ""
-  })
-  const handleSubmit = async (event) => {
+  const handleMouseDownPassword = (event) => {
     event.preventDefault();
-    if (!formData.lastName || !formData.firstName || !formData.email || !formData.password) {
-      console.log("this feild is required")
-    }
-    if (formData.password !== formData.confirmPassword) {
-      console.log("Password confirmed incorrectly")
-    }
-    try {
-      await apiCall({ url: "/auth/singup", method: "post", data: formData })
-
-      navigate("/")
-    } catch (error) {
-      console.log(error)
-
-    }
-
-  }
-  const handleChange = (event) => {
-    const { name, value } = event.target
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      const newWid = window.innerWidth;
+      setScreenWidth(newWid);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const { apiCall, error, loading } = UseApi();
+  const { fetchUserData } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [role, setRole] = useState();
+  const [image, setImage] = useState();
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!email || !password) {
+      console.log("enter email and password");
+    }
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_SQL_API}/auth/signup`,
+        {
+          email,
+          password,
+          firstName,
+          lastName,
+          image,
+          role,
+        },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      await fetchUserData();
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
+  };
   return (
-<<<<<<< HEAD
-    <div className={signupModule.wrapper}>
-      <Helmet>
-        <title>Hotel Xpress - Sign Up</title>
-        <meta
-          name="description"
-          content="Sign up to your account at Hotel Xpress."
-        />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta property="og:title" content="Hotel Xpress - Sign up" />
-        <meta
-          property="og:description"
-          content="Sign up to your account at Hotel Xpress."
-        />
-      </Helmet>
-      <h1 className={signupModule.welcome}>Sign up</h1>
-      <Stack spacing={1} sx={{ mb: 3 }}>
-        <Typography className={signupModule.query}>
-          Already have an account?{" "}
-          <Link to="/login" className={signupModule.login}>
-            Log in
-          </Link>
+    <div
+      style={{
+        display: "flex",
+        margin: screenWidth < 500 ? 0 : screenWidth < 1000 ? "5rem 0" : 0,
+        flexDirection: screenWidth < 1000 ? "column-reverse" : "row",
+        justifyContent: "space-evenly",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Box
+        sx={{
+          display: screenWidth < 500 ? "none" : "flex",
+        }}
+      >
+        <video id="vid" width="100%" autoPlay muted>
+          {" "}
+          <source src={video} type="video/mp4" />
+          Your Browser does not support this video tag.
+        </video>
+      </Box>
+      <Box
+        sx={{
+          width:
+            screenWidth < 300 ? "200px" : screenWidth < 520 ? "300px" : "400px",
+          "& .MuiFormControl-root": {
+            mt: 2,
+            mb: 2,
+            ml: 0,
+            mr: 0,
+          },
+          "& .MuiInputBase-root": {
+            color: "black",
+          },
+          "& .MuiFormLabel-root ": {
+            color: "black",
+          },
+          "& .MuiBox-root css-3b5rqz": {
+            margin: "2rem !important",
+          },
+          "& .MuiSvgIcon-root": {
+            color: "#088395",
+          },
+          "& .Mui-focused > .MuiOutlinedInput-notchedOutline ": {
+            border: "2px solid #088395 !important",
+            borderRadius: "4px",
+          },
+          "& .Mui-focused > .MuiOutlinedInput-notchedOutline > legend": {
+            color: "#088395 !important",
+          },
+          "& .MuiInputLabel-root.Mui-focused ": {
+            color: "#088395",
+          },
+          "& .MuiButtonBase-root": {
+            height: "3rem !important",
+          },
+        }}
+      >
+        <Typography component="h4" variant="h4" fontWeight="bold" mb="1rem">
+          Create an account
         </Typography>
-      </Stack>
-      <form>
-        <Stack spacing={3}>
-          <TextField
-            fullWidth
-            label="Full Name"
-            name="fullname"
-            // value={formData.email}
-            // onChange={handleInputChange}
-            required
-            sx={{
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#088395",
-                },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#088395",
-              },
+        <Stack flexDirection={screenWidth < 300 ? "column" : "row"} spacing={1}>
+          <Typography variant="h6" component="h6">
+            Already have an account?
+          </Typography>
+          <Link
+            to="/login"
+            style={{
+              width: "fit-content",
+              textDecoration: "none",
             }}
-          />
-          <TextField
-            fullWidth
-            label="Email Address"
-            name="email"
-            // value={formData.email}
-            // onChange={handleInputChange}
-            required
-            sx={{
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#088395",
-                },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#088395",
-              },
-            }}
-          />
-          <TextField
-            fullWidth
-            label="Password"
-            name="password"
-            // value={formData.password}
-            // onChange={handleInputChange}
-            type="password"
-            required
-            sx={{
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#088395",
-                },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#088395",
-              },
-            }}
-          />
-          <TextField
-            fullWidth
-            type="password"
-            label="Confirm Password"
-            name="confirm"
-            // value={formData.email}
-            // onChange={handleInputChange}
-            required
-            sx={{
-              "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
-                {
-                  borderColor: "#088395",
-                },
-              "& .MuiInputLabel-root.Mui-focused": {
-                color: "#088395",
-              },
-            }}
-          />
+          >
+            <Typography
+              variant="p"
+              component="p"
+              width="fit-content"
+              color="#088395"
+              ml="0.5rem"
+            >
+              Log in
+            </Typography>
+          </Link>
         </Stack>
-        <Link to="/" className={signupModule.signupBtn}>
-          Sign Up
-        </Link>
-        <p className={signupModule.or}>Or</p>
-        <Link to="/" className={signupModule.gSign}>
-          <span className={signupModule.glogo}>
-            <img alt="gsign" src={googleG} />
-          </span>
-          Sign up with Google
-        </Link>
-      </form>
-    </div>
-=======
-    <ThemeProvider theme={defaultTheme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
+        <form
+          method="post"
+          onSubmit={handleSubmit}
+          style={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="role"
-                  label="Role"
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  autoComplete="role"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  onChange={handleChange}
-                  value={formData.password}
-                  autoComplete="new-password"
-                />
-              </Grid>
-            </Grid>
-            <Button
-              type="submit"
+          <Stack spacing={3} mb="1.5rem" mt="1.5rem">
+            <TextField
               fullWidth
-              variant="contained"
-              onClick={handleSubmit}
-              sx={{ mt: 3, mb: 2 }}
+              label="First Name"
+              name="firstName"
+              value={firstName}
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Last Name"
+              name="lastName"
+              value={lastName}
+              onChange={(e) => {
+                setLastName(e.target.value);
+              }}
+              required
+            />
+            <TextField
+              fullWidth
+              label="Email"
+              name="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              required
+            />
+            <FormControl
+              required
+              sx={{
+                m: 1,
+                "& .MuiSvgIcon-root": {
+                  color: "white",
+                  "& .MuiList-root": {
+                    bgcolor: "transparent",
+                  },
+                },
+              }}
             >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/login" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
-    </ThemeProvider>
->>>>>>> anwar-style
+              <InputLabel id="demo-simple-select-required-label">
+                Role
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-required-label"
+                id="demo-simple-select-required"
+                value={role}
+                name="role"
+                label="Role *"
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <MenuItem disabled>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={"Admin"}>Admin</MenuItem>
+
+                <MenuItem value={"Customer"}>Customer</MenuItem>
+                <MenuItem value={"Hotel Manager"}>Hotel Manager</MenuItem>
+              </Select>
+            </FormControl>
+            <FormControl
+              fullWidth
+              sx={{
+                m: 1,
+                "& .MuiSvgIcon-root": {
+                  color: "#088395",
+                },
+                width: "100%",
+                "&:focus": {
+                  borderColor: "#088395",
+                },
+              }}
+              variant="outlined"
+            >
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password*
+              </InputLabel>
+              <OutlinedInput
+                fullWidth
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+                id="outlined-adornment-password"
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      style={{ color: "white" }}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+            <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+          </Stack>
+          {loading ? (
+            <LoadingButton variant="contained" size="large" loading>
+              Loading
+            </LoadingButton>
+          ) : (
+            <>
+              <Button
+                variant="contained"
+                onClick={handleSubmit}
+                sx={{
+                  bgcolor: "#088395",
+                  ":hover": {
+                    bgcolor: "#035e6b",
+                  },
+                }}
+              >
+                Sign up
+              </Button>
+              <p
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Or
+              </p>
+              <OAuth />
+            </>
+          )}
+        </form>
+      </Box>
+    </div>
   );
-}
+};
+
+export default SignUp;

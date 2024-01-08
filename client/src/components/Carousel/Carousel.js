@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import image1 from "../../assets/images/hotel1.png";
-import image2 from "../../assets/images/hotel2.png";
-import image3 from "../../assets/images/HotelAboutUs2.jpg";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css"; 
 import { Carousel } from "react-responsive-carousel";
 import { Box } from "@mui/material";
 
@@ -46,7 +43,8 @@ const Carousell = ({images}) => {
           key={index}
           >
             <img src={`${process.env.REACT_APP_SQL_API}/${image.icon}`} alt={`slide_${index}`} height={divHeight} style={{
-              objectFit: 'cover'
+              objectFit: 'cover',
+              position: 'relative'
             }}/>
           </div>
         ))}

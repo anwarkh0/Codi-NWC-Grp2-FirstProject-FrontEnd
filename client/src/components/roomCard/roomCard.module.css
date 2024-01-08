@@ -20,7 +20,6 @@ body > .visible {
   transition: 0.6s ease-in-out;
   padding: 0 0 5px 0;
   box-shadow: 1px 3px 1px #e8e8e8;
-  margin: 10px 5px;
 }
 
 .roompic {

@@ -44,6 +44,7 @@ const UsersDashboard = () => {
       const newWid = window.innerWidth;
       setScreenWidth(newWid);
     };
+    handleResize()
     window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("resize", handleResize);

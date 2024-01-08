@@ -50,12 +50,12 @@ const RoomModal = ({
     if (type === "edit" && selectedRowData) {
       const updatedRoomInfo = {
         userId: user && user.id,
-        number: selectedRowData.number ,
-        quality: selectedRowData.quality ,
+        number: selectedRowData.number,
+        quality: selectedRowData.quality,
         guestNumber: selectedRowData.guestNumber,
-        isBooked: selectedRowData.isBooked ,
-        price: selectedRowData.price ,
-        description: selectedRowData.description ,
+        isBooked: selectedRowData.isBooked,
+        price: selectedRowData.price,
+        description: selectedRowData.description,
         id: selectedRowData.id,
       };
       const { hotelId, ...updatedRoomWithoutHotelId } = roomInfo;
@@ -106,17 +106,17 @@ const RoomModal = ({
       setSuccessAdd(true);
     } catch (error) {
       console.error(error);
-    }finally{
+    } finally {
       handleClose();
-      setTimeout(()=>{
-        setSuccessAdd(false)
-      }, 30000)
+      setTimeout(() => {
+        setSuccessAdd(false);
+      }, 30000);
     }
   };
 
   const handleEditRoom = async (e) => {
     e.preventDefault();
-    console.log(roomInfo)
+    console.log(roomInfo);
     try {
       await apiCall({
         url: "/room",
@@ -127,7 +127,7 @@ const RoomModal = ({
         `${process.env.REACT_APP_SQL_API}/room/image`,
         {
           icon: icon,
-          id : 1 ,
+          id: 1,
         },
         {
           headers: {
@@ -138,11 +138,11 @@ const RoomModal = ({
       setSuccessAdd(true);
     } catch (error) {
       console.error(error);
-    }finally{
+    } finally {
       handleClose();
-      setTimeout(()=>{
-        setSuccessEdit(false)
-      }, 30000)
+      setTimeout(() => {
+        setSuccessEdit(false);
+      }, 30000);
     }
   };
 
@@ -167,7 +167,7 @@ const RoomModal = ({
     bgcolor: "white",
     border: "2px solid #171B24",
     boxShadow: 24,
-    p: 4,
+    p: "2 4",
     display: "flex",
     justifyContent: "center",
   };
@@ -229,7 +229,7 @@ const RoomModal = ({
                   color="#088395"
                   sx={{
                     textAlign: "left",
-                    mt: 3,
+                    mt: 1,
                     mb: 3,
                     ml: "8px",
                     width: "fit-content",
@@ -367,7 +367,7 @@ const RoomModal = ({
                   value={roomInfo.guestNumber}
                   type="number"
                 />
-                {type === "add" && (
+                {type === "add" && user && user.role === "Admin" && (
                   <FormControl
                     required
                     sx={{
@@ -410,6 +410,51 @@ const RoomModal = ({
                     </Select>
                   </FormControl>
                 )}
+                {type === "add" && user && user.role === "Hotel Manager" && (
+                  <FormControl
+                    required
+                    sx={{
+                      m: 1,
+                      "& .MuiSvgIcon-root": {
+                        color: "white",
+                        "& .MuiList-root": {
+                          bgcolor: "transparent",
+                        },
+                      },
+                    }}
+                  >
+                    <InputLabel id="demo-simple-select-required-label">
+                      Hotel
+                    </InputLabel>
+                    <Select
+                      labelId="demo-simple-select-required-label"
+                      id="demo-simple-select-required"
+                      value={roomInfo.hotelId}
+                      name="hotelId"
+                      label="Hotel *"
+                      onChange={handleChange}
+                    >
+                      <MenuItem disabled>
+                        <em>None</em>
+                      </MenuItem>
+                      {hotels && hotels.length > 0 ? (
+                        hotels
+                          .filter((item) => item.userId === user.id)
+                          .map((hotel) => (
+                            <MenuItem
+                              key={hotel.id}
+                              value={hotel.id}
+                              name="hotelId"
+                            >
+                              {hotel.name}
+                            </MenuItem>
+                          ))
+                      ) : (
+                        <MenuItem disabled>No hotels available</MenuItem>
+                      )}
+                    </Select>
+                  </FormControl>
+                )}
                 {type === "edit" && (
                   <Typography variant="body1" gutterBottom>
                     Selected Hotel: {selectedRowData && selectedRowData.hotel}
@@ -417,7 +462,7 @@ const RoomModal = ({
                 )}
                 <label htmlFor="icon">Cover Image</label>
                 <input
-                name="icon"
+                  name="icon"
                   type="file"
                   onChange={(e) => setIcon(e.target.files[0])}
                 />
